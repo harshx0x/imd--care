@@ -1,5 +1,16 @@
 export type Language = 'en' | 'hi' | 'mr';
 
+export interface KnowledgeCitation {
+  id: string;
+  sourceTitle: string;
+  canonicalUrl: string;
+  publisher: string;
+  topic?: string;
+  heading?: string;
+  relevanceScore: number;
+  snippet?: string;
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant' | 'system';
@@ -7,6 +18,9 @@ export interface ChatMessage {
   language?: Language;
   timestamp: string;
   isDemo?: boolean;
+  citations?: KnowledgeCitation[];
+  isEvidenceSufficient?: boolean;
+  isRAGEnabled?: boolean;
 }
 
 export interface SymptomRequest {

@@ -87,6 +87,13 @@ export interface AppTranslations {
     sendAria: string;
     safetyNote: string;
     emptyResponse: string;
+    sourcesTitle: string;
+    verifiedSourcesBadge: string;
+    insufficientEvidenceTitle: string;
+    insufficientEvidenceDesc: string;
+    consultPhysicianNotice: string;
+    sourceRelevanceScore: string;
+    ragRetrievalActive: string;
   };
   symptoms: {
     sectionBadge: string;
@@ -435,7 +442,14 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       sendAria: 'Send message',
       safetyNote:
         'Conversations are strictly confidential and never permanently logged. For severe chest pain, stroke signs, or difficulty breathing, call 112 immediately.',
-      emptyResponse: 'No response returned from the health assistant.'
+      emptyResponse: 'No response returned from the health assistant.',
+      sourcesTitle: 'Verified Evidence Sources',
+      verifiedSourcesBadge: 'Curated Evidence',
+      insufficientEvidenceTitle: 'Specific Curated Evidence Not Found',
+      insufficientEvidenceDesc: 'Our curated medical knowledge base does not have indexed guidelines matching this specific query. General educational guidance is provided below.',
+      consultPhysicianNotice: 'Always verify health information with a licensed medical practitioner.',
+      sourceRelevanceScore: 'Match Score',
+      ragRetrievalActive: 'Grounded via Curated Knowledge Base'
     },
     symptoms: {
       sectionBadge: 'Structured Health Triage',
@@ -808,7 +822,14 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       sendAria: 'संदेश भेजें',
       safetyNote:
         'बातचीत पूरी तरह गोपनीय है और कभी स्थायी रूप से लॉग नहीं की जाती। सीने में तेज दर्द, स्ट्रोक के लक्षण या सांस लेने में तकलीफ के लिए तुरंत 112 पर कॉल करें।',
-      emptyResponse: 'स्वास्थ्य सहायक की ओर से कोई उत्तर प्राप्त नहीं हुआ।'
+      emptyResponse: 'स्वास्थ्य सहायक की ओर से कोई उत्तर प्राप्त नहीं हुआ।',
+      sourcesTitle: 'सत्यापित स्रोत एवं संदर्भ',
+      verifiedSourcesBadge: 'प्रमाणित स्रोत',
+      insufficientEvidenceTitle: 'विशिष्ट साक्ष्य उपलब्ध नहीं',
+      insufficientEvidenceDesc: 'हमारे ज्ञानकोष में इस विशिष्ट प्रश्न से संबंधित सीधे दिशानिर्देश नहीं मिले। सामान्य स्वास्थ्य जानकारी नीचे दी गई है।',
+      consultPhysicianNotice: 'किसी भी चिकित्सीय निर्णय से पहले पंजीकृत डॉक्टर से परामर्श अवश्य लें।',
+      sourceRelevanceScore: 'प्रासंगिकता',
+      ragRetrievalActive: 'प्रमाणित स्रोतों द्वारा सत्यापित उत्तर'
     },
     symptoms: {
       sectionBadge: 'संरचित स्वास्थ्य ट्राइएज',
@@ -1181,7 +1202,14 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       sendAria: 'संदेश पाठवा',
       safetyNote:
         'संभाषण पूर्णपणे गोपनीय असून कधीही साठवले जात नाही. छातीत तीव्र वेदना, स्ट्रोकची लक्षणे किंवा श्वास घेण्यास त्रास झाल्यास त्वरित 112 वर संपर्क साधा.',
-      emptyResponse: 'आरोग्य सहाय्यकाकडून कोणताही प्रतिसाद मिळाला नाही.'
+      emptyResponse: 'आरोग्य सहाय्यकाकडून कोणताही प्रतिसाद मिळाला नाही.',
+      sourcesTitle: 'सत्यापित पुरावे आणि संदर्भ',
+      verifiedSourcesBadge: 'प्रमाणित संदर्भ',
+      insufficientEvidenceTitle: 'विशिष्ट पुरावा सापडला नाही',
+      insufficientEvidenceDesc: 'आमच्या ज्ञानकोशात या विशिष्ट प्रश्नाशी थेट जुळणारी मार्गदर्शक तत्त्वे आढळली नाहीत. खाली सामान्य शैक्षणिक माहिती दिली आहे.',
+      consultPhysicianNotice: 'कोणत्याही उपचारापूर्वी नोंदणीकृत डॉक्टरांचा सल्ला नक्की घ्या.',
+      sourceRelevanceScore: 'सुसंगतता',
+      ragRetrievalActive: 'प्रमाणित स्रोतांवर आधारित उत्तर'
     },
     symptoms: {
       sectionBadge: 'संरचित आरोग्य ट्रायज',

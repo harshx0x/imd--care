@@ -14,11 +14,12 @@ The application adheres to conservative clinical safety standards: it provides e
 
 ## 🚀 Key Features
 
-### 1. 🤖 Conversational AI Health Assistant
+### 1. 🤖 Conversational AI Health Assistant (Grounded via RAG)
 - **Multi-lingual Support**: Native comprehension and responses in English, Hindi (Devanagari), and Marathi (Devanagari).
-- **Contextual Health Guidance**: Explains everyday symptoms, prevention, non-pharmacological comfort steps, and appropriate healthcare provider visits.
-- **Suggested Quick Prompts**: Instant one-click inquiry chips for common concerns (tension headaches, blood pressure lifestyle tips, seasonal cough, diabetes signs).
-- **Conservative Guardrails**: Clearly expresses clinical uncertainty, disclaims diagnosis, and escalates acute alerts.
+- **Retrieval-Augmented Generation (RAG)**: Real-time vector search over verified guidelines from MoHFW, ICMR, WHO, and AIIMS.
+- **Traceable Clinical Citations**: Provides clickable source links with publisher attribution, document titles, and relevance match scores.
+- **Insufficient Evidence Protection**: Explicitly flags when curated medical evidence is insufficient for a query, refusing to hallucinate or fabricate sources.
+- **Conservative Guardrails**: Evaluates acute red-flag emergencies *before* vector lookup, directing genuine emergencies to India's **112** and **108** hotlines.
 
 ### 2. 🩺 Smart Symptom Guidance
 - **Structured Intake Form**: Evaluates primary symptom, duration (<24h, 1–3 days, 4–7 days, >1 week, chronic), severity (mild, moderate, severe), and age group.
@@ -191,8 +192,93 @@ imd-care/
         ├── types.ts                # TypeScript interfaces
         ├── openai.ts               # Server-side OpenAI client
         ├── emergency.ts            # Conservative emergency triage logic
-        └── synthetic-data.ts       # Pre-vetted fallback knowledge base
+        ├── synthetic-data.ts       # Pre-vetted fallback knowledge base
+        └── rag/                    # Retrieval-Augmented Generation (RAG) Module
+            ├── types.ts            # Knowledge chunks, citations & query options
+            ├── text-chunker.ts     # Markdown-aware overlapping text chunking & SHA-256 hash
+            ├── curated-sources.ts  # Verified medical registry (MoHFW, ICMR, WHO, AIIMS)
+            ├── embeddings.ts       # OpenAI embeddings + cross-lingual semantic projection
+            ├── vector-store.ts     # Supabase pgvector + local in-memory vector store
+            ├── ingestion.ts        # Domain-whitelisted ingestion & deduplication pipeline
+            ├── rag-pipeline.ts     # Safe context injection & citation formatting
+            └── seed.ts             # Knowledge base seeding script
 ```
+
+---
+
+## 📚 Retrieval-Augmented Generation (RAG) Architecture
+
+IMD Care grounds AI-generated health education responses in a verified, traceable medical knowledge base.
+
+```
+User Health Query (EN / HI / MR)
+              │
+              ▼
+┌───────────────────────────┐
+│  Emergency Safety Triage  │ ──► [Red Flag Detected?] ──► Immediate 112/108 Warning (Bypasses RAG)
+└─────────────┬─────────────┘
+              │ (Non-emergency)
+              ▼
+┌───────────────────────────┐
+│ Query Embedding Generator │ (OpenAI text-embedding-3-small or Cross-Lingual Semantic Projection)
+└─────────────┬─────────────┘
+              │
+              ▼
+┌───────────────────────────┐
+│ Vector Similarity Search  │ (Supabase pgvector HNSW OR Local In-Memory Cosine Store)
+└─────────────┬─────────────┘
+              │
+      ┌───────┴────────────────────────┐
+      ▼                                ▼
+[Matches Found (≥ Threshold)]     [No Relevant Guidelines]
+      │                                │
+      ▼                                ▼
+Grounded Medical Prompt           Insufficient Evidence Fallback
+(Safety Preamble + Evidence)      (Explains gap & advises doctor visit)
+      │                                │
+      ▼                                ▼
+OpenAI / Grounded Engine          Safe Educational Guidance
+      │                                │
+      ▼                                ▼
+Response with Clickable Citations ──► User Interface
+```
+
+### 1. Vector Database Options
+1. **Supabase PostgreSQL with `pgvector`**:
+   - Migration file: [`supabase/migrations/20261028_rag_pgvector.sql`](supabase/migrations/20261028_rag_pgvector.sql)
+   - Creates `knowledge_chunks` table, HNSW cosine index, Row Level Security (RLS), and `match_knowledge_chunks` stored RPC function.
+   - Activated automatically when `SUPABASE_SERVICE_ROLE_KEY` and `NEXT_PUBLIC_SUPABASE_URL` are provided in `.env.local`.
+2. **Local In-Memory Vector Store**:
+   - Zero-dependency, pure TypeScript cosine-similarity vector store with SHA-256 deduplication.
+   - Automatically self-seeds with verified medical guidelines on first launch if Supabase is unconfigured, ensuring immediate out-of-the-box functionality for local judging.
+
+### 2. Curated Healthcare Authorities & Whitelist
+Ingestion strictly enforces an approved publisher domain whitelist:
+- **Ministry of Health and Family Welfare (MoHFW) India**: `mohfw.gov.in`, `nhp.gov.in`
+- **Indian Council of Medical Research (ICMR)**: `icmr.gov.in`, `icmr.nic.in`
+- **World Health Organization (WHO)**: `who.int`
+- **All India Institute of Medical Sciences (AIIMS)**: `aiims.edu`
+- **Anemia Mukt Bharat Mission**: `anemiamuktbharat.info`
+- **National Disaster Management Authority (NDMA)**: `ndma.gov.in`
+- **CDC**: `cdc.gov`
+
+Arbitrary websites and patient-uploaded personal medical reports are strictly forbidden from being ingested into the shared knowledge base.
+
+### 3. Ingestion & Seeding
+To inspect or seed the knowledge base:
+```bash
+npm run seed:rag
+```
+Or query the live RAG diagnostic API:
+```bash
+curl http://localhost:3000/api/rag/status
+```
+
+### 4. Running the RAG Test Suite
+```bash
+node tests/test-rag-pipeline.js
+```
+Runs 7 comprehensive tests covering text chunking, SHA-256 deduplication, domain whitelisting, vector geometry, semantic retrieval, insufficient evidence handling, emergency override, and prompt injection defense.
 
 ---
 

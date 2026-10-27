@@ -25,3 +25,7 @@ export function isOpenAIConfigured(): boolean {
 export function getOpenAIModel(): string {
   return process.env.OPENAI_MODEL?.trim() || 'gpt-4o-mini';
 }
+
+export function getOpenAIEmbeddingModel(): string {
+  return process.env.OPENAI_EMBEDDING_MODEL?.trim() || 'text-embedding-3-small';
+}

@@ -7,7 +7,10 @@ import {
   User,
   Trash2,
   PhoneCall,
-  ShieldAlert
+  ShieldAlert,
+  BookOpen,
+  ExternalLink,
+  Info
 } from 'lucide-react';
 import { ChatMessage, Language } from '@/lib/types';
 import { APP_TRANSLATIONS } from '@/lib/translations/app';
@@ -133,7 +136,10 @@ export function HealthAssistant({
         content: data.response || t.assistant.emptyResponse,
         language: data.language || language,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        isDemo: data.isDemo
+        isDemo: data.isDemo,
+        citations: Array.isArray(data.citations) ? data.citations : [],
+        isEvidenceSufficient: data.isEvidenceSufficient !== false,
+        isRAGEnabled: Boolean(data.isRAGEnabled)
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
@@ -290,6 +296,11 @@ export function HealthAssistant({
                         )}
                       </span>
                       <div className="flex items-center space-x-1.5 opacity-70">
+                        {isAssistant && msg.isRAGEnabled && (
+                          <span className="px-1.5 py-0.2 rounded text-[9px] font-semibold bg-[#D9F3EC] text-[#0F766E] border border-[#35B8A6]/20 flex items-center gap-0.5">
+                            <BookOpen className="w-2.5 h-2.5" /> RAG
+                          </span>
+                        )}
                         {isAssistant && (
                           <span
                             className={`px-1.5 py-0.2 rounded text-[9px] font-semibold ${
@@ -306,6 +317,71 @@ export function HealthAssistant({
                     <div className="break-words">
                       {renderMessageContent(msg.content)}
                     </div>
+
+                    {/* Verified Evidence Sources (RAG Citations) */}
+                    {isAssistant && msg.citations && msg.citations.length > 0 && !isEmergencyMsg && (
+                      <div className="mt-3.5 pt-3 border-t border-[#CDE8E2] space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-[#102A43] flex items-center gap-1.5">
+                            <BookOpen className="w-3.5 h-3.5 text-[#0F766E]" />
+                            {t.assistant.sourcesTitle}
+                          </span>
+                          <span className="text-[10px] text-[#0F766E] bg-[#D9F3EC] px-2 py-0.5 rounded-full font-semibold border border-[#35B8A6]/20">
+                            {t.assistant.verifiedSourcesBadge}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-2 pt-1">
+                          {msg.citations.map((cite, cIdx) => (
+                            <a
+                              key={cite.id || cIdx}
+                              href={cite.canonicalUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group block p-2.5 rounded-xl bg-[#E8F7F5]/50 hover:bg-[#D9F3EC] border border-[#CDE8E2] hover:border-[#35B8A6] transition duration-150 text-left"
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-1.5 mb-0.5">
+                                    <span className="w-4 h-4 rounded-full bg-[#0F766E] text-white text-[9px] font-bold flex items-center justify-center shrink-0">
+                                      {cIdx + 1}
+                                    </span>
+                                    <span className="text-[10px] font-bold text-[#0F766E] truncate">
+                                      {cite.publisher}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs font-semibold text-[#102A43] group-hover:text-[#0F766E] transition line-clamp-1">
+                                    {cite.sourceTitle}
+                                  </p>
+                                  {cite.heading && (
+                                    <p className="text-[10px] text-[#64748B] line-clamp-1">
+                                      {cite.heading}
+                                    </p>
+                                  )}
+                                </div>
+                                <div className="flex flex-col items-end shrink-0 gap-1">
+                                  <span className="text-[9px] font-semibold text-[#0F766E] bg-white px-1.5 py-0.5 rounded border border-[#CDE8E2]">
+                                    {cite.relevanceScore}% match
+                                  </span>
+                                  <ExternalLink className="w-3 h-3 text-[#64748B] group-hover:text-[#0F766E] transition" />
+                                </div>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Insufficient Evidence Notice */}
+                    {isAssistant && msg.isEvidenceSufficient === false && !isEmergencyMsg && (
+                      <div className="mt-3 p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-2">
+                        <Info className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-semibold text-amber-900">{t.assistant.insufficientEvidenceTitle}</p>
+                          <p className="text-amber-800 text-[11px] mt-0.5">{t.assistant.insufficientEvidenceDesc}</p>
+                        </div>
+                      </div>
+                    )}
 
                     {isEmergencyMsg && (
                       <div className="mt-3 pt-2 border-t border-red-200 flex items-center justify-between">
