@@ -30,7 +30,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'symptoms',
           href: '/symptoms',
           icon: Stethoscope,
-          title: 'Understand a Symptom',
+          title: 'Smart Symptom Guidance',
           badge: 'Safe 112 Triage',
           description:
             'Experiencing discomfort? Evaluate duration and severity with conservative guidance and clear doctor consult timelines.',
@@ -41,7 +41,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'reports',
           href: '/reports',
           icon: FileSpreadsheet,
-          title: 'Simplify a Medical Report',
+          title: 'Medical Report Simplifier',
           badge: 'Biomarker Clarifier',
           description:
             'Demystify confusing laboratory test numbers (HbA1c, CBC, Lipid) into plain language with smart doctor questions.',
@@ -52,7 +52,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'assistant',
           href: '/assistant',
           icon: MessageSquareHeart,
-          title: 'Ask a Health Question',
+          title: 'AI Health Assistant',
           badge: 'Multilingual Chat',
           description:
             'Ask lifestyle, preventive wellness, and everyday health questions in English, Hindi, or Marathi with empathetic AI.',
@@ -63,7 +63,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'preventive',
           href: '/preventive-care',
           icon: CalendarCheck,
-          title: 'Build Healthier Habits',
+          title: 'Preventive Care',
           badge: 'Private & Local',
           description:
             'Track hydration goals, 100-step post-meal walks, and private medication reminders strictly in your local browser.',
@@ -83,7 +83,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           href: '/symptoms',
           icon: Stethoscope,
           badge: 'सुरक्षित 112 ट्राइएज',
-          title: 'लक्षणों को समझें',
+          title: 'लक्षण संबंधी मार्गदर्शन',
           description:
             'असहज महसूस कर रहे हैं? अवधि और गंभीरता के आधार पर संभावित कारण और डॉक्टर से मिलने का सही समय जानें।',
           cta: 'लक्षण जांचें',
@@ -93,7 +93,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'reports',
           href: '/reports',
           icon: FileSpreadsheet,
-          title: 'मेडिकल रिपोर्ट सरल बनाएं',
+          title: 'मेडिकल रिपोर्ट को सरल भाषा में समझें',
           badge: 'बायोमार्कर्स',
           description:
             'खून और लैब टेस्टों (शुगर, CBC, थायरॉइड) के आंकड़ों को आसान हिंदी में समझें और डॉक्टर से पूछने के सवाल पाएं।',
@@ -104,7 +104,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'assistant',
           href: '/assistant',
           icon: MessageSquareHeart,
-          title: 'स्वास्थ्य प्रश्न पूछें',
+          title: 'एआई स्वास्थ्य सहायक',
           badge: 'बहुभाषी AI',
           description:
             'खानपान, जीवनशैली और सामान्य स्वास्थ्य पर अंग्रेजी, हिंदी या मराठी में अपने AI साथी से संवाद करें।',
@@ -115,7 +115,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'preventive',
           href: '/preventive-care',
           icon: CalendarCheck,
-          title: 'स्वस्थ आदतें बनाएं',
+          title: 'निवारक स्वास्थ्य देखभाल',
           badge: 'निजी ब्राउज़र डेटा',
           description:
             'दैनिक पानी की मात्रा, शतपावली व प्राणायाम का रिकॉर्ड रखें और दवाइयों के समय पर अनुस्मारक लगाएं।',
@@ -135,7 +135,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           href: '/symptoms',
           icon: Stethoscope,
           badge: '112 सुरक्षितता',
-          title: 'लक्षणे समजून घ्या',
+          title: 'लक्षणांबाबत मार्गदर्शन',
           description:
             'काही त्रास जाणवतोय? कालावधी आणि तीव्रतेनुसार प्राथमिक माहिती आणि डॉक्टरांचा सल्ला घेण्याची योग्य वेळ जाणून घ्या.',
           cta: 'लक्षणे तपासा',
@@ -145,7 +145,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'reports',
           href: '/reports',
           icon: FileSpreadsheet,
-          title: 'वैद्यकीय अहवाल सोपा करा',
+          title: 'वैद्यकीय अहवाल सोप्या भाषेत समजून घ्या',
           badge: 'लॅब बायोमार्कर्स',
           description:
             'रक्त तपासणी आणि लॅब रिपोर्टचे कठीण आकडे समजण्यास सोप्या भाषेत मिळवा आणि डॉक्टरांसाठी महत्त्वाचे प्रश्न तयार करा.',
@@ -156,7 +156,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'assistant',
           href: '/assistant',
           icon: MessageSquareHeart,
-          title: 'आरोग्य प्रश्न विचारा',
+          title: 'एआई आरोग्य सहाय्यक',
           badge: 'बहुभाषिक AI',
           description:
             'आहार, व्यायाम आणि जीवनशैलीच्या शंकांचे मराठी, हिंदी किंवा इंग्रजीत AI आरोग्य सहाय्यकाकडून निरसन करून घ्या.',
@@ -167,7 +167,7 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           id: 'preventive',
           href: '/preventive-care',
           icon: CalendarCheck,
-          title: 'निरोगी सवयी जोपासा',
+          title: 'प्रतिबंधात्मक आरोग्यसेवा',
           badge: 'खाजगी डेटा',
           description:
             'पाण्याचे उद्दिष्ट, जेवणानंतरची शतपावली आणि औषधांची स्मरणपत्रे आपल्या फोनमध्ये पूर्णपणे खाजगीरित्या सांभाळा.',

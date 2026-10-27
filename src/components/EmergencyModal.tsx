@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import { PhoneCall, AlertTriangle, X, ShieldAlert, HeartPulse, Clock, Activity } from 'lucide-react';
+import { PhoneCall, AlertTriangle, X, ShieldAlert, Clock } from 'lucide-react';
 import { getIndianEmergencyNumbers } from '@/lib/emergency';
+import { useApp } from '@/context/AppContext';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 interface EmergencyModalProps {
   isOpen: boolean;
@@ -11,8 +13,10 @@ interface EmergencyModalProps {
 }
 
 export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps) {
+  const { language } = useApp();
   if (!isOpen) return null;
 
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
   const emergencyNumbers = getIndianEmergencyNumbers();
 
   return (
@@ -25,13 +29,13 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
               <ShieldAlert className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold tracking-tight">CRITICAL EMERGENCY GUIDANCE</h2>
-              <p className="text-xs text-red-100 font-medium">India National Medical Triage Alert</p>
+              <h2 className="text-xl font-bold tracking-tight">{t.modals.emergency.title}</h2>
+              <p className="text-xs text-red-100 font-medium">{t.modals.emergency.subtitle}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition"
+            className="text-white/80 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -44,7 +48,7 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
             <div className="p-4 bg-[#FEE2E2] border border-red-200 rounded-xl flex items-start space-x-3">
               <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-sm font-bold text-red-950">Why this alert appeared:</h4>
+                <h4 className="text-sm font-bold text-red-950">{t.modals.emergency.whyAlertAppeared}</h4>
                 <p className="text-sm text-red-900 mt-0.5 font-medium">{reason}</p>
               </div>
             </div>
@@ -53,7 +57,7 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
           {/* Primary Action Numbers */}
           <div>
             <h3 className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">
-              Immediate Emergency Contact (India)
+              {t.modals.emergency.immediateHelplinesHeading}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {emergencyNumbers.map((item) => (
@@ -81,30 +85,28 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
           <div className="bg-[#E8F7F5]/50 p-4 rounded-xl border border-[#CDE8E2] space-y-3">
             <h4 className="text-sm font-bold text-[#102A43] flex items-center gap-2">
               <Clock className="w-4 h-4 text-[#0F766E]" />
-              Immediate Life-Safety Protocol
+              {t.modals.emergency.protocolHeading}
             </h4>
             <ul className="text-xs text-[#243447] space-y-2 list-disc list-inside">
-              <li><strong>Do not drive yourself:</strong> Ask a family member, neighbor, or call an ambulance immediately.</li>
-              <li><strong>Rest in a position of comfort:</strong> If experiencing chest pressure or breathlessness, sit upright in a comfortable chair. Loosen any tight clothing around the neck and chest.</li>
-              <li><strong>FAST Stroke Check:</strong> If someone shows Facial drooping, Arm weakness, or Slurred speech, Time is critical — seek emergency hospital care within minutes.</li>
-              <li><strong>Keep medical records ready:</strong> Have recent prescriptions, government ID (Aadhaar / Ayushman Bharat card), and any regular heart or diabetic medication details ready for emergency room doctors.</li>
+              {t.modals.emergency.rules.map((rule, idx) => (
+                <li key={idx}>{rule}</li>
+              ))}
             </ul>
           </div>
 
           {/* Disclaimer */}
           <p className="text-[11px] text-[#64748B] italic text-center">
-            IMD Care is an automated health literacy tool and does not provide clinical diagnosis or emergency triage. For genuine emergencies, immediately contact emergency medical services.
+            {t.modals.emergency.disclaimer}
           </p>
         </div>
 
         {/* Footer */}
-        <div className="bg-[#D9F3EC]/50 px-6 py-3 border-t border-[#CDE8E2] flex items-center justify-between">
-          <span className="text-xs text-[#243447]">Free 24/7 National Emergency Hotline: <strong className="text-red-600">112</strong></span>
+        <div className="bg-[#D9F3EC]/50 px-6 py-3 border-t border-[#CDE8E2] flex items-center justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-[#102A43] hover:bg-[#0A1926] text-white text-xs font-semibold rounded-lg transition cursor-pointer"
+            className="px-5 py-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs font-bold rounded-lg shadow-sm transition cursor-pointer"
           >
-            I Understand, Close Guidance
+            {t.modals.emergency.closeBtn}
           </button>
         </div>
       </div>

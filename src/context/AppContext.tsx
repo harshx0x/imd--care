@@ -46,6 +46,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const savedLang = localStorage.getItem('imd_care_lang');
       if (savedLang && ['en', 'hi', 'mr'].includes(savedLang)) {
         setLanguageState(savedLang as Language);
+        if (typeof document !== 'undefined') {
+          document.documentElement.lang = savedLang;
+        }
       }
     } catch {
       // ignore
@@ -104,6 +107,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setLanguageState(lang);
     try {
       localStorage.setItem('imd_care_lang', lang);
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = lang;
+      }
     } catch {
       // ignore
     }

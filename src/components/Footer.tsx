@@ -7,13 +7,11 @@ import {
   ShieldCheck,
   PhoneCall,
   Lock,
-  FileText,
-  Heart,
-  Globe,
-  ExternalLink
+  FileText
 } from 'lucide-react';
 import { IndianJaliPattern } from './IndianPatternDecorations';
 import { Language } from '@/lib/types';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 interface FooterProps {
   language: Language;
@@ -26,6 +24,8 @@ export function Footer({
   openEmergencyModal,
   openDisclaimerModal
 }: FooterProps) {
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
+
   return (
     <footer className="relative bg-[#102A43] text-white pt-16 pb-12 border-t border-white/10 overflow-hidden">
       <div className="absolute inset-0">
@@ -41,10 +41,10 @@ export function Footer({
             </div>
             <div>
               <h3 className="text-base font-bold text-white">
-                India National Emergency Response Support System (ERSS)
+                {t.footer.erssTitle}
               </h3>
               <p className="text-xs text-slate-300 mt-0.5">
-                Immediate clinical assistance across all States & Union Territories: Dial <strong>112</strong> (All-in-One) or <strong>108</strong> (Ambulance).
+                {t.footer.erssDesc}
               </p>
             </div>
           </div>
@@ -53,7 +53,7 @@ export function Footer({
             className="px-5 py-2.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 shrink-0 cursor-pointer"
           >
             <PhoneCall className="w-4 h-4" />
-            <span>Emergency Guidance (112)</span>
+            <span>{t.footer.erssBtn}</span>
           </button>
         </div>
 
@@ -65,41 +65,41 @@ export function Footer({
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center shadow-md">
                 <HeartPulse className="w-5 h-5 text-white" />
               </div>
-              <span className="font-extrabold text-xl tracking-tight text-white">IMD Care</span>
+              <span className="font-extrabold text-xl tracking-tight text-white">{t.common.appName}</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Better Health Understanding Starts Here. Bridging the medical literacy divide across India with culturally nuanced, multi-lingual AI assistance.
+              {t.footer.brandTagline}
             </p>
             <div className="flex items-center space-x-2 text-[11px] text-[#35B8A6] font-semibold">
               <ShieldCheck className="w-4 h-4" />
-              <span>Ethical AI & Clinical Safety First</span>
+              <span>{t.footer.safetyBadge}</span>
             </div>
           </div>
 
           {/* Col 2: Core Capabilities */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Core Platform
+              {t.footer.corePlatformHeading}
             </h4>
             <ul className="text-xs text-slate-300 space-y-2">
               <li>
                 <Link href="/assistant" className="hover:text-white transition">
-                  AI Health Assistant (EN, HI, MR)
+                  {t.footer.assistantLink}
                 </Link>
               </li>
               <li>
                 <Link href="/symptoms" className="hover:text-white transition">
-                  Smart Symptom Guidance
+                  {t.footer.symptomsLink}
                 </Link>
               </li>
               <li>
                 <Link href="/reports" className="hover:text-white transition">
-                  Medical Report Simplifier
+                  {t.footer.reportsLink}
                 </Link>
               </li>
               <li>
                 <Link href="/preventive-care" className="hover:text-white transition">
-                  Preventive Care & Reminders
+                  {t.footer.preventiveLink}
                 </Link>
               </li>
             </ul>
@@ -108,30 +108,30 @@ export function Footer({
           {/* Col 3: India Health Helplines */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Government Helplines
+              {t.footer.helplinesHeading}
             </h4>
             <ul className="text-xs text-slate-300 space-y-2">
               <li>
                 <a href="tel:112" className="hover:text-white flex items-center gap-1">
-                  <span>National Emergency:</span>
+                  <span>{t.footer.nationalEmergency}</span>
                   <strong className="text-white">112</strong>
                 </a>
               </li>
               <li>
                 <a href="tel:108" className="hover:text-white flex items-center gap-1">
-                  <span>Medical Ambulance:</span>
+                  <span>{t.footer.ambulance}</span>
                   <strong className="text-white">108</strong>
                 </a>
               </li>
               <li>
                 <a href="tel:1075" className="hover:text-white flex items-center gap-1">
-                  <span>MoHFW Health Helpline:</span>
+                  <span>{t.footer.mohfw}</span>
                   <strong className="text-white">1075</strong>
                 </a>
               </li>
               <li>
                 <a href="tel:14416" className="hover:text-white flex items-center gap-1">
-                  <span>Tele-MANAS Mental Health:</span>
+                  <span>{t.footer.teleManas}</span>
                   <strong className="text-white">14416</strong>
                 </a>
               </li>
@@ -141,7 +141,7 @@ export function Footer({
           {/* Col 4: Trust, Safety & Hackathon */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Trust & Ethics
+              {t.footer.trustHeading}
             </h4>
             <ul className="text-xs text-slate-300 space-y-2">
               <li>
@@ -150,7 +150,7 @@ export function Footer({
                   className="hover:text-white transition text-left flex items-center gap-1 cursor-pointer"
                 >
                   <FileText className="w-3.5 h-3.5 text-[#35B8A6]" />
-                  <span>Medical Disclaimer</span>
+                  <span>{t.footer.medicalDisclaimer}</span>
                 </button>
               </li>
               <li>
@@ -159,12 +159,12 @@ export function Footer({
                   className="hover:text-white transition text-left flex items-center gap-1 cursor-pointer"
                 >
                   <Lock className="w-3.5 h-3.5 text-[#35B8A6]" />
-                  <span>Zero Data Retention Privacy</span>
+                  <span>{t.footer.zeroRetention}</span>
                 </button>
               </li>
               <li>
                 <span className="text-[11px] text-slate-400 block pt-1">
-                  Built for the Healthcare AI Hackathon. Real OpenAI integration with robust offline synthetic demo fallback.
+                  {t.footer.hackathonNote}
                 </span>
               </li>
             </ul>
@@ -173,14 +173,14 @@ export function Footer({
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-3">
-          <p>© 2025–2026 IMD Care. All synthetic healthcare examples reserved for hackathon evaluation.</p>
+          <p>{t.footer.copyright}</p>
           <div className="flex items-center space-x-4">
             <button onClick={openDisclaimerModal} className="hover:text-white transition cursor-pointer">
-              Privacy Policy
+              {t.footer.privacyPolicy}
             </button>
             <span>•</span>
             <button onClick={openDisclaimerModal} className="hover:text-white transition cursor-pointer">
-              Medical Triage Safety
+              {t.footer.triageSafety}
             </button>
           </div>
         </div>

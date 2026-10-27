@@ -64,7 +64,7 @@ export function CompanionWelcomeModal({
           href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'Multilingual AI',
-          title: 'Ask AI Health Assistant',
+          title: 'AI Health Assistant',
           desc: 'Have a conversational chat about everyday wellness, nutrition, or health queries in English, Hindi, or Marathi.'
         },
         {
@@ -85,7 +85,7 @@ export function CompanionWelcomeModal({
           href: '/preventive-care',
           icon: CalendarCheck,
           badge: 'Private & Local',
-          title: 'Build Healthier Habits',
+          title: 'Preventive Care',
           desc: 'Track hydration, daily 100-step strolls, and private medication reminders in your browser.'
         }
       ],
@@ -105,28 +105,28 @@ export function CompanionWelcomeModal({
           href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'बहुभाषी AI',
-          title: 'AI स्वास्थ्य सहायक से पूछें',
+          title: 'एआई स्वास्थ्य सहायक',
           desc: 'अंग्रेजी, हिंदी या मराठी में दैनिक स्वास्थ्य, खानपान और जीवनशैली पर बातचीत करें।'
         },
         {
           href: '/symptoms',
           icon: Stethoscope,
           badge: 'सुरक्षित 112 ट्राइएज',
-          title: 'स्मार्ट लक्षण मार्गदर्शन',
+          title: 'लक्षण संबंधी मार्गदर्शन',
           desc: 'लक्षणों की गंभीरता समझें और डॉक्टर से परामर्श लेने का सही समय जानें।'
         },
         {
           href: '/reports',
           icon: FileSpreadsheet,
           badge: 'लैब रिपोर्ट',
-          title: 'मेडिकल रिपोर्ट विश्लेषक',
+          title: 'मेडिकल रिपोर्ट को सरल भाषा में समझें',
           desc: 'जटिल लैब टेस्टों (CBC, शुगर, थायरॉइड) को सरल भाषा में समझें।'
         },
         {
           href: '/preventive-care',
           icon: CalendarCheck,
           badge: 'निजी ब्राउज़र डेटा',
-          title: 'स्वस्थ आदतें और अनुस्मारक',
+          title: 'निवारक स्वास्थ्य देखभाल',
           desc: 'पानी पीने का लक्ष्य, योग-प्राणायाम और दवाइयों के समय का ध्यान रखें।'
         }
       ],
@@ -146,28 +146,28 @@ export function CompanionWelcomeModal({
           href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'बहुभाषिक AI',
-          title: 'AI आरोग्य सहाय्यक विचारा',
+          title: 'एआई आरोग्य सहाय्यक',
           desc: 'मराठी, हिंदी किंवा इंग्रजीत आहार, व्यायाम आणि आरोग्याविषयी थेट संवाद साधा.'
         },
         {
           href: '/symptoms',
           icon: Stethoscope,
           badge: '112 सुरक्षितता',
-          title: 'स्मार्ट लक्षण मार्गदर्शन',
+          title: 'लक्षणांबाबत मार्गदर्शन',
           desc: 'लक्षणे तपासा आणि डॉक्टरांचा सल्ला कधी घ्यावा याची खात्रीशीर माहिती मिळवा.'
         },
         {
           href: '/reports',
           icon: FileSpreadsheet,
           badge: 'बायोमार्कर्स',
-          title: 'वैद्यकीय अहवाल विश्लेषण',
+          title: 'वैद्यकीय अहवाल सोप्या भाषेत समजून घ्या',
           desc: 'रक्त तपासणी आणि वैद्यकीय अहवाल समजण्यास सोप्या भाषेत मिळवा.'
         },
         {
           href: '/preventive-care',
           icon: CalendarCheck,
           badge: 'खाजगी डेटा',
-          title: 'निरोगी जीवनशैली सवयी',
+          title: 'प्रतिबंधात्मक आरोग्यसेवा',
           desc: 'पाण्याचे प्रमाण, शतपावली आणि औषधांची स्मरणपत्रे खाजगीरित्या सांभाळा.'
         }
       ],

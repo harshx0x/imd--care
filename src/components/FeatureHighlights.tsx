@@ -71,7 +71,7 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'बहुभाषी स्वास्थ्य AI',
-          title: 'AI स्वास्थ्य सहायक',
+          title: 'एआई स्वास्थ्य सहायक',
           description:
             'अंग्रेजी, हिंदी और मराठी में स्वास्थ्य संबंधी प्रश्न पूछें। जीवनशैली, निवारक स्वास्थ्य और घरेलू प्राथमिक देखभाल पर स्पष्ट, विश्वसनीय उत्तर प्राप्त करें।',
           highlights: ['अंग्रेजी, हिंदी व मराठी में उपलब्ध', 'प्रमाण-आधारित सरल मार्गदर्शन', 'सुरक्षित प्राथमिक सलाह'],
@@ -82,7 +82,7 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           href: '/symptoms',
           icon: Stethoscope,
           badge: 'सुरक्षित 112 ट्राइएज',
-          title: 'स्मार्ट लक्षण मार्गदर्शन',
+          title: 'लक्षण संबंधी मार्गदर्शन',
           description:
             'लक्षणों की अवधि और गंभीरता के आधार पर संभावित कारणों, घरेलू देखभाल और डॉक्टर से कब मिलना चाहिए, इसकी व्यवस्थित जानकारी प्राप्त करें।',
           highlights: ['आपातकालीन सुरक्षा फिल्टर', 'डॉक्टर परामर्श की समय-सीमा', 'स्व-दवा से सुरक्षा'],
@@ -93,7 +93,7 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           href: '/reports',
           icon: FileSpreadsheet,
           badge: 'लैब रिपोर्ट सरलीकरण',
-          title: 'मेडिकल रिपोर्ट विश्लेषक',
+          title: 'मेडिकल रिपोर्ट को सरल भाषा में समझें',
           description:
             'जटिल लैब टेस्टों (CBC, HbA1c, थायरॉइड, लिपिड) को सरल हिंदी में समझें और अगली डॉक्टर विजिट के लिए महत्वपूर्ण प्रश्न तैयार करें।',
           highlights: ['सिंथेटिक डेमो टेस्ट उपलब्ध', 'संदर्भ सीमा की तुलना', 'डॉक्टर से पूछने योग्य सवाल'],
@@ -111,7 +111,7 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'बहुभाषिक AI सहाय्यक',
-          title: 'AI आरोग्य सहाय्यक',
+          title: 'एआई आरोग्य सहाय्यक',
           description:
             'मराठी, हिंदी आणि इंग्रजीमध्ये आरोग्यविषयक शंकांचे निरसन करा. दैनंदिन आरोग्य आणि जीवनशैलीबद्दल विश्वासार्ह माहिती मिळवा.',
           highlights: ['मराठी भाषेचा पूर्ण पाठिंबा', 'सोपे आणि शास्त्रीय मार्गदर्शन', 'सुरक्षित माहिती'],
@@ -122,7 +122,7 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           href: '/symptoms',
           icon: Stethoscope,
           badge: 'तातडीचे ११२ ट्रायज',
-          title: 'स्मार्ट लक्षण मार्गदर्शन',
+          title: 'लक्षणांबाबत मार्गदर्शन',
           description:
             'लक्षणे, त्यांचा कालावधी आणि तीव्रता नोंदवून संभाव्य कारणे, घरगुती काळजी आणि डॉक्टरांचा सल्ला कधी घ्यावा हे समजून घ्या.',
           highlights: ['आणीबाणी सुरक्षा नियम', 'डॉक्टरांच्या सल्ल्याची वेळ', 'कोणतेही परस्पर औषध नाही'],
@@ -133,7 +133,7 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           href: '/reports',
           icon: FileSpreadsheet,
           badge: 'लॅब अहवाल विश्लेषण',
-          title: 'वैद्यकीय अहवाल सोपा करा',
+          title: 'वैद्यकीय अहवाल सोप्या भाषेत समजून घ्या',
           description:
             'रक्त तपासणी आणि लॅब रिपोर्टचे किचकट आकडे सोप्या भाषेत समजून घ्या आणि डॉक्टरांना विचारण्यासाठी योग्य प्रश्न तयार करा.',
           highlights: ['सिंथेटिक नमुने उपलब्ध', 'संदर्भ श्रेणीची तुलना', 'डॉक्टरांसाठी महत्त्वाचे प्रश्न'],

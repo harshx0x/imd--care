@@ -10,25 +10,25 @@ import {
   ChevronDown,
   PhoneCall,
   HeartPulse,
-  Sparkles,
-  ShieldCheck,
   Home,
   MessageSquareHeart,
   Stethoscope,
   FileSpreadsheet,
   CalendarCheck,
-  User as UserIcon,
   LogIn,
   LogOut
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Language } from '@/lib/types';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 export function TopNav() {
   const pathname = usePathname();
   const { language, setLanguage, isDemoMode, openEmergencyModal, openDisclaimerModal, user, signOut } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
   const languages: { code: Language; name: string; native: string }[] = [
     { code: 'en', name: 'English', native: 'English' },
@@ -39,24 +39,21 @@ export function TopNav() {
   const currentLangObj = languages.find((l) => l.code === language) || languages[0];
 
   const pageTitles: Record<string, { title: string; subtitle: string }> = {
-    '/': { title: 'Health Overview', subtitle: 'Better Health Understanding Starts Here' },
-    '/assistant': { title: 'AI Health Assistant', subtitle: 'Conversational Guidance in EN, HI & MR' },
-    '/symptoms': { title: 'Smart Symptom Guidance', subtitle: 'Conservative 112 Triage & Review' },
-    '/reports': { title: 'Medical Report Simplifier', subtitle: 'Translating Diagnostic Lab Biomarkers' },
-    '/preventive-care': { title: 'Preventive Care', subtitle: 'Medication Reminders & Daily Wellness' }
+    '/': t.nav.pageTitles.home,
+    '/assistant': t.nav.pageTitles.assistant,
+    '/symptoms': t.nav.pageTitles.symptoms,
+    '/reports': t.nav.pageTitles.reports,
+    '/preventive-care': t.nav.pageTitles.preventive
   };
 
-  const currentPage = pageTitles[pathname] || {
-    title: 'IMD Care',
-    subtitle: 'Intelligent Medical Guidance'
-  };
+  const currentPage = pageTitles[pathname] || t.nav.pageTitles.default;
 
   const navLinks = [
-    { href: '/', icon: Home, label: language === 'hi' ? 'होम' : language === 'mr' ? 'मुख्य पृष्ठ' : 'Home' },
-    { href: '/assistant', icon: MessageSquareHeart, label: language === 'hi' ? 'AI स्वास्थ्य सहायक' : language === 'mr' ? 'AI आरोग्य सहाय्यक' : 'AI Health Assistant' },
-    { href: '/symptoms', icon: Stethoscope, label: language === 'hi' ? 'लक्षण मार्गदर्शन' : language === 'mr' ? 'लक्षण मार्गदर्शन' : 'Smart Symptom Guidance' },
-    { href: '/reports', icon: FileSpreadsheet, label: language === 'hi' ? 'मेडिकल रिपोर्ट' : language === 'mr' ? 'वैद्यकीय अहवाल' : 'Medical Report Simplifier' },
-    { href: '/preventive-care', icon: CalendarCheck, label: language === 'hi' ? 'निवारक देखभाल' : language === 'mr' ? 'प्रतिबंधक काळजी' : 'Preventive Care' }
+    { href: '/', icon: Home, label: t.nav.home },
+    { href: '/assistant', icon: MessageSquareHeart, label: t.nav.assistant },
+    { href: '/symptoms', icon: Stethoscope, label: t.nav.symptoms },
+    { href: '/reports', icon: FileSpreadsheet, label: t.nav.reports },
+    { href: '/preventive-care', icon: CalendarCheck, label: t.nav.preventive }
   ];
 
   return (
@@ -69,7 +66,7 @@ export function TopNav() {
             <button
               onClick={() => setMobileMenuOpen(true)}
               className="lg:hidden p-2 rounded-xl text-[#243447] hover:text-[#0F766E] hover:bg-[#E8F7F5] transition cursor-pointer"
-              aria-label="Open navigation menu"
+              aria-label={t.nav.openMenuAria}
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -79,7 +76,7 @@ export function TopNav() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center text-white shadow-xs">
                 <HeartPulse className="w-5 h-5 text-white" />
               </div>
-              <span className="font-extrabold text-base text-[#102A43]">IMD Care</span>
+              <span className="font-extrabold text-base text-[#102A43]">{t.common.appName}</span>
             </Link>
 
             {/* Desktop Section Heading */}
@@ -108,7 +105,7 @@ export function TopNav() {
                   isDemoMode ? 'bg-amber-500 animate-pulse' : 'bg-[#35B8A6]'
                 }`}
               />
-              <span>{isDemoMode ? 'Demo Mode' : 'OpenAI Active'}</span>
+              <span>{isDemoMode ? t.common.demoMode : t.common.openAIActive}</span>
             </div>
 
             {/* Multilingual Selector */}
@@ -150,7 +147,7 @@ export function TopNav() {
               className="flex items-center space-x-1 px-3 py-1.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs font-bold rounded-xl transition shadow-xs border border-red-500 cursor-pointer"
             >
               <PhoneCall className="w-3.5 h-3.5 animate-bounce" />
-              <span className="hidden sm:inline">112 Emergency</span>
+              <span className="hidden sm:inline">112 {t.nav.emergencyGuidanceBtn}</span>
               <span className="sm:hidden">112</span>
             </button>
 
@@ -168,7 +165,7 @@ export function TopNav() {
                 <button
                   onClick={() => signOut()}
                   className="text-[#64748B] hover:text-red-600 transition cursor-pointer p-0.5"
-                  title="Sign Out"
+                  title={t.nav.signOut}
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
@@ -179,9 +176,7 @@ export function TopNav() {
                 className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] font-bold text-xs rounded-xl border border-[#CDE8E2] transition shadow-xs cursor-pointer"
               >
                 <LogIn className="w-3.5 h-3.5" />
-                <span>
-                  {language === 'hi' ? 'लॉग इन' : language === 'mr' ? 'लॉग इन' : 'Log In'}
-                </span>
+                <span>{t.nav.signInRegister}</span>
               </Link>
             )}
           </div>
@@ -207,8 +202,8 @@ export function TopNav() {
                     <HeartPulse className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="font-extrabold text-base text-[#102A43]">IMD Care</span>
-                    <span className="text-[10px] text-[#64748B] block font-medium">Healthcare AI Platform</span>
+                    <span className="font-extrabold text-base text-[#102A43]">{t.common.appName}</span>
+                    <span className="text-[10px] text-[#64748B] block font-medium">{t.nav.mobilePlatformTag}</span>
                   </div>
                 </div>
                 <button
@@ -272,7 +267,7 @@ export function TopNav() {
                       signOut();
                     }}
                     className="p-1.5 text-[#64748B] hover:text-red-600 transition cursor-pointer"
-                    title="Sign Out"
+                    title={t.nav.signOut}
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
@@ -284,13 +279,7 @@ export function TopNav() {
                   className="w-full py-2.5 px-3 bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2] rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs"
                 >
                   <LogIn className="w-4 h-4" />
-                  <span>
-                    {language === 'hi'
-                      ? 'साइन इन / रजिस्टर'
-                      : language === 'mr'
-                      ? 'साइन इन / नोंदणी'
-                      : 'Sign In / Register'}
-                  </span>
+                  <span>{t.nav.signInRegister}</span>
                 </Link>
               )}
 
@@ -299,10 +288,10 @@ export function TopNav() {
                   setMobileMenuOpen(false);
                   openEmergencyModal('Mobile Menu Emergency');
                 }}
-                className="w-full py-2.5 bg-red-600 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-xs"
+                className="w-full py-2.5 bg-red-600 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>Call 112 / Emergency Guidance</span>
+                <span>{t.nav.mobileCall112}</span>
               </button>
 
               <button
@@ -310,9 +299,9 @@ export function TopNav() {
                   setMobileMenuOpen(false);
                   openDisclaimerModal();
                 }}
-                className="w-full text-center text-xs text-[#64748B] hover:text-[#0F766E]"
+                className="w-full text-center text-xs text-[#64748B] hover:text-[#0F766E] cursor-pointer"
               >
-                Medical Safety & Privacy Disclaimer
+                {t.nav.mobileDisclaimer}
               </button>
             </div>
           </div>

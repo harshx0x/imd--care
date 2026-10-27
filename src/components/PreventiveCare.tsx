@@ -14,11 +14,10 @@ import {
   Moon,
   Wind,
   Salad,
-  Info,
-  ShieldCheck,
-  AlertCircle
+  Info
 } from 'lucide-react';
-import { Reminder, WellnessItem, Language } from '@/lib/types';
+import { Reminder, Language } from '@/lib/types';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 interface PreventiveCareProps {
   language: Language;
@@ -75,6 +74,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
   const [sleepDone, setSleepDone] = useState(true);
   const [pranayamaDone, setPranayamaDone] = useState(false);
   const [nutritionDone, setNutritionDone] = useState(true);
+
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -173,20 +174,30 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
   // Calculate wellness score out of 100
   const calculateWellnessScore = () => {
     let score = 0;
-    // Water: up to 25 points (8 glasses)
     score += Math.min(25, Math.round((waterGlasses / 8) * 25));
-    // Walk: 25 points
     if (walkDone) score += 25;
-    // Sleep: 20 points
     if (sleepDone) score += 20;
-    // Pranayama: 15 points
     if (pranayamaDone) score += 15;
-    // Nutrition: 15 points
     if (nutritionDone) score += 15;
     return Math.min(100, score);
   };
 
   const wellnessScore = calculateWellnessScore();
+
+  const getCategoryLabel = (cat: Reminder['category']) => {
+    switch (cat) {
+      case 'medication':
+        return t.preventive.categories.medication;
+      case 'appointment':
+        return t.preventive.categories.appointment;
+      case 'lab_test':
+        return t.preventive.categories.lab_test;
+      case 'lifestyle':
+        return t.preventive.categories.lifestyle;
+      default:
+        return cat;
+    }
+  };
 
   return (
     <section id="preventive" className="py-16 sm:py-20 bg-[#E8F7F5] border-t border-[#CDE8E2]">
@@ -195,13 +206,13 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
             <CalendarCheck className="w-3.5 h-3.5" />
-            <span>Preventive Wellness Routine</span>
+            <span>{t.preventive.sectionBadge}</span>
           </div>
           <h2 className="text-3xl font-extrabold text-[#102A43]">
-            {language === 'hi' ? 'निवारक देखभाल और अनुस्मारक' : language === 'mr' ? 'प्रतिबंधक काळजी आणि स्मरणपत्रे' : 'Basic Preventive Care & Reminders'}
+            {t.preventive.title}
           </h2>
           <p className="text-xs sm:text-sm text-[#64748B]">
-            Track essential daily habits, medications, and doctor appointments locally on your device.
+            {t.preventive.description}
           </p>
         </div>
 
@@ -209,8 +220,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
         <div className="mb-8 p-3.5 bg-[#D9F3EC]/80 border border-[#CDE8E2] rounded-xl text-xs text-[#243447] flex items-start gap-2.5 shadow-xs">
           <Info className="w-4 h-4 text-[#0F766E] shrink-0 mt-0.5" />
           <p>
-            <strong className="text-[#102A43]">Privacy Assurance:</strong> Reminders and wellness counts are stored <strong>strictly in your local browser storage</strong>. No sensitive clinical scheduling data is uploaded or tracked on external servers.
-            <span className="block mt-0.5 text-[#0F766E] font-medium">Notice: Browser-local demo reminders do not send background push notifications or SMS. Please keep clinical reminders in your primary calendar or alarm.</span>
+            <strong className="text-[#102A43]">{t.preventive.privacyTitle}</strong> {t.preventive.privacyBody}
+            <span className="block mt-0.5 text-[#0F766E] font-medium">{t.preventive.privacyNotice}</span>
           </p>
         </div>
 
@@ -223,9 +234,9 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   <Pill className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-[#102A43]">Health Reminders</h3>
+                  <h3 className="font-bold text-base text-[#102A43]">{t.preventive.remindersHeader}</h3>
                   <span className="text-[11px] text-[#64748B]">
-                    {reminders.filter((r) => !r.completed).length} active items
+                    {t.preventive.activeItemsText(reminders.filter((r) => !r.completed).length)}
                   </span>
                 </div>
               </div>
@@ -235,7 +246,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                 className="px-3.5 py-1.5 bg-[#0F766E] hover:bg-[#0D655F] text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 transition cursor-pointer shadow-xs"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>{showAddForm ? 'Cancel' : 'Add Reminder'}</span>
+                <span>{showAddForm ? t.preventive.cancelBtn : t.preventive.addReminderBtn}</span>
               </button>
             </div>
 
@@ -246,7 +257,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                 className="p-4 bg-[#E8F7F5]/50 rounded-xl border border-[#CDE8E2] space-y-3 animate-in fade-in duration-150"
               >
                 <h4 className="text-xs font-bold uppercase tracking-wider text-[#102A43]">
-                  New Reminder Entry
+                  {t.preventive.newReminderTitle}
                 </h4>
 
                 <div>
@@ -254,7 +265,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="e.g. Amlodipine 5mg, Thyroid Follow-up"
+                    placeholder={t.preventive.titlePlaceholder}
                     required
                     className="w-full bg-white border border-[#CDE8E2] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   />
@@ -263,42 +274,42 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div>
                     <label className="text-[10px] uppercase font-bold text-[#64748B] block mb-1">
-                      Category
+                      {t.preventive.categoryLabel}
                     </label>
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value as Reminder['category'])}
                       className="w-full bg-white border border-[#CDE8E2] rounded-lg px-2.5 py-1.5 text-xs text-[#243447] focus:outline-none"
                     >
-                      <option value="medication">Medication</option>
-                      <option value="appointment">Doctor Visit</option>
-                      <option value="lab_test">Lab Test</option>
-                      <option value="lifestyle">Lifestyle / Exercise</option>
+                      <option value="medication">{t.preventive.categories.medication}</option>
+                      <option value="appointment">{t.preventive.categories.appointment}</option>
+                      <option value="lab_test">{t.preventive.categories.lab_test}</option>
+                      <option value="lifestyle">{t.preventive.categories.lifestyle}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="text-[10px] uppercase font-bold text-[#64748B] block mb-1">
-                      Time
+                      {t.preventive.timeLabel}
                     </label>
                     <input
                       type="text"
                       value={time}
                       onChange={(e) => setTime(e.target.value)}
-                      placeholder="e.g. 08:30 AM"
+                      placeholder={t.preventive.timePlaceholder}
                       className="w-full bg-white border border-[#CDE8E2] rounded-lg px-2.5 py-1.5 text-xs text-[#243447] focus:outline-none"
                     />
                   </div>
 
                   <div>
                     <label className="text-[10px] uppercase font-bold text-[#64748B] block mb-1">
-                      Frequency
+                      {t.preventive.frequencyLabel}
                     </label>
                     <input
                       type="text"
                       value={frequency}
                       onChange={(e) => setFrequency(e.target.value)}
-                      placeholder="e.g. Daily, Weekly"
+                      placeholder={t.preventive.frequencyPlaceholder}
                       className="w-full bg-white border border-[#CDE8E2] rounded-lg px-2.5 py-1.5 text-xs text-[#243447] focus:outline-none"
                     />
                   </div>
@@ -309,7 +320,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     type="text"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Optional notes (e.g. Take with warm water)"
+                    placeholder={t.preventive.notesPlaceholder}
                     className="w-full bg-white border border-[#CDE8E2] rounded-lg px-3 py-1.5 text-xs text-[#243447] focus:outline-none"
                   />
                 </div>
@@ -318,15 +329,15 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   <button
                     type="button"
                     onClick={() => setShowAddForm(false)}
-                    className="px-3 py-1.5 text-xs font-semibold text-[#64748B] hover:bg-[#E8F7F5] rounded-lg transition"
+                    className="px-3 py-1.5 text-xs font-semibold text-[#64748B] hover:bg-[#E8F7F5] rounded-lg transition cursor-pointer"
                   >
-                    Cancel
+                    {t.preventive.cancelBtn}
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 bg-[#0F766E] hover:bg-[#0D655F] text-white text-xs font-bold rounded-lg transition shadow-xs"
+                    className="px-4 py-1.5 bg-[#0F766E] hover:bg-[#0D655F] text-white text-xs font-bold rounded-lg transition shadow-xs cursor-pointer"
                   >
-                    Save Reminder
+                    {t.preventive.saveReminderBtn}
                   </button>
                 </div>
               </form>
@@ -336,7 +347,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
             <div className="space-y-2.5">
               {reminders.length === 0 ? (
                 <div className="p-8 text-center text-[#64748B] text-xs">
-                  No reminders added yet. Click &quot;Add Reminder&quot; to create one.
+                  {t.preventive.noRemindersText}
                 </div>
               ) : (
                 reminders.map((r) => {
@@ -370,7 +381,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                               {r.title}
                             </span>
                             <span className="text-[9px] uppercase font-bold px-2 py-0.5 rounded-md bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2]">
-                              {r.category}
+                              {getCategoryLabel(r.category)}
                             </span>
                           </div>
                           <div className="flex items-center gap-3 text-[11px] text-[#64748B] mt-1">
@@ -386,7 +397,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                       <button
                         onClick={() => handleDeleteReminder(r.id)}
                         className="text-[#64748B] hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition cursor-pointer"
-                        title="Delete reminder"
+                        title={t.preventive.deleteReminderAria}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -406,13 +417,13 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     <Activity className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-[#102A43]">Daily Wellness Tracker</h3>
-                    <span className="text-[11px] text-[#64748B]">Essential lifestyle pillars</span>
+                    <h3 className="font-bold text-base text-[#102A43]">{t.preventive.trackerHeader}</h3>
+                    <span className="text-[11px] text-[#64748B]">{t.preventive.trackerSubtitle}</span>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="text-lg font-black text-[#0F766E]">{wellnessScore}%</span>
-                  <span className="text-[10px] text-[#64748B] block font-semibold">Today's Score</span>
+                  <span className="text-[10px] text-[#64748B] block font-semibold">{t.preventive.todayScoreText}</span>
                 </div>
               </div>
 
@@ -434,8 +445,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     <Droplets className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#102A43]">Hydration Target</h4>
-                    <span className="text-[11px] text-[#64748B]">Aim for 8 glasses / 2.5 Liters</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">{t.preventive.pillars.hydrationTitle}</h4>
+                    <span className="text-[11px] text-[#64748B]">{t.preventive.pillars.hydrationSub}</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -477,8 +488,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     <Activity className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#102A43]">Physical Activity</h4>
-                    <span className="text-[11px] text-[#64748B]">30 mins brisk walking, jogging or yoga</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">{t.preventive.pillars.physicalTitle}</h4>
+                    <span className="text-[11px] text-[#64748B]">{t.preventive.pillars.physicalSub}</span>
                   </div>
                 </div>
                 <div>
@@ -504,8 +515,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     <Moon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#102A43]">Restorative Sleep</h4>
-                    <span className="text-[11px] text-[#64748B]">7 to 8 hours uninterrupted rest</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">{t.preventive.pillars.sleepTitle}</h4>
+                    <span className="text-[11px] text-[#64748B]">{t.preventive.pillars.sleepSub}</span>
                   </div>
                 </div>
                 <div>
@@ -531,8 +542,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     <Wind className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#102A43]">Pranayama / Breathing</h4>
-                    <span className="text-[11px] text-[#64748B]">10 mins Anulom Vilom or meditation</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">{t.preventive.pillars.pranayamaTitle}</h4>
+                    <span className="text-[11px] text-[#64748B]">{t.preventive.pillars.pranayamaSub}</span>
                   </div>
                 </div>
                 <div>
@@ -558,8 +569,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     <Salad className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#102A43]">Nutrient-Rich Diet</h4>
-                    <span className="text-[11px] text-[#64748B]">Fiber, lentils (dal), raw salad & low salt</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">{t.preventive.pillars.nutritionTitle}</h4>
+                    <span className="text-[11px] text-[#64748B]">{t.preventive.pillars.nutritionSub}</span>
                   </div>
                 </div>
                 <div>

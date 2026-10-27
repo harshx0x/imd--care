@@ -3,20 +3,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Send,
-  MessageSquareHeart,
   Bot,
   User,
-  Sparkles,
-  RefreshCw,
-  AlertTriangle,
-  Globe,
   Trash2,
-  Clock,
-  CheckCircle2,
   PhoneCall,
   ShieldAlert
 } from 'lucide-react';
 import { ChatMessage, Language } from '@/lib/types';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 interface HealthAssistantProps {
   language: Language;
@@ -36,6 +30,8 @@ export function HealthAssistant({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
   const suggestedPrompts: Record<Language, string[]> = {
     en: [
@@ -126,7 +122,7 @@ export function HealthAssistant({
       const assistantMsg: ChatMessage = {
         id: 'assistant-' + Date.now(),
         role: 'assistant',
-        content: data.response || 'No response returned from the health assistant.',
+        content: data.response || t.assistant.emptyResponse,
         language: data.language || language,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isDemo: data.isDemo
@@ -135,7 +131,7 @@ export function HealthAssistant({
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err: unknown) {
       console.error('Chat error:', err);
-      setError('Unable to reach the health assistant. Please try again or check your connection.');
+      setError(t.assistant.errorMessage);
     } finally {
       setLoading(false);
     }
@@ -149,7 +145,7 @@ export function HealthAssistant({
   };
 
   const handleClearChat = () => {
-    if (window.confirm('Reset this conversation?')) {
+    if (window.confirm(t.assistant.resetChatConfirm)) {
       setMessages([]);
     }
   };
@@ -161,7 +157,6 @@ export function HealthAssistant({
       return (
         <div key={pIdx} className="mb-2.5 last:mb-0">
           {lines.map((line, lIdx) => {
-            // Check for markdown headers or bold bullets
             const isBullet = line.trim().startsWith('- ') || line.trim().startsWith('* ') || /^\d+\.\s/.test(line.trim());
             const formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
@@ -185,13 +180,13 @@ export function HealthAssistant({
         <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
             <Bot className="w-3.5 h-3.5 text-[#35B8A6]" />
-            <span>Interactive Health Consultation</span>
+            <span>{t.assistant.sectionBadge}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43]">
-            {language === 'hi' ? 'AI स्वास्थ्य सहायक' : language === 'mr' ? 'AI आरोग्य सहाय्यक' : 'AI Health Assistant'}
+            {t.assistant.title}
           </h2>
           <p className="text-xs sm:text-sm text-[#64748B]">
-            Ask questions about common health topics, nutrition, and home comfort measures in English, Hindi, or Marathi.
+            {t.assistant.description}
           </p>
         </div>
 
@@ -205,11 +200,11 @@ export function HealthAssistant({
               </div>
               <div>
                 <div className="flex items-center space-x-2">
-                  <h3 className="font-bold text-sm text-white">IMD Care Assistant</h3>
+                  <h3 className="font-bold text-sm text-white">{t.assistant.botHeaderTitle}</h3>
                   <span className="w-2 h-2 rounded-full bg-[#35B8A6]" />
                 </div>
                 <p className="text-[11px] text-slate-300">
-                  {language === 'hi' ? 'हिंदी में सक्रिय' : language === 'mr' ? 'मराठीमध्ये सक्रिय' : 'Active in English'}
+                  {t.assistant.activeStatus}
                 </p>
               </div>
             </div>
@@ -235,7 +230,7 @@ export function HealthAssistant({
               <button
                 onClick={handleClearChat}
                 className="p-1.5 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition cursor-pointer"
-                title="Reset conversation"
+                title={t.assistant.resetChatTitle}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -246,7 +241,11 @@ export function HealthAssistant({
           <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-[#E8F7F5]/40">
             {messages.map((msg) => {
               const isAssistant = msg.role === 'assistant';
-              const isEmergencyMsg = msg.content.includes('EMERGENCY RED FLAG') || msg.content.includes('आपातकालीन चेतावनी') || msg.content.includes('तातडीची वैद्यकीय सूचना');
+              const isEmergencyMsg =
+                msg.content.includes('EMERGENCY RED FLAG') ||
+                msg.content.includes('EMERGENCY WARNING') ||
+                msg.content.includes('आपातकालीन चेतावनी') ||
+                msg.content.includes('तातडीची वैद्यकीय सूचना');
 
               return (
                 <div
@@ -273,19 +272,23 @@ export function HealthAssistant({
                         {isAssistant ? (
                           isEmergencyMsg ? (
                             <span className="text-red-700 flex items-center gap-1 font-bold">
-                              <ShieldAlert className="w-3.5 h-3.5" /> CRITICAL ALERT
+                              <ShieldAlert className="w-3.5 h-3.5" /> {t.assistant.criticalAlert}
                             </span>
                           ) : (
-                            <span className="text-[#0F766E] font-bold">IMD Care Assistant</span>
+                            <span className="text-[#0F766E] font-bold">{t.assistant.botHeaderTitle}</span>
                           )
                         ) : (
-                          'You'
+                          t.assistant.userLabel
                         )}
                       </span>
                       <div className="flex items-center space-x-1.5 opacity-70">
                         {isAssistant && (
-                          <span className={`px-1.5 py-0.2 rounded text-[9px] font-semibold ${msg.isDemo ? 'bg-amber-100 text-amber-800' : 'bg-[#D9F3EC] text-[#0F766E]'}`}>
-                            {msg.isDemo ? 'Demo Mode' : 'OpenAI'}
+                          <span
+                            className={`px-1.5 py-0.2 rounded text-[9px] font-semibold ${
+                              msg.isDemo ? 'bg-amber-100 text-amber-800' : 'bg-[#D9F3EC] text-[#0F766E]'
+                            }`}
+                          >
+                            {msg.isDemo ? t.common.demoMode : t.common.openAI}
                           </span>
                         )}
                         <span>{msg.timestamp}</span>
@@ -303,7 +306,7 @@ export function HealthAssistant({
                           className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition cursor-pointer"
                         >
                           <PhoneCall className="w-3 h-3" />
-                          <span>Call 112 / View Protocol</span>
+                          <span>{t.assistant.call112Btn}</span>
                         </button>
                       </div>
                     )}
@@ -325,7 +328,7 @@ export function HealthAssistant({
                   <Bot className="w-4 h-4" />
                 </div>
                 <div className="bg-white border border-[#CDE8E2] rounded-2xl px-4 py-3 shadow-xs flex items-center space-x-2">
-                  <span className="text-xs text-[#64748B] font-medium">Formulating clinical guidance</span>
+                  <span className="text-xs text-[#64748B] font-medium">{t.assistant.formulatingGuidance}</span>
                   <div className="flex space-x-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#0F766E] animate-dot-1" />
                     <span className="w-1.5 h-1.5 rounded-full bg-[#0F766E] animate-dot-2" />
@@ -343,7 +346,7 @@ export function HealthAssistant({
                   onClick={() => handleSendMessage()}
                   className="px-2.5 py-1 bg-red-100 hover:bg-red-200 text-red-900 font-semibold rounded-md transition cursor-pointer"
                 >
-                  Retry
+                  {t.common.retry}
                 </button>
               </div>
             )}
@@ -355,7 +358,7 @@ export function HealthAssistant({
           <div className="bg-white border-t border-[#CDE8E2] px-4 py-2.5">
             <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none">
               <span className="text-[10px] uppercase font-bold text-[#64748B] shrink-0">
-                Suggested:
+                {t.assistant.suggestedLabel}
               </span>
               {suggestedPrompts[language]?.map((prompt, idx) => (
                 <button
@@ -376,13 +379,7 @@ export function HealthAssistant({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={
-                language === 'hi'
-                  ? 'अपना स्वास्थ्य संबंधी प्रश्न यहां लिखें... (Enter दबाएं)'
-                  : language === 'mr'
-                  ? 'आपला आरोग्य प्रश्न येथे टाईप करा... (Enter दाबा)'
-                  : 'Type your health question here... (Press Enter to send)'
-              }
+              placeholder={t.assistant.inputPlaceholder}
               rows={1}
               disabled={loading}
               className="flex-1 resize-none bg-[#E8F7F5]/50 border border-[#CDE8E2] rounded-xl px-4 py-2.5 text-xs sm:text-sm text-[#243447] focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition"
@@ -391,7 +388,7 @@ export function HealthAssistant({
               onClick={() => handleSendMessage()}
               disabled={loading || !input.trim()}
               className="p-3 bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] disabled:bg-slate-300 text-white rounded-xl shadow-md transition transform active:scale-95 disabled:scale-100 cursor-pointer"
-              aria-label="Send message"
+              aria-label={t.assistant.sendAria}
             >
               <Send className="w-4 h-4" />
             </button>
@@ -400,7 +397,7 @@ export function HealthAssistant({
 
         {/* Safety Note */}
         <p className="text-[11px] text-[#64748B] text-center mt-3">
-          Conversations are strictly confidential and never permanently logged. For severe chest pain, stroke signs, or difficulty breathing, call <strong className="text-red-600">112</strong> immediately.
+          {t.assistant.safetyNote}
         </p>
       </div>
     </section>

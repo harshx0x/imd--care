@@ -7,16 +7,14 @@ import {
   Clock,
   ShieldCheck,
   CheckCircle,
-  HelpCircle,
-  ArrowRight,
   RefreshCw,
   PhoneCall,
   Activity,
-  HeartPulse,
   Info
 } from 'lucide-react';
 import { SymptomRequest, SymptomResult, Language } from '@/lib/types';
 import { checkEmergencySymptoms } from '@/lib/emergency';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 interface SymptomGuidanceProps {
   language: Language;
@@ -34,13 +32,14 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
   const [error, setError] = useState<string | null>(null);
   const [immediateEmergencyWarning, setImmediateEmergencyWarning] = useState<string | null>(null);
 
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
+
   const quickSymptoms: Record<Language, { label: string; text: string }[]> = {
     en: [
       { label: 'Tension Headache', text: 'Dull throbbing tension headache across forehead with eye strain' },
       { label: 'Seasonal Dry Cough', text: 'Persistent dry cough and mild scratchy throat for 3 days' },
       { label: 'Acid Reflux / Heartburn', text: 'Burning sensation in upper chest after eating heavy spicy dinner' },
-      { label: 'Morning Knee Stiffness', text: 'Mild joint stiffness in both knees in the morning, eases after walking' },
-      { label: 'Low Grade Fever & Body Ache', text: 'Low-grade fever (99.8°F) with general fatigue and muscle soreness' }
+      { label: 'Morning Knee Stiffness', text: 'Mild joint stiffness in both knees in the morning, eases after walking' }
     ],
     hi: [
       { label: 'तनाव सिरदर्द', text: 'माथे पर हल्का भारीपन और तनाव के साथ सिरदर्द' },
@@ -71,7 +70,12 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
     const emergencyEval = checkEmergencySymptoms(symptom);
     if (emergencyEval.isEmergency) {
       setImmediateEmergencyWarning(
-        emergencyEval.reason || 'Critical emergency warning detected. Please contact emergency services (112 / 108) immediately.'
+        emergencyEval.reason ||
+          (language === 'hi'
+            ? 'गंभीर आपातकालीन चेतावनी पहचानी गई। कृपया तुरंत 112 / 108 पर संपर्क करें।'
+            : language === 'mr'
+            ? 'तातडीची वैद्यकीय आणीबाणी आढळली. कृपया त्वरित 112 / 108 वर संपर्क साधा.'
+            : 'Critical emergency warning detected. Please contact emergency services (112 / 108) immediately.')
       );
       openEmergencyModal();
       return;
@@ -107,7 +111,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
       }
     } catch (err: unknown) {
       console.error('Symptom evaluation error:', err);
-      setError('Unable to complete symptom evaluation. Please try again.');
+      setError(t.symptoms.errorMessage);
     } finally {
       setLoading(false);
     }
@@ -126,17 +130,17 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
             <Stethoscope className="w-3.5 h-3.5 text-[#35B8A6]" />
-            <span>Structured Health Triage</span>
+            <span>{t.symptoms.sectionBadge}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43]">
-            {language === 'hi' ? 'स्मार्ट लक्षण मार्गदर्शन' : language === 'mr' ? 'स्मार्ट लक्षण मार्गदर्शन' : 'Smart Symptom Guidance'}
+            {t.symptoms.title}
           </h2>
           <p className="text-xs sm:text-sm text-[#64748B]">
-            Educational review of non-emergency symptoms. Not a clinical diagnosis or treatment prescription.
+            {t.symptoms.description}
           </p>
         </div>
 
-        {/* Immediate Emergency Client-Side Alert Banner with Accessible Pale Red */}
+        {/* Immediate Emergency Alert Banner */}
         {immediateEmergencyWarning && (
           <div className="mb-8 p-5 rounded-2xl bg-[#FEE2E2] border-2 border-red-500 text-red-950 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
             <div className="flex items-center space-x-4">
@@ -145,11 +149,11 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               </div>
               <div>
                 <h3 className="font-black text-base tracking-wide text-red-900">
-                  IMMEDIATE EMERGENCY WARNING DETECTED
+                  {t.symptoms.emergencyWarningTitle}
                 </h3>
                 <p className="text-xs text-red-800 mt-0.5">{immediateEmergencyWarning}</p>
                 <p className="text-xs text-red-900 font-bold mt-1">
-                  National Emergency: <strong>112</strong> | Medical Ambulance: <strong>108</strong>
+                  {t.symptoms.emergencyNumbersText}
                 </p>
               </div>
             </div>
@@ -158,7 +162,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center gap-1.5 cursor-pointer"
             >
               <PhoneCall className="w-4 h-4" />
-              <span>Open Emergency Instructions</span>
+              <span>{t.symptoms.openEmergencyBtn}</span>
             </button>
           </div>
         )}
@@ -168,19 +172,19 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
           <div className="lg:col-span-5 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm">
             <h3 className="text-base font-bold text-[#102A43] mb-4 flex items-center gap-2">
               <Activity className="w-5 h-5 text-[#0F766E]" />
-              <span>Symptom Intake Form</span>
+              <span>{t.symptoms.formTitle}</span>
             </h3>
 
             <form onSubmit={handleEvaluate} className="space-y-4">
               {/* Symptom Input */}
               <div>
                 <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
-                  Describe what you are experiencing *
+                  {t.symptoms.symptomLabel}
                 </label>
                 <textarea
                   value={symptom}
                   onChange={(e) => setSymptom(e.target.value)}
-                  placeholder="e.g., Dull headache on forehead with sensitivity to computer lights, feeling tired..."
+                  placeholder={t.symptoms.symptomPlaceholder}
                   rows={3}
                   required
                   className="w-full bg-[#E8F7F5]/40 border border-[#CDE8E2] rounded-xl p-3 text-xs sm:text-sm text-[#243447] focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition resize-none"
@@ -190,7 +194,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               {/* Quick Prompt Chips */}
               <div>
                 <span className="text-[10px] uppercase font-bold text-[#64748B] block mb-1.5">
-                  Or select a demonstration scenario:
+                  {t.symptoms.scenarioLabel}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {quickSymptoms[language]?.map((item, idx) => (
@@ -211,45 +215,54 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 {/* Duration */}
                 <div>
                   <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
-                    Duration
+                    {t.symptoms.durationLabel}
                   </label>
                   <select
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     className="w-full bg-white border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   >
-                    <option value="Less than 24 hours">&lt; 24 Hours</option>
-                    <option value="1-3 days">1 to 3 Days</option>
-                    <option value="4-7 days">4 to 7 Days</option>
-                    <option value="More than 1 week">&gt; 1 Week</option>
-                    <option value="Chronic (> 1 month)">Chronic (&gt; 1 Month)</option>
+                    <option value="Less than 24 hours">{t.symptoms.durations.less24h}</option>
+                    <option value="1-3 days">{t.symptoms.durations.days1to3}</option>
+                    <option value="4-7 days">{t.symptoms.durations.days4to7}</option>
+                    <option value="More than 1 week">{t.symptoms.durations.weekPlus}</option>
+                    <option value="Chronic (> 1 month)">{t.symptoms.durations.chronic}</option>
                   </select>
                 </div>
 
                 {/* Severity */}
                 <div>
                   <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
-                    Severity
+                    {t.symptoms.severityLabel}
                   </label>
                   <div className="grid grid-cols-3 gap-1 bg-[#E8F7F5] p-1 rounded-xl border border-[#CDE8E2]">
-                    {(['mild', 'moderate', 'severe'] as const).map((sev) => (
-                      <button
-                        key={sev}
-                        type="button"
-                        onClick={() => setSeverity(sev)}
-                        className={`py-1.5 text-xs font-semibold rounded-lg capitalize transition cursor-pointer ${
-                          severity === sev
-                            ? sev === 'severe'
-                              ? 'bg-red-600 text-white shadow-xs'
-                              : sev === 'moderate'
-                              ? 'bg-amber-500 text-white shadow-xs'
-                              : 'bg-[#0F766E] text-white shadow-xs'
-                            : 'text-[#64748B] hover:text-[#243447]'
-                        }`}
-                      >
-                        {sev}
-                      </button>
-                    ))}
+                    {(['mild', 'moderate', 'severe'] as const).map((sev) => {
+                      const label =
+                        sev === 'mild'
+                          ? t.symptoms.severities.mild
+                          : sev === 'moderate'
+                          ? t.symptoms.severities.moderate
+                          : t.symptoms.severities.severe;
+
+                      return (
+                        <button
+                          key={sev}
+                          type="button"
+                          onClick={() => setSeverity(sev)}
+                          className={`py-1.5 text-xs font-semibold rounded-lg capitalize transition cursor-pointer ${
+                            severity === sev
+                              ? sev === 'severe'
+                                ? 'bg-red-600 text-white shadow-xs'
+                                : sev === 'moderate'
+                                ? 'bg-amber-500 text-white shadow-xs'
+                                : 'bg-[#0F766E] text-white shadow-xs'
+                              : 'text-[#64748B] hover:text-[#243447]'
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -258,30 +271,30 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
-                    Age Group
+                    {t.symptoms.ageGroupLabel}
                   </label>
                   <select
                     value={ageGroup}
                     onChange={(e) => setAgeGroup(e.target.value)}
                     className="w-full bg-white border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   >
-                    <option value="Child (0-12)">Child (0–12 yrs)</option>
-                    <option value="Adolescent (13-17)">Adolescent (13–17 yrs)</option>
-                    <option value="Young Adult (18-39)">Young Adult (18–39 yrs)</option>
-                    <option value="Adult (40-59)">Adult (40–59 yrs)</option>
-                    <option value="Senior (60+)">Senior (60+ yrs)</option>
+                    <option value="Child (0-12)">{t.symptoms.ageGroups.child}</option>
+                    <option value="Adolescent (13-17)">{t.symptoms.ageGroups.adolescent}</option>
+                    <option value="Young Adult (18-39)">{t.symptoms.ageGroups.youngAdult}</option>
+                    <option value="Adult (40-59)">{t.symptoms.ageGroups.adult}</option>
+                    <option value="Senior (60+)">{t.symptoms.ageGroups.senior}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
-                    Existing Conditions (Optional)
+                    {t.symptoms.conditionsLabel}
                   </label>
                   <input
                     type="text"
                     value={existingConditions}
                     onChange={(e) => setExistingConditions(e.target.value)}
-                    placeholder="e.g. Diabetes, Hypertension"
+                    placeholder={t.symptoms.conditionsPlaceholder}
                     className="w-full bg-white border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   />
                 </div>
@@ -296,12 +309,12 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 {loading ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Evaluating Symptoms...</span>
+                    <span>{t.symptoms.loadingCta}</span>
                   </>
                 ) : (
                   <>
                     <Stethoscope className="w-4 h-4" />
-                    <span>Review Symptom Guidance</span>
+                    <span>{t.symptoms.submitCta}</span>
                   </>
                 )}
               </button>
@@ -323,15 +336,15 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 </div>
                 <div className="max-w-md">
                   <h4 className="text-base font-bold text-[#102A43]">
-                    Awaiting Symptom Details
+                    {t.symptoms.awaitingTitle}
                   </h4>
                   <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed">
-                    Enter your symptoms or pick a pre-set demonstration scenario on the left. The system will categorize your inquiry into four clear, educational review sections.
+                    {t.symptoms.awaitingDesc}
                   </p>
                 </div>
                 <div className="pt-2 flex items-center gap-2 text-[11px] text-[#64748B]">
                   <ShieldCheck className="w-4 h-4 text-[#0F766E]" />
-                  <span>Conservative Indian 112 emergency verification active</span>
+                  <span>{t.symptoms.awaitingSafety}</span>
                 </div>
               </div>
             ) : (
@@ -339,10 +352,10 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 {/* Result Controls Header */}
                 <div className="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-[#CDE8E2] shadow-xs">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-bold text-[#102A43]">Guidance Summary</span>
+                    <span className="text-xs font-bold text-[#102A43]">{t.symptoms.summaryHeader}</span>
                     {result.isDemo && (
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                        Demo Mode Guidance
+                        {t.symptoms.demoBadge}
                       </span>
                     )}
                   </div>
@@ -351,7 +364,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     className="text-xs text-[#0F766E] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                   >
                     <RefreshCw className="w-3 h-3 text-[#35B8A6]" />
-                    <span>Evaluate New Symptoms</span>
+                    <span>{t.symptoms.evaluateNewBtn}</span>
                   </button>
                 </div>
 
@@ -362,7 +375,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     <div className="flex items-center space-x-2 text-[#0F766E]">
                       <Info className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
-                        1. Possible Explanations
+                        {t.symptoms.card1Title}
                       </h4>
                     </div>
                     <ul className="text-xs text-[#243447] space-y-2">
@@ -380,7 +393,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     <div className="flex items-center space-x-2 text-[#35B8A6]">
                       <CheckCircle className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
-                        2. General Self-Care
+                        {t.symptoms.card2Title}
                       </h4>
                     </div>
                     <ul className="text-xs text-[#243447] space-y-2">
@@ -398,7 +411,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     <div className="flex items-center space-x-2 text-amber-700">
                       <Clock className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
-                        3. When to Consult a Doctor
+                        {t.symptoms.card3Title}
                       </h4>
                     </div>
                     <ul className="text-xs text-[#243447] space-y-2">
@@ -416,7 +429,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     <div className="flex items-center space-x-2 text-red-700">
                       <AlertTriangle className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-red-950">
-                        4. Warning Signs (Immediate Care)
+                        {t.symptoms.card4Title}
                       </h4>
                     </div>
                     <ul className="text-xs text-red-950 space-y-2">
@@ -434,7 +447,8 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 <div className="p-4 bg-white rounded-xl border border-[#CDE8E2] text-xs text-[#64748B] leading-relaxed flex items-start gap-2.5 shadow-2xs">
                   <ShieldCheck className="w-5 h-5 text-[#0F766E] shrink-0 mt-0.5" />
                   <p>
-                    <strong>Medical Safety Notice:</strong> {result.disclaimer} Always consult a licensed clinical medical officer for prescription management or definitive triage.
+                    <strong>{t.symptoms.safetyNoticeTitle}</strong> {result.disclaimer}{' '}
+                    {t.symptoms.safetyNoticeSuffix}
                   </p>
                 </div>
               </div>

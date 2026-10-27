@@ -12,48 +12,47 @@ import {
   HeartPulse,
   PhoneCall,
   ShieldCheck,
-  Sparkles,
-  Info,
-  User as UserIcon,
   LogIn,
   LogOut
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { language, openEmergencyModal, openDisclaimerModal, isDemoMode, user, signOut } = useApp();
+  const { language, openEmergencyModal, openDisclaimerModal, user, signOut } = useApp();
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
   const navLinks = [
     {
       href: '/',
       icon: Home,
-      label: language === 'hi' ? 'होम' : language === 'mr' ? 'मुख्य पृष्ठ' : 'Home',
+      label: t.nav.home,
       badge: ''
     },
     {
       href: '/assistant',
       icon: MessageSquareHeart,
-      label: language === 'hi' ? 'AI स्वास्थ्य सहायक' : language === 'mr' ? 'AI आरोग्य सहाय्यक' : 'AI Health Assistant',
-      badge: 'OpenAI'
+      label: t.nav.assistant,
+      badge: t.common.openAI
     },
     {
       href: '/symptoms',
       icon: Stethoscope,
-      label: language === 'hi' ? 'लक्षण मार्गदर्शन' : language === 'mr' ? 'लक्षण मार्गदर्शन' : 'Smart Symptom Guidance',
-      badge: '112 Safety'
+      label: t.nav.symptoms,
+      badge: t.common.emergency112
     },
     {
       href: '/reports',
       icon: FileSpreadsheet,
-      label: language === 'hi' ? 'मेडिकल रिपोर्ट' : language === 'mr' ? 'वैद्यकीय अहवाल' : 'Medical Report Simplifier',
-      badge: 'Synthetic'
+      label: t.nav.reports,
+      badge: t.common.syntheticBadge
     },
     {
       href: '/preventive-care',
       icon: CalendarCheck,
-      label: language === 'hi' ? 'निवारक देखभाल' : language === 'mr' ? 'प्रतिबंधक काळजी' : 'Preventive Care',
-      badge: 'Reminders'
+      label: t.nav.preventive,
+      badge: t.common.remindersBadge
     }
   ];
 
@@ -68,13 +67,13 @@ export function Sidebar() {
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
-                <span className="font-extrabold text-lg tracking-tight text-[#102A43]">IMD Care</span>
+                <span className="font-extrabold text-lg tracking-tight text-[#102A43]">{t.common.appName}</span>
                 <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded-md bg-[#D9F3EC] text-[#0F766E] border border-[#35B8A6]/30">
-                  AI
+                  {t.common.aiBadge}
                 </span>
               </div>
               <span className="text-[11px] text-[#64748B] font-medium block">
-                Better Health Guidance
+                {t.nav.brandSubtitle}
               </span>
             </div>
           </Link>
@@ -83,7 +82,7 @@ export function Sidebar() {
         {/* Navigation Links */}
         <div className="p-4 space-y-1.5">
           <span className="px-3 text-[10px] uppercase font-bold tracking-wider text-[#64748B] block mb-2">
-            Navigation Menu
+            {t.nav.menuHeading}
           </span>
 
           <nav className="space-y-1.5">
@@ -147,9 +146,9 @@ export function Sidebar() {
             </div>
             <button
               onClick={() => signOut()}
-              title={language === 'hi' ? 'साइन आउट' : language === 'mr' ? 'साइन आउट' : 'Sign Out'}
+              title={t.nav.signOut}
               className="p-1.5 text-[#64748B] hover:text-red-600 hover:bg-white rounded-lg transition cursor-pointer shrink-0"
-              aria-label="Sign Out"
+              aria-label={t.nav.signOut}
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>
@@ -160,13 +159,7 @@ export function Sidebar() {
             className="flex items-center justify-center space-x-2 w-full py-2 px-3 bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2] rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
           >
             <LogIn className="w-3.5 h-3.5 text-[#0F766E]" />
-            <span>
-              {language === 'hi'
-                ? 'साइन इन / रजिस्टर'
-                : language === 'mr'
-                ? 'साइन इन / नोंदणी'
-                : 'Sign In / Register'}
-            </span>
+            <span>{t.nav.signInRegister}</span>
           </Link>
         )}
 
@@ -175,19 +168,19 @@ export function Sidebar() {
           <div className="flex items-center justify-between">
             <span className="text-[10px] uppercase font-extrabold text-red-700 tracking-wider flex items-center gap-1">
               <PhoneCall className="w-3 h-3 text-red-600 animate-pulse" />
-              Emergency Helplines
+              {t.nav.emergencyHelplines}
             </span>
             <span className="text-xs font-black text-red-600">112 / 108</span>
           </div>
           <p className="text-[11px] text-red-900 leading-tight">
-            Immediate Indian medical triage for chest pain or stroke signs.
+            {t.nav.emergencyTriageDesc}
           </p>
           <button
             onClick={() => openEmergencyModal('Sidebar Emergency Hotline Access')}
             className="w-full py-1.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-[11px] font-bold rounded-lg transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <PhoneCall className="w-3 h-3" />
-            <span>Emergency Guidance</span>
+            <span>{t.nav.emergencyGuidanceBtn}</span>
           </button>
         </div>
 
@@ -198,9 +191,9 @@ export function Sidebar() {
             className="text-[11px] text-[#64748B] hover:text-[#0F766E] flex items-center gap-1 transition cursor-pointer"
           >
             <ShieldCheck className="w-3.5 h-3.5 text-[#35B8A6]" />
-            <span>Medical Disclaimer</span>
+            <span>{t.nav.medicalDisclaimerLink}</span>
           </button>
-          <span className="text-[10px] text-[#64748B] font-mono">v2.1</span>
+          <span className="text-[10px] text-[#64748B] font-mono">{t.nav.version}</span>
         </div>
       </div>
     </aside>

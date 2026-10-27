@@ -54,12 +54,26 @@ export async function POST(req: NextRequest) {
             ? 'त्वरित — विलंब करू नका.'
             : 'IMMEDIATELY — without waiting.'
         ],
-        warningSigns: [
-          'Chest pain or pressure radiating to arm, neck, or back',
-          'Inability to catch breath or speak in full sentences',
-          'Facial drooping, arm weakness, slurred speech (FAST)',
-          'Loss of consciousness, seizures, or confusion'
-        ],
+        warningSigns: language === 'hi'
+          ? [
+              'सीने में दर्द या भारीपन जो बांह, गर्दन या पीठ तक फैले',
+              'सांस लेने में अत्यधिक कठिनाई या पूरे वाक्य न बोल पाना',
+              'चेहरे का टेढ़ा होना, बांह में कमजोरी, बोली में लड़खड़ाहट (FAST)',
+              'बेहोशी, दौरे पड़ना या अत्यधिक भ्रम की स्थिति'
+            ]
+          : language === 'mr'
+          ? [
+              'छातीत दुखणे किंवा दाब जाणवणे जो हात, मान किंवा पाठीकडे पसरतो',
+              'श्वास घेण्यास तीव्र अडचण किंवा पूर्ण वाक्य बोलता न येणे',
+              'चेहरा एका बाजूला वाकडा होणे, हातातील ताकद जाणे, बोलताना अडखळणे (FAST)',
+              'अचानक चक्कर येऊन बेशुद्ध पडणे किंवा गोंधळ उडणे'
+            ]
+          : [
+              'Chest pain or pressure radiating to arm, neck, or back',
+              'Inability to catch breath or speak in full sentences',
+              'Facial drooping, arm weakness, slurred speech (FAST)',
+              'Loss of consciousness, seizures, or confusion'
+            ],
         disclaimer: language === 'hi'
           ? 'चेतावनी: आपातकालीन स्थितियों में डिजिटल टूल का उपयोग न करें। तुरंत 112 या 108 पर कॉल करें।'
           : language === 'mr'

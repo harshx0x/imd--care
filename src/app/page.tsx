@@ -14,10 +14,13 @@ import { WellnessInspiration } from '@/components/WellnessInspiration';
 import { FeatureHighlights } from '@/components/FeatureHighlights';
 import { CompanionWelcomeModal } from '@/components/CompanionWelcomeModal';
 import { useApp } from '@/context/AppContext';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
 export default function HomePage() {
   const { language, setLanguage, openEmergencyModal, openDisclaimerModal } = useApp();
   const [companionModalOpen, setCompanionModalOpen] = useState(false);
+
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
   return (
     <div className="space-y-0">
@@ -45,29 +48,29 @@ export default function HomePage() {
       {/* 5. Core Feature Modules Overview */}
       <FeatureHighlights language={language} />
 
-      {/* 6. Small Preventive Care Preview in Soft Mint */}
+      {/* 6. Preventive Care Preview in Soft Mint */}
       <section className="py-12 bg-[#E8F7F5] border-t border-[#CDE8E2]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#D9F3EC] rounded-2xl border border-[#CDE8E2] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
             <div className="space-y-3 max-w-xl text-center md:text-left">
               <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0F766E]/15 text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
                 <CalendarCheck className="w-3.5 h-3.5 text-[#0F766E]" />
-                <span>Habit & Reminder Tracking</span>
+                <span>{t.homeSections.preventiveBadge}</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-[#102A43]">
-                Daily Indian Wellness & Medication Reminders
+                {t.homeSections.preventiveTitle}
               </h3>
               <p className="text-xs sm:text-sm text-[#243447] leading-relaxed">
-                Stay on top of prescriptions, clinical follow-ups, hydration goals, and pranayama routines. Data stays private in your browser.
+                {t.homeSections.preventiveDesc}
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-[#243447] font-medium justify-center md:justify-start">
                 <span className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-lg border border-[#CDE8E2]">
                   <CheckCircle2 className="w-4 h-4 text-[#0F766E]" />
-                  <span>Local Storage Privacy</span>
+                  <span>{t.homeSections.preventivePill1}</span>
                 </span>
                 <span className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-lg border border-[#CDE8E2]">
                   <CheckCircle2 className="w-4 h-4 text-[#0F766E]" />
-                  <span>Hydration & Sleep Tracker</span>
+                  <span>{t.homeSections.preventivePill2}</span>
                 </span>
               </div>
             </div>
@@ -78,7 +81,7 @@ export default function HomePage() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#0F766E] hover:bg-[#0D655F] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition transform hover:-translate-y-0.5 cursor-pointer"
               >
                 <CalendarCheck className="w-4 h-4" />
-                <span>Open Preventive Care</span>
+                <span>{t.homeSections.preventiveCta}</span>
                 <ArrowRight className="w-4 h-4 text-[#35B8A6]" />
               </Link>
             </div>
@@ -93,14 +96,14 @@ export default function HomePage() {
             <div className="flex items-center space-x-3 text-center sm:text-left">
               <ShieldCheck className="w-5 h-5 text-[#0F766E] shrink-0" />
               <p>
-                <strong>Medical Notice:</strong> IMD Care is an AI-powered health literacy platform built for educational guidance. Never ignore emergency symptoms or modify prescription dosages without consulting a licensed physician.
+                {t.homeSections.disclaimerNotice}
               </p>
             </div>
             <button
               onClick={openDisclaimerModal}
-              className="text-xs font-bold text-[#0F766E] hover:underline whitespace-nowrap shrink-0 cursor-pointer"
+              className="text-[#0F766E] font-bold text-xs hover:underline shrink-0 cursor-pointer"
             >
-              Read Full Safety Terms →
+              {t.homeSections.reviewSafetyTerms}
             </button>
           </div>
         </div>
