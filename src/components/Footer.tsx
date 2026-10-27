@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   HeartPulse,
   ShieldCheck,
@@ -82,24 +83,24 @@ export function Footer({
             </h4>
             <ul className="text-xs text-slate-300 space-y-2">
               <li>
-                <a href="#assistant" className="hover:text-white transition">
+                <Link href="/assistant" className="hover:text-white transition">
                   AI Health Assistant (EN, HI, MR)
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#symptoms" className="hover:text-white transition">
+                <Link href="/symptoms" className="hover:text-white transition">
                   Smart Symptom Guidance
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#reports" className="hover:text-white transition">
+                <Link href="/reports" className="hover:text-white transition">
                   Medical Report Simplifier
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#preventive" className="hover:text-white transition">
+                <Link href="/preventive-care" className="hover:text-white transition">
                   Preventive Care & Reminders
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   MessageSquareHeart,
   Stethoscope,
@@ -15,11 +16,10 @@ import {
 import { Language } from '@/lib/types';
 
 interface FeatureHighlightsProps {
-  onSelectFeature: (featureId: string) => void;
   language: Language;
 }
 
-export function FeatureHighlights({ onSelectFeature, language }: FeatureHighlightsProps) {
+export function FeatureHighlights({ language }: FeatureHighlightsProps) {
   const translations = {
     en: {
       sectionBadge: 'Core Intelligence Modules',
@@ -28,26 +28,29 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
       cards: [
         {
           id: 'assistant',
+          href: '/assistant',
           icon: MessageSquareHeart,
           title: 'AI Health Assistant',
           badge: 'Multilingual Conversational AI',
           description:
             'Engage in culturally aware, empathetic health conversations in English, Hindi, and Marathi. Get clear explanations for lifestyle, preventive wellness, and everyday health questions.',
           highlights: ['English, Hindi & Marathi', 'Evidence-based explanations', 'Clear medical boundaries'],
-          actionText: 'Start Health Chat'
+          actionText: 'Open Health Assistant'
         },
         {
           id: 'symptoms',
+          href: '/symptoms',
           icon: Stethoscope,
           badge: 'Conservative 112 Triage',
           title: 'Smart Symptom Guidance',
           description:
             'Review non-emergency health discomfort with duration and severity evaluation. Organizes findings into possible causes, self-care, doctor consult timelines, and red-flag alerts.',
           highlights: ['Conservative emergency rules', 'When to see a physician', 'No dangerous self-prescription'],
-          actionText: 'Check Symptoms'
+          actionText: 'Start Symptom Intake'
         },
         {
           id: 'reports',
+          href: '/reports',
           icon: FileSpreadsheet,
           badge: 'Synthetic Lab Clarifier',
           title: 'Medical Report Simplifier',
@@ -65,16 +68,18 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
       cards: [
         {
           id: 'assistant',
+          href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'बहुभाषी स्वास्थ्य AI',
           title: 'AI स्वास्थ्य सहायक',
           description:
             'अंग्रेजी, हिंदी और मराठी में स्वास्थ्य संबंधी प्रश्न पूछें। जीवनशैली, निवारक स्वास्थ्य और घरेलू प्राथमिक देखभाल पर स्पष्ट, विश्वसनीय उत्तर प्राप्त करें।',
           highlights: ['अंग्रेजी, हिंदी व मराठी में उपलब्ध', 'प्रमाण-आधारित सरल मार्गदर्शन', 'सुरक्षित प्राथमिक सलाह'],
-          actionText: 'चैट शुरू करें'
+          actionText: 'सहायक से पूछें'
         },
         {
           id: 'symptoms',
+          href: '/symptoms',
           icon: Stethoscope,
           badge: 'सुरक्षित 112 ट्राइएज',
           title: 'स्मार्ट लक्षण मार्गदर्शन',
@@ -85,6 +90,7 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
         },
         {
           id: 'reports',
+          href: '/reports',
           icon: FileSpreadsheet,
           badge: 'लैब रिपोर्ट सरलीकरण',
           title: 'मेडिकल रिपोर्ट विश्लेषक',
@@ -102,6 +108,7 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
       cards: [
         {
           id: 'assistant',
+          href: '/assistant',
           icon: MessageSquareHeart,
           badge: 'बहुभाषिक AI सहाय्यक',
           title: 'AI आरोग्य सहाय्यक',
@@ -112,6 +119,7 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
         },
         {
           id: 'symptoms',
+          href: '/symptoms',
           icon: Stethoscope,
           badge: 'तातडीचे ११२ ट्रायज',
           title: 'स्मार्ट लक्षण मार्गदर्शन',
@@ -122,6 +130,7 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
         },
         {
           id: 'reports',
+          href: '/reports',
           icon: FileSpreadsheet,
           badge: 'लॅब अहवाल विश्लेषण',
           title: 'वैद्यकीय अहवाल सोपा करा',
@@ -137,37 +146,37 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
   const t = translations[language] || translations.en;
 
   return (
-    <section id="features-overview" className="py-16 sm:py-24 bg-[#F8FAFC]">
+    <section id="features-overview" className="py-12 sm:py-16 bg-[#F8FAFC]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16">
+        <div className="text-center max-w-3xl mx-auto space-y-2 mb-10 sm:mb-12">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#DDF5EF] text-[#0F766E] text-xs font-bold tracking-wide uppercase">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{t.sectionBadge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43] tracking-tight">
             {t.sectionTitle}
           </h2>
-          <p className="text-sm sm:text-base text-[#486581] leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#486581] leading-relaxed">
             {t.sectionSubtitle}
           </p>
         </div>
 
         {/* 3 Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {t.cards.map((card) => {
             const Icon = card.icon;
             return (
-              <div
+              <Link
                 key={card.id}
-                onClick={() => onSelectFeature(card.id)}
-                className="group relative bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-[#0F766E]/40 transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1"
+                href={card.href}
+                className="group relative bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-[#0F766E]/40 transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 block"
               >
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {/* Icon & Badge */}
                   <div className="flex items-center justify-between">
-                    <div className="w-14 h-14 rounded-2xl bg-[#DDF5EF] text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition-colors duration-200 flex items-center justify-center shadow-inner">
-                      <Icon className="w-7 h-7" />
+                    <div className="w-12 h-12 rounded-2xl bg-[#DDF5EF] text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition-colors duration-200 flex items-center justify-center shadow-inner">
+                      <Icon className="w-6 h-6" />
                     </div>
                     <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 group-hover:bg-[#DDF5EF] group-hover:text-[#0F766E] transition">
                       {card.badge}
@@ -176,18 +185,18 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
 
                   {/* Title & Description */}
                   <div>
-                    <h3 className="text-xl font-bold text-[#102A43] group-hover:text-[#0F766E] transition-colors">
+                    <h3 className="text-lg font-bold text-[#102A43] group-hover:text-[#0F766E] transition-colors">
                       {card.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-[#486581] mt-2.5 leading-relaxed">
+                    <p className="text-xs text-[#486581] mt-2 leading-relaxed">
                       {card.description}
                     </p>
                   </div>
 
                   {/* Key Highlights */}
-                  <div className="pt-2 space-y-2 border-t border-slate-100">
+                  <div className="pt-2 space-y-1.5 border-t border-slate-100">
                     {card.highlights.map((h, i) => (
-                      <div key={i} className="flex items-center space-x-2 text-xs text-slate-700 font-medium">
+                      <div key={i} className="flex items-center space-x-2 text-[11px] text-slate-700 font-medium">
                         <CheckCircle className="w-3.5 h-3.5 text-[#0F766E] shrink-0" />
                         <span>{h}</span>
                       </div>
@@ -195,15 +204,15 @@ export function FeatureHighlights({ onSelectFeature, language }: FeatureHighligh
                   </div>
                 </div>
 
-                {/* Bottom Action Button */}
-                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
+                {/* Bottom Action Link */}
+                <div className="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs font-bold text-[#0F766E] group-hover:underline flex items-center gap-1.5">
                     {card.actionText}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">Click to open</span>
+                  <span className="text-[10px] text-slate-400 font-medium">Open Page →</span>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

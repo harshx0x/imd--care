@@ -1,0 +1,162 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  Home,
+  MessageSquareHeart,
+  Stethoscope,
+  FileSpreadsheet,
+  CalendarCheck,
+  HeartPulse,
+  PhoneCall,
+  ShieldCheck,
+  Sparkles,
+  Info
+} from 'lucide-react';
+import { useApp } from '@/context/AppContext';
+
+export function Sidebar() {
+  const pathname = usePathname();
+  const { language, openEmergencyModal, openDisclaimerModal, isDemoMode } = useApp();
+
+  const navLinks = [
+    {
+      href: '/',
+      icon: Home,
+      label: language === 'hi' ? 'होम' : language === 'mr' ? 'मुख्य पृष्ठ' : 'Home',
+      badge: ''
+    },
+    {
+      href: '/assistant',
+      icon: MessageSquareHeart,
+      label: language === 'hi' ? 'AI स्वास्थ्य सहायक' : language === 'mr' ? 'AI आरोग्य सहाय्यक' : 'AI Health Assistant',
+      badge: 'OpenAI'
+    },
+    {
+      href: '/symptoms',
+      icon: Stethoscope,
+      label: language === 'hi' ? 'लक्षण मार्गदर्शन' : language === 'mr' ? 'लक्षण मार्गदर्शन' : 'Smart Symptom Guidance',
+      badge: '112 Safety'
+    },
+    {
+      href: '/reports',
+      icon: FileSpreadsheet,
+      label: language === 'hi' ? 'मेडिकल रिपोर्ट' : language === 'mr' ? 'वैद्यकीय अहवाल' : 'Medical Report Simplifier',
+      badge: 'Synthetic'
+    },
+    {
+      href: '/preventive-care',
+      icon: CalendarCheck,
+      label: language === 'hi' ? 'निवारक देखभाल' : language === 'mr' ? 'प्रतिबंधक काळजी' : 'Preventive Care',
+      badge: 'Reminders'
+    }
+  ];
+
+  return (
+    <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200 h-screen sticky top-0 shrink-0 z-30 justify-between select-none">
+      {/* Brand Header */}
+      <div>
+        <div className="p-5 border-b border-slate-100">
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] flex items-center justify-center shadow-md shadow-[#0F766E]/20 text-white border border-[#DDF5EF]/30 group-hover:scale-105 transition-transform">
+              <HeartPulse className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-1.5">
+                <span className="font-extrabold text-lg tracking-tight text-[#102A43]">IMD Care</span>
+                <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded-md bg-[#DDF5EF] text-[#0F766E] border border-[#0F766E]/20">
+                  AI
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500 font-medium block">
+                Better Health Guidance
+              </span>
+            </div>
+          </Link>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="p-4 space-y-1.5">
+          <span className="px-3 text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-2">
+            Navigation Menu
+          </span>
+
+          <nav className="space-y-1">
+            {navLinks.map((item) => {
+              const Icon = item.icon;
+              const isActive = item.href === '/'
+                ? pathname === '/'
+                : pathname === item.href || pathname.startsWith(item.href + '/');
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition-all duration-150 ${
+                    isActive
+                      ? 'bg-[#DDF5EF] text-[#0F766E] font-bold border-l-4 border-[#0F766E] shadow-xs translate-x-0.5'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 font-medium'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3 min-w-0">
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0F766E]' : 'text-slate-400'}`} />
+                    <span className="truncate">{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span
+                      className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-md shrink-0 ml-1.5 ${
+                        isActive
+                          ? 'bg-[#0F766E] text-white'
+                          : 'bg-slate-100 text-slate-500'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+
+      {/* Bottom Emergency Card & Links */}
+      <div className="p-4 border-t border-slate-100 space-y-3">
+        {/* Quick Emergency 112 Banner */}
+        <div className="bg-red-50 border border-red-200 rounded-xl p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-extrabold text-red-700 tracking-wider flex items-center gap-1">
+              <PhoneCall className="w-3 h-3 text-red-600 animate-pulse" />
+              Emergency Helplines
+            </span>
+            <span className="text-xs font-black text-red-600">112 / 108</span>
+          </div>
+          <p className="text-[11px] text-red-800 leading-tight">
+            Immediate Indian medical triage for chest pain or stroke signs.
+          </p>
+          <button
+            onClick={() => openEmergencyModal('Sidebar Emergency Hotline Access')}
+            className="w-full py-1.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-[11px] font-bold rounded-lg transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <PhoneCall className="w-3 h-3" />
+            <span>Emergency Guidance</span>
+          </button>
+        </div>
+
+        {/* Disclaimer Link & Version */}
+        <div className="flex items-center justify-between pt-1 px-1">
+          <button
+            onClick={openDisclaimerModal}
+            className="text-[11px] text-slate-500 hover:text-[#0F766E] flex items-center gap-1 transition cursor-pointer"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Medical Disclaimer</span>
+          </button>
+          <span className="text-[10px] text-slate-400 font-mono">v2.0</span>
+        </div>
+      </div>
+    </aside>
+  );
+}

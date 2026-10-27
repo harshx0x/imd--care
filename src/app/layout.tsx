@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "IMD Care — Intelligent Medical & Health Guidance",
@@ -15,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full scroll-smooth">
       <body className="min-h-full flex flex-col bg-[#F8FAFC] text-[#243447] antialiased selection:bg-[#0F766E]/20 selection:text-[#0F766E]">
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

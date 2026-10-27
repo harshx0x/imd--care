@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   MessageSquareHeart,
   Stethoscope,
@@ -17,8 +18,8 @@ import { IndianJaliPattern, MandalaRings } from './IndianPatternDecorations';
 import { Language } from '@/lib/types';
 
 interface HeroProps {
-  onExploreFeatures: () => void;
-  onAskAssistant: () => void;
+  onExploreFeatures?: () => void;
+  onAskAssistant?: () => void;
   language: Language;
   openEmergencyModal: () => void;
 }
@@ -101,21 +102,21 @@ export function Hero({
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <button
-                onClick={onAskAssistant}
+              <Link
+                href="/assistant"
                 className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] text-white font-bold text-sm tracking-wide shadow-lg shadow-[#0F766E]/30 hover:shadow-[#0F766E]/50 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <MessageSquareHeart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span>{t.primaryCta}</span>
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
 
-              <button
-                onClick={onExploreFeatures}
+              <a
+                href="#features-overview"
                 className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 text-white font-semibold text-sm border border-white/15 backdrop-blur-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>{t.secondaryCta}</span>
-              </button>
+              </a>
             </div>
 
             {/* Trust Badges */}

@@ -1,126 +1,96 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Navbar } from '@/components/Navbar';
+import React from 'react';
+import Link from 'next/link';
+import {
+  CalendarCheck,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Droplets,
+  Activity,
+  HeartPulse,
+  Clock,
+  Sparkles
+} from 'lucide-react';
 import { Hero } from '@/components/Hero';
 import { FeatureHighlights } from '@/components/FeatureHighlights';
-import { HealthAssistant } from '@/components/HealthAssistant';
-import { SymptomGuidance } from '@/components/SymptomGuidance';
-import { ReportSimplifier } from '@/components/ReportSimplifier';
-import { PreventiveCare } from '@/components/PreventiveCare';
-import { EmergencyModal } from '@/components/EmergencyModal';
-import { DisclaimerModal } from '@/components/DisclaimerModal';
-import { Footer } from '@/components/Footer';
-import { Language } from '@/lib/types';
-import { ShieldAlert, AlertTriangle } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
-export default function Home() {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [language, setLanguage] = useState<Language>('en');
-  const [isDemoMode, setIsDemoMode] = useState(true);
-  const [emergencyModalOpen, setEmergencyModalOpen] = useState(false);
-  const [emergencyReason, setEmergencyReason] = useState<string | undefined>(undefined);
-  const [disclaimerModalOpen, setDisclaimerModalOpen] = useState(false);
-
-  // Check system API status on initial mount
-  useEffect(() => {
-    async function checkStatus() {
-      try {
-        const res = await fetch('/api/status');
-        if (res.ok) {
-          const data = await res.json();
-          setIsDemoMode(Boolean(data.demoMode));
-        }
-      } catch (err) {
-        console.warn('Could not query status endpoint, defaulting to demo mode safety:', err);
-        setIsDemoMode(true);
-      }
-    }
-    checkStatus();
-  }, []);
-
-  const handleOpenEmergency = (reason?: string) => {
-    setEmergencyReason(reason);
-    setEmergencyModalOpen(true);
-  };
-
-  const handleSelectFeature = (featureId: string) => {
-    setActiveSection(featureId);
-    const elem = document.getElementById(featureId);
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+export default function HomePage() {
+  const { language, openEmergencyModal, openDisclaimerModal } = useApp();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] overflow-x-hidden">
-      {/* Sticky Navigation */}
-      <Navbar
-        activeSection={activeSection}
-        setActiveSection={setActiveSection}
+    <div className="space-y-0">
+      {/* 1. Dark Navy Hero Section */}
+      <Hero
         language={language}
-        setLanguage={setLanguage}
-        openEmergencyModal={() => handleOpenEmergency()}
-        openDisclaimerModal={() => setDisclaimerModalOpen(true)}
-        isDemoMode={isDemoMode}
+        openEmergencyModal={() => openEmergencyModal('Hero National Emergency Triage Request')}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1">
-        {/* Hero Section */}
-        <Hero
-          onExploreFeatures={() => handleSelectFeature('features-overview')}
-          onAskAssistant={() => handleSelectFeature('assistant')}
-          language={language}
-          openEmergencyModal={() => handleOpenEmergency('User requested Indian Emergency Services & Triage Protocol')}
-        />
+      {/* 2. Three Compact Feature Cards Linking to Dedicated Pages */}
+      <FeatureHighlights language={language} />
 
-        {/* 3 Core Feature Highlights */}
-        <FeatureHighlights
-          onSelectFeature={handleSelectFeature}
-          language={language}
-        />
+      {/* 3. Small Preventive Care Preview */}
+      <section className="py-12 bg-white border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-[#F0FBF7] to-[#DDF5EF]/40 rounded-2xl border border-[#BCE7DC] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+            <div className="space-y-3 max-w-xl text-center md:text-left">
+              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0F766E]/10 text-[#0F766E] text-xs font-bold uppercase tracking-wider">
+                <CalendarCheck className="w-3.5 h-3.5" />
+                <span>Habit & Reminder Tracking</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-[#102A43]">
+                Daily Indian Wellness & Medication Reminders
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Stay on top of prescriptions, clinical follow-ups, hydration goals, and pranayama routines. Data stays private in your browser.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-700 font-medium justify-center md:justify-start">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#0F766E]" />
+                  <span>Local Storage Privacy</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#0F766E]" />
+                  <span>Hydration & Sleep Tracker</span>
+                </span>
+              </div>
+            </div>
 
-        {/* Feature A: AI Health Assistant */}
-        <HealthAssistant
-          language={language}
-          setLanguage={setLanguage}
-          openEmergencyModal={() => handleOpenEmergency('Acute symptom alert detected during conversational health consultation')}
-          isDemoMode={isDemoMode}
-        />
+            <div className="shrink-0 w-full md:w-auto text-center">
+              <Link
+                href="/preventive-care"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#0F766E] hover:bg-[#0D655F] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition transform hover:-translate-y-0.5 cursor-pointer"
+              >
+                <CalendarCheck className="w-4 h-4" />
+                <span>Open Preventive Care</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        {/* Feature B: Smart Symptom Guidance */}
-        <SymptomGuidance
-          language={language}
-          openEmergencyModal={() => handleOpenEmergency('Conservative emergency safety check triggered in symptom intake form')}
-        />
-
-        {/* Feature C: Medical Report Simplifier */}
-        <ReportSimplifier language={language} />
-
-        {/* Feature D: Basic Preventive Care */}
-        <PreventiveCare language={language} />
-      </main>
-
-      {/* Footer */}
-      <Footer
-        language={language}
-        openEmergencyModal={() => handleOpenEmergency('Emergency assistance requested from footer hotline')}
-        openDisclaimerModal={() => setDisclaimerModalOpen(true)}
-      />
-
-      {/* Emergency Guidance Modal */}
-      <EmergencyModal
-        isOpen={emergencyModalOpen}
-        onClose={() => setEmergencyModalOpen(false)}
-        reason={emergencyReason}
-      />
-
-      {/* Disclaimer & Privacy Modal */}
-      <DisclaimerModal
-        isOpen={disclaimerModalOpen}
-        onClose={() => setDisclaimerModalOpen(false)}
-      />
+      {/* 4. Medical Disclaimer Strip */}
+      <section className="py-8 bg-[#F8FAFC] border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="p-4 bg-slate-100 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+            <div className="flex items-center space-x-3 text-center sm:text-left">
+              <ShieldCheck className="w-5 h-5 text-[#0F766E] shrink-0" />
+              <p>
+                <strong>Medical Notice:</strong> IMD Care is an AI-powered health literacy platform built for educational guidance. Never ignore emergency symptoms or modify prescription dosages without consulting a licensed physician.
+              </p>
+            </div>
+            <button
+              onClick={openDisclaimerModal}
+              className="text-xs font-bold text-[#0F766E] hover:underline whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              Read Full Safety Terms →
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
