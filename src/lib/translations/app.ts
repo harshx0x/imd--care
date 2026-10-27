@@ -202,6 +202,25 @@ export interface AppTranslations {
     unreadableTryAgain: string;
     errorOversized: string;
     errorUnsupportedType: string;
+    reviewTitle: string;
+    reviewSubtitle: string;
+    confidenceLabel: string;
+    tableHeaderTestName: string;
+    tableHeaderResult: string;
+    tableHeaderUnit: string;
+    tableHeaderRange: string;
+    tableHeaderStatus: string;
+    tableHeaderVerification: string;
+    statusVerified: string;
+    statusNeedsVerification: string;
+    confirmAndExplainBtn: string;
+    backToReviewBtn: string;
+    addTestBtn: string;
+    viewRawText: string;
+    hideRawText: string;
+    deleteTestRow: string;
+    sourceDocument: string;
+    sourcePreview: string;
   };
   preventive: {
     sectionBadge: string;
@@ -518,7 +537,27 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       unreadableTitle: 'Document Could Not Be Read Clearly',
       unreadableTryAgain: 'Please upload a clearer, well-lit photo or digital PDF report.',
       errorOversized: 'The uploaded file exceeds the 10 MB limit. Please select a smaller file.',
-      errorUnsupportedType: 'Unsupported file format. Please upload a PDF, JPG, or PNG report.'
+      errorUnsupportedType: 'Unsupported file format. Please upload a PDF, JPG, or PNG report.',
+      reviewTitle: 'Review & Verify Extracted Biomarkers',
+      reviewSubtitle:
+        'Compare the extracted figures against your original report. You can edit any value or reference range before generating the plain-language explanation.',
+      confidenceLabel: 'Extraction Confidence',
+      tableHeaderTestName: 'Test Name',
+      tableHeaderResult: 'Extracted Result',
+      tableHeaderUnit: 'Unit',
+      tableHeaderRange: 'Lab Reference Range',
+      tableHeaderStatus: 'Status',
+      tableHeaderVerification: 'Verification',
+      statusVerified: 'Verified',
+      statusNeedsVerification: 'Needs verification',
+      confirmAndExplainBtn: 'Confirm Results & Explain',
+      backToReviewBtn: 'Edit Values & Re-analyze',
+      addTestBtn: '+ Add Another Test',
+      viewRawText: 'View Extracted Raw Text',
+      hideRawText: 'Hide Raw Text',
+      deleteTestRow: 'Remove row',
+      sourceDocument: 'Source Document',
+      sourcePreview: 'Original Document Preview'
     },
     preventive: {
       sectionBadge: 'Preventive Wellness Routine',
@@ -850,7 +889,27 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       unreadableTitle: 'दस्तावेज़ को स्पष्ट रूप से पढ़ा नहीं जा सका',
       unreadableTryAgain: 'कृपया एक स्पष्ट, अच्छी रोशनी वाली तस्वीर या डिजिटल PDF रिपोर्ट अपलोड करें।',
       errorOversized: 'अपलोड की गई फ़ाइल 10 MB से बड़ी है। कृपया छोटी फ़ाइल चुनें।',
-      errorUnsupportedType: 'असमर्थित फ़ाइल प्रारूप। कृपया केवल PDF, JPG या PNG रिपोर्ट अपलोड करें।'
+      errorUnsupportedType: 'असमर्थित फ़ाइल प्रारूप। कृपया केवल PDF, JPG या PNG रिपोर्ट अपलोड करें।',
+      reviewTitle: 'निकाले गए बायोमार्कर्स की समीक्षा व पुष्टि करें',
+      reviewSubtitle:
+        'अपनी मूल रिपोर्ट से इन आंकड़ों की तुलना करें। सरल भाषा में व्याख्या पाने से पहले आप किसी भी मान या संदर्भ सीमा को बदल सकते हैं।',
+      confidenceLabel: 'विश्लेषण सटीकता (Confidence)',
+      tableHeaderTestName: 'जांच का नाम (Test Name)',
+      tableHeaderResult: 'निकाला गया परिणाम (Result)',
+      tableHeaderUnit: 'इकाई (Unit)',
+      tableHeaderRange: 'लैब संदर्भ सीमा (Reference Range)',
+      tableHeaderStatus: 'स्थिति (Status)',
+      tableHeaderVerification: 'सत्यापन (Verification)',
+      statusVerified: 'सत्यापित (Verified)',
+      statusNeedsVerification: 'जांच की आवश्यकता (Needs verification)',
+      confirmAndExplainBtn: 'परिणामों की पुष्टि करें और समझें',
+      backToReviewBtn: 'मान बदलें और पुनः समझें',
+      addTestBtn: '+ अन्य जांच जोड़ें',
+      viewRawText: 'मूल टेक्स्ट देखें',
+      hideRawText: 'मूल टेक्स्ट छिपाएं',
+      deleteTestRow: 'पंक्ति हटाएं',
+      sourceDocument: 'मूल दस्तावेज़',
+      sourcePreview: 'मूल रिपोर्ट का पूर्वावलोकन'
     },
     preventive: {
       sectionBadge: 'निवारक स्वास्थ्य दिनचर्या',
@@ -1182,7 +1241,27 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       unreadableTitle: 'अहवाल स्पष्टपणे वाचता आला नाही',
       unreadableTryAgain: 'कृपया अधिक स्पष्ट, चांगल्या प्रकाशातील फोटो किंवा डिजिटल PDF अहवाल अपलोड करा.',
       errorOversized: 'अपलोड केलेली फाईल १० MB पेक्षा मोठी आहे. कृपया लहान फाईल निवडा.',
-      errorUnsupportedType: 'असमर्थित फाईल प्रकार. कृपया फक्त PDF, JPG किंवा PNG फाईल अपलोड करा.'
+      errorUnsupportedType: 'असमर्थित फाईल प्रकार. कृपया फक्त PDF, JPG किंवा PNG फाईल अपलोड करा.',
+      reviewTitle: 'शोधलेल्या चाचण्यांची पडताळणी करा',
+      reviewSubtitle:
+        'आपल्या मूळ अहवालाशी या आकड्यांची तुलना करा. स्पष्टीकरण मिळवण्यापूर्वी आपण कोणताही निकाल किंवा संदर्भ श्रेणी बदलू शकता.',
+      confidenceLabel: 'अचूकता (Confidence)',
+      tableHeaderTestName: 'चाचणीचे नाव (Test Name)',
+      tableHeaderResult: 'निकालाचे आकडे (Result)',
+      tableHeaderUnit: 'एकक (Unit)',
+      tableHeaderRange: 'लॅब संदर्भ श्रेणी (Reference Range)',
+      tableHeaderStatus: 'स्थिती (Status)',
+      tableHeaderVerification: 'पडताळणी (Verification)',
+      statusVerified: 'पडताळणी पूर्ण (Verified)',
+      statusNeedsVerification: 'खात्री आवश्यक (Needs verification)',
+      confirmAndExplainBtn: 'निकालांची पुष्टी करा आणि माहिती मिळवा',
+      backToReviewBtn: 'आकडे बदला आणि पुन्हा माहिती मिळवा',
+      addTestBtn: '+ आणखी एक चाचणी जोडा',
+      viewRawText: 'मूळ मजकूर पहा',
+      hideRawText: 'मूळ मजकूर लपवा',
+      deleteTestRow: 'ओळ हटवा',
+      sourceDocument: 'मूळ दस्तऐवज',
+      sourcePreview: 'मूळ अहवाल पूर्वावलोकन'
     },
     preventive: {
       sectionBadge: 'प्रतिबंधात्मक आरोग्य दिनचर्या',

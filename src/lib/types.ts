@@ -63,12 +63,35 @@ export interface ReportExplanationResult {
 }
 
 export interface ImportedTestItem {
+  id?: string;
   testName: string;
   resultValue: string;
+  rawExtractedValue?: string;
+  numericValue?: number | null;
   unit: string;
   referenceRange?: string;
+  labFlag?: string;
   status: 'below' | 'normal' | 'above' | 'inconclusive';
+  verificationStatus?: 'verified' | 'needs_verification';
+  verificationReason?: string;
+  sourceSnippet?: string;
+  pageNumber?: number;
+  confidence?: number;
   simpleExplanation: string;
+}
+
+export interface ExtractedReportData {
+  reportTitle: string;
+  fileName: string;
+  fileSize: string;
+  totalPages?: number;
+  tests: ImportedTestItem[];
+  rawTextPreview: string;
+  isUnreadable: boolean;
+  unreadableReason?: string;
+  extractionConfidence: number;
+  extractionMethod: 'pdf_text_structured' | 'ocr_tesseract' | 'vision_multimodal';
+  language: Language;
 }
 
 export interface ImportedReportAnalysisResult {
@@ -76,6 +99,8 @@ export interface ImportedReportAnalysisResult {
   fileName?: string;
   fileSize?: string;
   tests: ImportedTestItem[];
+  rawTextPreview?: string;
+  extractionConfidence?: number;
   overallSummary: string;
   abnormalReassurance: string;
   factorsToConsider: string[];

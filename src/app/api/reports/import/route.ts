@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PDFParse } from 'pdf-parse';
 import { getOpenAIClient, getOpenAIModel, isOpenAIConfigured } from '@/lib/openai';
-import { getSyntheticImportedReportAnalysis } from '@/lib/synthetic-data';
-import { ImportedReportAnalysisResult, Language } from '@/lib/types';
+import {
+  extractTextFromPdf,
+  extractTextFromImage,
+  parseLabReportText,
+  generateExplanationsForRecords
+} from '@/lib/report-parser';
+import {
+  ImportedTestItem,
+  ExtractedReportData,
+  ImportedReportAnalysisResult,
+  Language
+} from '@/lib/types';
 
 // Max file size: 10 MB
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -11,10 +20,36 @@ const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png'];
 
 export async function POST(req: NextRequest) {
   try {
+    const contentType = req.headers.get('content-type') || '';
+
+    // Check if this is a JSON request for the explanation step
+    if (contentType.includes('application/json')) {
+      const body = await req.json();
+      return handleExplainRequest(body);
+    }
+
+    // Otherwise, handle multipart/form-data
     const formData = await req.formData();
-    const file = formData.get('file') as File | null;
+    const action = (formData.get('action') as string) || 'extract';
     const rawLang = formData.get('language') as string;
     const language: Language = ['en', 'hi', 'mr'].includes(rawLang) ? (rawLang as Language) : 'en';
+
+    // If action is "explain" via FormData
+    const confirmedTestsJson = formData.get('confirmedTests') as string | null;
+    if (action === 'explain' || confirmedTestsJson) {
+      const fileName = (formData.get('fileName') as string) || 'Lab Report';
+      let confirmedTests: ImportedTestItem[] = [];
+      try {
+        confirmedTests = confirmedTestsJson ? JSON.parse(confirmedTestsJson) : [];
+      } catch {
+        return NextResponse.json({ error: 'Invalid confirmed test data' }, { status: 400 });
+      }
+
+      return handleExplainRecords(confirmedTests, language, fileName);
+    }
+
+    // Action is "extract" or direct upload
+    const file = formData.get('file') as File | null;
 
     // 1. Validate File Existence
     if (!file) {
@@ -69,48 +104,56 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
     const isPdf = lowerName.endsWith('.pdf') || file.type === 'application/pdf';
 
-    let extractedPdfText = '';
+    let extractedText = '';
+    let extractionMethod: 'pdf_text_structured' | 'ocr_tesseract' | 'vision_multimodal' = 'pdf_text_structured';
+    let totalPages = 1;
 
-    // If PDF, extract text using PDFParse
+    // 5. Extract Text from File
     if (isPdf) {
       try {
-        const parser = new PDFParse({ data: buffer });
-        const textResult = await parser.getText();
-        extractedPdfText = (textResult.text || '').trim();
-        await parser.destroy();
+        const pdfResult = await extractTextFromPdf(buffer);
+        extractedText = pdfResult.text;
+        totalPages = pdfResult.pages.length;
+        extractionMethod = 'pdf_text_structured';
+
+        // If PDF text extraction yielded almost nothing (scanned PDF without OCR layer), try Tesseract or report scanned PDF
+        if (extractedText.length < 20) {
+          console.warn('PDF text extraction produced minimal text; scanned PDF detected.');
+        }
       } catch (pdfErr) {
-        console.warn('PDF text extraction error, will attempt fallback parsing:', pdfErr);
+        console.warn('PDF text extraction error:', pdfErr);
+      }
+    } else {
+      // Image file (JPG, PNG) - Run Tesseract OCR
+      try {
+        const imageResult = await extractTextFromImage(buffer, file.type);
+        extractedText = imageResult.text;
+        extractionMethod = 'ocr_tesseract';
+      } catch (ocrErr) {
+        console.warn('Image OCR error:', ocrErr);
       }
     }
 
     const openai = getOpenAIClient();
 
-    // 5. Handle via OpenAI (if configured and active)
+    // 6. If OpenAI is configured and active, we can run multi-modal vision or AI extraction
     if (openai && isOpenAIConfigured()) {
-      const model = getOpenAIModel();
-
-      const systemPrompt = `You are an expert medical laboratory report reader and clinical health educator for IMD Care, an Indian health literacy startup.
-Your core task is to extract diagnostic lab biomarkers from the user's uploaded document and provide a clear, empathetic, structured educational explanation.
-
-CRITICAL HEALTH & SAFETY RULES:
-1. Extract all clearly readable laboratory test rows:
-   - testName (e.g., Hemoglobin Hb, Fasting Glucose, TSH, Serum Creatinine, LDL Cholesterol)
-   - resultValue (e.g., 10.8, 104)
-   - unit (e.g., g/dL, mg/dL, µIU/mL)
-   - referenceRange (stated reference interval on report)
-2. NEVER INVENT missing test values or reference ranges. If a reference range is not printed on the document, set referenceRange to "Not specified on report".
-3. Determine whether each value is 'below', 'normal', 'above', or 'inconclusive' relative strictly to the provided reference interval.
-4. Explain what each biological marker measures in simple layman terms.
-5. In abnormalReassurance, EMPHASIZE strongly that abnormal values do NOT automatically mean a person has a disease. Explain that temporary factors such as hydration, last meal timing, physical exertion, sleep quality, psychological stress, and lab equipment calibration variances frequently shift values.
-6. Provide 3-4 empowered, constructive questions for the patient to ask their doctor.
-7. If the document is unreadable, blurry, dark, corrupt, or not a medical report, set "isUnreadable": true and explain in "unreadableReason" what is needed (e.g., "Please upload a clearer, well-lit photo or digital PDF").
-8. LANGUAGE REQUIREMENT: Output ALL explanatory text, titles, reassurance, questions, and descriptions in the requested language: "${language}" ('en' for English, 'hi' for Hindi in Devanagari, 'mr' for Marathi in Devanagari).
-9. Output STRICT JSON only.`;
-
-      const jsonSchemaInstruction = `
+      try {
+        const model = getOpenAIModel();
+        const systemPrompt = `You are an expert diagnostic laboratory document reader for IMD Care.
+Your ONLY task is to extract exact laboratory test rows printed on this document into structured JSON.
+CRITICAL EXTRACTION RULES:
+1. Extract ALL test rows printed on the report.
+2. testName: exact test parameter name.
+3. resultValue: exact printed result string (e.g., "10.8", "1.8", "Negative", "Trace", "1:160"). NEVER alter decimals or signs.
+4. unit: exact printed unit (e.g., "g/dL", "mg/dL", "%"). If no unit printed, leave empty "".
+5. referenceRange: exact printed reference interval. If NO reference range printed, set EXACTLY "Not specified on report". NEVER invent or substitute standard ranges!
+6. labFlag: any printed flag like "High", "Low", "Normal", "Abnormal", "Critical", "*", or null if none.
+7. If document is unreadable, blurry, or not a lab report, set "isUnreadable": true with "unreadableReason".
+8. DO NOT invent missing values or standard ranges. Output strictly what is printed.
 OUTPUT JSON FORMAT ONLY:
 {
-  "reportTitle": "Title of the laboratory panel (e.g. Complete Blood Count / Lipid Profile)",
+  "reportTitle": "Title of report or panel",
   "isUnreadable": false,
   "unreadableReason": "",
   "tests": [
@@ -119,33 +162,23 @@ OUTPUT JSON FORMAT ONLY:
       "resultValue": "10.8",
       "unit": "g/dL",
       "referenceRange": "12.0 - 15.5 g/dL",
-      "status": "below",
-      "simpleExplanation": "Plain-language explanation of this test in the requested language"
+      "labFlag": "Low"
     }
-  ],
-  "overallSummary": "High-level overview of the uploaded report in the requested language",
-  "abnormalReassurance": "Empathetic explanation that abnormal values do not automatically mean disease",
-  "factorsToConsider": ["factor 1", "factor 2", "factor 3"],
-  "questionsForDoctor": ["question 1", "question 2", "question 3"],
-  "disclaimer": "Safety disclaimer stating this is AI health literacy and not a clinical diagnosis"
+  ]
 }`;
 
-      try {
         let messagesPayload: any[];
-
         if (!isPdf) {
-          // Image input with OpenAI Vision
           const mimeType = file.type || (lowerName.endsWith('.png') ? 'image/png' : 'image/jpeg');
           const base64 = buffer.toString('base64');
-
           messagesPayload = [
-            { role: 'system', content: `${systemPrompt}\n\n${jsonSchemaInstruction}` },
+            { role: 'system', content: systemPrompt },
             {
               role: 'user',
               content: [
                 {
                   type: 'text',
-                  text: `Please analyze this uploaded lab report image (${fileName}) in ${language.toUpperCase()} language. Extract the test values, units, reference ranges, and plain language explanations.`
+                  text: `Please extract the exact lab report rows from this image (${fileName}).`
                 },
                 {
                   type: 'image_url',
@@ -158,32 +191,26 @@ OUTPUT JSON FORMAT ONLY:
             }
           ];
         } else {
-          // PDF input with extracted text
-          const textContent =
-            extractedPdfText.length > 20
-              ? extractedPdfText.slice(0, 4000)
-              : `[PDF document: ${fileName}, text extraction was minimal or scanned without OCR layer]`;
-
           messagesPayload = [
-            { role: 'system', content: `${systemPrompt}\n\n${jsonSchemaInstruction}` },
+            { role: 'system', content: systemPrompt },
             {
               role: 'user',
-              content: `Please analyze the following extracted text from the lab report PDF "${fileName}" in ${language.toUpperCase()} language:\n\n${textContent}`
+              content: `Please extract the exact lab report rows from this PDF document text (${fileName}):\n\n${extractedText.slice(0, 4000)}`
             }
           ];
         }
 
         const completion = await openai.chat.completions.create({
-          model: model,
+          model,
           messages: messagesPayload,
-          temperature: 0.2,
+          temperature: 0.1,
           response_format: { type: 'json_object' }
         });
 
         const rawJson = completion.choices[0]?.message?.content || '{}';
-        const parsed = JSON.parse(rawJson);
+        const aiParsed = JSON.parse(rawJson);
 
-        if (parsed.isUnreadable) {
+        if (aiParsed.isUnreadable) {
           const fallbackReason =
             language === 'hi'
               ? 'अपलोड किए गए दस्तावेज़ को स्पष्ट रूप से पढ़ा नहीं जा सका। कृपया स्पष्ट डिजिटल PDF या अच्छी रोशनी वाली फोटो अपलोड करें।'
@@ -192,45 +219,130 @@ OUTPUT JSON FORMAT ONLY:
               : 'The uploaded document could not be clearly read. Please upload a clearer, well-lit photo or digital PDF of your report.';
 
           return NextResponse.json({
-            isUnreadable: true,
-            unreadableReason: parsed.unreadableReason || fallbackReason,
+            reportTitle: 'Unreadable Laboratory Document',
             fileName,
+            fileSize: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+            totalPages,
+            tests: [],
+            rawTextPreview: extractedText.slice(0, 1000),
+            isUnreadable: true,
+            unreadableReason: aiParsed.unreadableReason || fallbackReason,
+            extractionConfidence: 0,
+            extractionMethod: 'vision_multimodal',
             language
           });
         }
 
-        const result: ImportedReportAnalysisResult = {
-          reportTitle: parsed.reportTitle || fileName.replace(/\.[^/.]+$/, ''),
-          fileName,
-          fileSize: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
-          tests: Array.isArray(parsed.tests) ? parsed.tests : [],
-          overallSummary: parsed.overallSummary || 'Laboratory report analysis completed.',
-          abnormalReassurance:
-            parsed.abnormalReassurance ||
-            'Important Note: Abnormal values do not automatically mean you have a disease. Consult your physician for clinical interpretation.',
-          factorsToConsider: Array.isArray(parsed.factorsToConsider) ? parsed.factorsToConsider : [],
-          questionsForDoctor: Array.isArray(parsed.questionsForDoctor) ? parsed.questionsForDoctor : [],
-          disclaimer:
-            parsed.disclaimer ||
-            'IMD Care provides educational health literacy and does not constitute medical diagnosis or prescription.',
-          language,
-          isDemo: false
-        };
+        if (Array.isArray(aiParsed.tests) && aiParsed.tests.length > 0) {
+          // Normalize AI extracted tests with our strict status & verification logic
+          const normalizedTests: ImportedTestItem[] = aiParsed.tests.map((t: any) => {
+            const valStr = String(t.resultValue || '').trim();
+            const numVal = parseFloat(valStr.replace(/[<>=,]/g, ''));
+            const rangeStr = t.referenceRange || 'Not specified on report';
+            const labFlag = t.labFlag || undefined;
 
-        return NextResponse.json(result);
-      } catch (aiErr: unknown) {
-        console.error('OpenAI vision/report error, falling back to synthetic analysis:', aiErr);
-        // Fall back to synthetic analysis
-        const synthetic = getSyntheticImportedReportAnalysis(fileName, extractedPdfText, language);
-        synthetic.fileSize = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-        return NextResponse.json(synthetic);
+            let status: 'below' | 'normal' | 'above' | 'inconclusive' = 'inconclusive';
+            if (labFlag) {
+              const fl = labFlag.toLowerCase();
+              if (fl.includes('high') || fl === 'h' || fl.includes('above')) status = 'above';
+              else if (fl.includes('low') || fl === 'l' || fl.includes('below')) status = 'below';
+              else if (fl.includes('normal') || fl.includes('nil')) status = 'normal';
+              else if (fl.includes('abnormal') || fl.includes('critical') || fl === '*') status = 'above';
+            }
+
+            if (status === 'inconclusive' && !isNaN(numVal) && rangeStr !== 'Not specified on report') {
+              const rangeMatch = rangeStr.replace(/,/g, '').match(/([\d\.]+)\s*(?:-|to)\s*([\d\.]+)/i);
+              if (rangeMatch) {
+                const min = parseFloat(rangeMatch[1]);
+                const max = parseFloat(rangeMatch[2]);
+                if (!isNaN(min) && !isNaN(max)) {
+                  status = numVal < min ? 'below' : numVal > max ? 'above' : 'normal';
+                }
+              }
+            }
+
+            const isQual = !numVal || isNaN(numVal);
+            const needsVer =
+              rangeStr === 'Not specified on report' ||
+              (!t.unit && !isQual) ||
+              status === 'inconclusive';
+
+            return {
+              id: `rec_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+              testName: String(t.testName || '').trim(),
+              resultValue: valStr,
+              rawExtractedValue: valStr,
+              numericValue: !isNaN(numVal) ? numVal : null,
+              unit: String(t.unit || '').trim(),
+              referenceRange: rangeStr,
+              labFlag,
+              status,
+              verificationStatus: needsVer ? 'needs_verification' : 'verified',
+              verificationReason: needsVer
+                ? rangeStr === 'Not specified on report'
+                  ? 'Reference range not specified on report'
+                  : 'Please verify value and clinical unit'
+                : undefined,
+              sourceSnippet: `${t.testName}: ${valStr} ${t.unit || ''} (Ref: ${rangeStr})`,
+              confidence: needsVer ? 75 : 95,
+              simpleExplanation: ''
+            };
+          });
+
+          const verifiedCount = normalizedTests.filter((x) => x.verificationStatus === 'verified').length;
+          const conf = Math.round((verifiedCount / normalizedTests.length) * 100);
+
+          const extractedData: ExtractedReportData = {
+            reportTitle: aiParsed.reportTitle || fileName.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' '),
+            fileName,
+            fileSize: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+            totalPages,
+            tests: normalizedTests,
+            rawTextPreview: extractedText.slice(0, 3000),
+            isUnreadable: false,
+            extractionConfidence: conf,
+            extractionMethod: 'vision_multimodal',
+            language
+          };
+
+          // If caller requested extraction-only (the Review step)
+          if (action === 'extract') {
+            return NextResponse.json(extractedData);
+          }
+
+          // If direct one-shot requested, attach explanations
+          const analysisResult = generateExplanationsForRecords(normalizedTests, language, fileName);
+          analysisResult.fileSize = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+          analysisResult.rawTextPreview = extractedText.slice(0, 3000);
+          analysisResult.extractionConfidence = conf;
+          return NextResponse.json(analysisResult);
+        }
+      } catch (aiErr) {
+        console.warn('OpenAI vision extraction error, using deterministic parser:', aiErr);
       }
     }
 
-    // 6. Demo Mode / Offline Synthetic Extractor
-    const synthetic = getSyntheticImportedReportAnalysis(fileName, extractedPdfText, language);
-    synthetic.fileSize = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-    return NextResponse.json(synthetic);
+    // 7. Deterministic Local Table Parser (High accuracy, no hallucinations)
+    const parsedData = parseLabReportText(extractedText, fileName, totalPages);
+    parsedData.fileSize = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+    parsedData.extractionMethod = extractionMethod;
+    parsedData.language = language;
+
+    // If caller requested extraction-only (the Review step)
+    if (action === 'extract') {
+      return NextResponse.json(parsedData);
+    }
+
+    // If direct one-shot analysis requested
+    if (parsedData.isUnreadable) {
+      return NextResponse.json(parsedData);
+    }
+
+    const fullAnalysis = generateExplanationsForRecords(parsedData.tests, language, fileName);
+    fullAnalysis.fileSize = parsedData.fileSize;
+    fullAnalysis.rawTextPreview = parsedData.rawTextPreview;
+    fullAnalysis.extractionConfidence = parsedData.extractionConfidence;
+    return NextResponse.json(fullAnalysis);
   } catch (err: unknown) {
     console.error('Import report endpoint error:', err);
     return NextResponse.json(
@@ -240,4 +352,32 @@ OUTPUT JSON FORMAT ONLY:
       { status: 500 }
     );
   }
+}
+
+/**
+ * Handle explanation request for verified records (Step 2)
+ */
+async function handleExplainRequest(body: any) {
+  const { confirmedTests, language = 'en', fileName = 'Lab Report' } = body;
+  return handleExplainRecords(confirmedTests, language, fileName);
+}
+
+async function handleExplainRecords(
+  confirmedTests: ImportedTestItem[],
+  language: Language,
+  fileName: string
+) {
+  if (!Array.isArray(confirmedTests) || confirmedTests.length === 0) {
+    const msg =
+      language === 'hi'
+        ? 'कृपया व्याख्या के लिए कम से कम एक सत्यापित जांच मान दर्ज करें।'
+        : language === 'mr'
+        ? 'कृपया स्पष्टीकरणासाठी किमान एक तपासलेली चाचणी निवडा.'
+        : 'Please provide at least one verified lab biomarker to explain.';
+    return NextResponse.json({ error: msg }, { status: 400 });
+  }
+
+  // Generate plain-language explanations strictly for the verified records
+  const result = generateExplanationsForRecords(confirmedTests, language, fileName);
+  return NextResponse.json(result);
 }
