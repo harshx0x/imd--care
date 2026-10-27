@@ -4,213 +4,201 @@ import React from 'react';
 import Link from 'next/link';
 import {
   MessageSquareHeart,
-  Stethoscope,
-  FileSpreadsheet,
   ArrowRight,
   ShieldCheck,
   Activity,
-  Heart,
   Sparkles,
   PhoneCall,
-  CheckCircle2
+  CheckCircle2,
+  Globe,
+  Compass
 } from 'lucide-react';
 import { IndianJaliPattern, MandalaRings } from './IndianPatternDecorations';
+import { IndianHealthCompanion } from './IndianHealthCompanion';
 import { Language } from '@/lib/types';
 
 interface HeroProps {
-  onExploreFeatures?: () => void;
-  onAskAssistant?: () => void;
   language: Language;
+  setLanguage: (lang: Language) => void;
   openEmergencyModal: () => void;
+  onOpenCompanion: () => void;
 }
 
 export function Hero({
-  onExploreFeatures,
-  onAskAssistant,
   language,
-  openEmergencyModal
+  setLanguage,
+  openEmergencyModal,
+  onOpenCompanion
 }: HeroProps) {
   const translations = {
     en: {
-      tag: 'Made for Bharat Health Literacy',
-      headline: 'Better Health Understanding Starts Here.',
+      greeting: 'Namaste 🙏, Welcome to IMD Care.',
+      hindiSubgreeting: 'स्वस्थ रहें, जागरूक रहें। (Stay healthy, stay informed.)',
+      headlinePrefix: 'Your Health. Your Questions.',
+      headlineHighlight: 'A Healthier You.',
       subtext:
-        'Understand symptoms, simplify medical reports, and make informed healthcare decisions with AI-powered guidance.',
-      primaryCta: 'Ask AI Health Assistant',
-      secondaryCta: 'Explore Features',
-      vitalsBadge: 'Smart Triage AI',
-      emergencyTicker: 'Immediate Medical Emergency in India? Dial 112 or 108 without waiting.',
+        'Understand health information, explore everyday wellness, and discover informed next steps with your AI health companion.',
+      primaryCta: "Let's Get Started",
+      secondaryCta: 'Meet Your Health Companion',
+      badges: [
+        'Multilingual: EN, HI, MR',
+        'Conservative 112 Safety',
+        'Zero Sensitive Logging'
+      ],
+      emergencyTicker: 'Immediate Medical Emergency in India? Dial 112 or 108 without waiting.'
     },
     hi: {
-      tag: 'भारत स्वास्थ्य साक्षरता मिशन',
-      headline: 'बेहतर स्वास्थ्य समझ की शुरुआत यहीं से होती है।',
+      greeting: 'नमस्ते 🙏, IMD Care में आपका स्वागत है।',
+      hindiSubgreeting: 'स्वस्थ रहें, जागरूक रहें।',
+      headlinePrefix: 'आपका स्वास्थ्य। आपके सवाल।',
+      headlineHighlight: 'एक स्वस्थ आप।',
       subtext:
-        'लक्षणों को समझें, मेडिकल रिपोर्टों को सरल बनाएं और AI-संचालित मार्गदर्शन से सुविचारित स्वास्थ्य निर्णय लें।',
-      primaryCta: 'AI स्वास्थ्य सहायक से पूछें',
-      secondaryCta: 'सुविधाएं देखें',
-      vitalsBadge: 'स्मार्ट ट्राइएज AI',
-      emergencyTicker: 'भारत में कोई भी चिकित्सीय आपात स्थिति? तुरंत 112 या 108 डायल करें।',
+        'स्वास्थ्य संबंधी जानकारी को समझें, दैनिक कल्याण का अन्वेषण करें, और अपने AI स्वास्थ्य साथी के साथ सोच-समझकर कदम उठाएं।',
+      primaryCta: 'आइए शुरुआत करें',
+      secondaryCta: 'स्वास्थ्य साथी से मिलें',
+      badges: [
+        'हिंदी, अंग्रेजी व मराठी में उपलब्ध',
+        '112 आपातकालीन सुरक्षा ट्राइएज',
+        'शून्य संवेदनशील डेटा लॉगिंग'
+      ],
+      emergencyTicker: 'भारत में कोई भी चिकित्सीय आपात स्थिति? तुरंत 112 या 108 डायल करें।'
     },
     mr: {
-      tag: 'आरोग्य साक्षरता व्यासपीठ',
-      headline: 'आरोग्याची उत्तम समज येथून सुरू होते.',
+      greeting: 'नमस्कार 🙏, IMD Care मध्ये आपले स्वागत आहे.',
+      hindiSubgreeting: 'निरोगी राहा, सजग राहा.',
+      headlinePrefix: 'आपले आरोग्य. आपले प्रश्न.',
+      headlineHighlight: 'निरोगी आपण.',
       subtext:
-        'लक्षणे समजून घ्या, वैद्यकीय अहवाल सोप्या भाषेत वाचा आणि AI मार्गदर्शनासह योग्य आरोग्य निर्णय घ्या.',
-      primaryCta: 'AI आरोग्य सहाय्यक विचारा',
-      secondaryCta: 'वैशिष्ट्ये एक्सप्लोर करा',
-      vitalsBadge: 'स्मार्ट ट्रायज AI',
-      emergencyTicker: 'भारतात तातडीची वैद्यकीय आणीबाणी? त्वरित 112 किंवा 108 वर कॉल करा.',
+        'आरोग्याची माहिती समजून घ्या, दैनंदिन स्वास्थ्य जोपासा आणि आपल्या AI आरोग्य सहाय्यकासह योग्य निर्णय घ्या.',
+      primaryCta: 'चला सुरुवात करूया',
+      secondaryCta: 'आरोग्य मित्राला भेटा',
+      badges: [
+        'मराठी, हिंदी व इंग्रजीत उपलब्ध',
+        '112 सुरक्षित आपत्कालीन ट्रायज',
+        'खाजगी व सुरक्षित मार्गदर्शन'
+      ],
+      emergencyTicker: 'भारतात तातडीची वैद्यकीय आणीबाणी? त्वरित 112 किंवा 108 वर कॉल करा.'
     }
   };
 
   const t = translations[language] || translations.en;
 
+  const scrollToPathways = () => {
+    const el = document.getElementById('what-brings-you');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="hero" className="relative bg-gradient-to-b from-[#102A43] via-[#0E243A] to-[#0A1926] text-white overflow-hidden pt-12 pb-20 sm:pt-16 sm:pb-28">
+    <section id="hero" className="relative bg-gradient-to-b from-[#102A43] via-[#0E243A] to-[#0A1926] text-white overflow-hidden pt-10 pb-16 sm:pt-14 sm:pb-24">
       {/* Background Indian Jali & Mandala Accents */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 pointer-events-none">
         <IndianJaliPattern className="w-full h-full text-[#35B8A6]/15" />
       </div>
-      <div className="absolute top-0 right-0 w-96 h-96 -mr-20 -mt-20">
+      <div className="absolute top-0 right-0 w-96 h-96 -mr-20 -mt-20 pointer-events-none">
         <MandalaRings className="w-full h-full text-[#0F766E]" />
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Headline and CTAs */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left">
-            {/* Tag Badge */}
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#0F766E]/40 border border-[#35B8A6]/40 text-xs font-semibold text-[#D9F3EC]">
-              <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
-              <span>{t.tag}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#35B8A6]" />
-              <span className="text-slate-300">OpenAI Powered</span>
+        {/* Top Floating Language Switcher Banner */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-8 pb-4 border-b border-white/10">
+          <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#0F766E]/40 border border-[#35B8A6]/40 text-xs font-semibold text-[#D9F3EC]">
+            <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
+            <span>Healthcare AI Built for Bharat</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#35B8A6]" />
+            <span className="text-slate-300">OpenAI Powered</span>
+          </div>
+
+          {/* Quick Multilingual Pill Selector */}
+          <div className="flex items-center space-x-1.5 bg-white/10 backdrop-blur-md p-1 rounded-xl border border-white/15 text-xs font-semibold">
+            <Globe className="w-3.5 h-3.5 text-[#35B8A6] ml-2 mr-1" />
+            {(['en', 'hi', 'mr'] as Language[]).map((code) => {
+              const label = code === 'en' ? 'English' : code === 'hi' ? 'हिंदी' : 'मराठी';
+              const isActive = language === code;
+              return (
+                <button
+                  key={code}
+                  onClick={() => setLanguage(code)}
+                  className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-[#0F766E] text-white shadow-sm font-bold'
+                      : 'text-slate-300 hover:text-white hover:bg-white/10'
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Welcome Greeting, Headline and CTAs */}
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+            {/* 1. Warm Greeting & Hindi Tag */}
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 text-base sm:text-lg font-bold text-[#D9F3EC]">
+                <span>{t.greeting}</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[#35B8A6] font-semibold tracking-wide">
+                {t.hindiSubgreeting}
+              </p>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
-              Better Health Understanding{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#35B8A6] to-[#D9F3EC]">
-                Starts Here.
+            {/* 2. Main Headline */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.2]">
+              {t.headlinePrefix}{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#35B8A6] via-[#2DD4BF] to-[#D9F3EC]">
+                {t.headlineHighlight}
               </span>
             </h1>
 
-            {/* Supporting Text */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            {/* 3. Supporting Text */}
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
               {t.subtext}
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <Link
-                href="/assistant"
-                className="w-full sm:w-auto px-7 py-4 rounded-xl bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] text-white font-bold text-sm tracking-wide shadow-lg shadow-[#0F766E]/30 hover:shadow-[#0F766E]/50 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group cursor-pointer"
+            {/* 4. Action CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-1">
+              {/* Primary: Let's Get Started (smooth scrolls to what brings you here pathways) */}
+              <button
+                onClick={scrollToPathways}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] text-white font-bold text-xs sm:text-sm tracking-wide shadow-lg shadow-[#0F766E]/30 hover:shadow-[#0F766E]/50 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#35B8A6]"
               >
-                <MessageSquareHeart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Compass className="w-4 h-4 group-hover:rotate-45 transition-transform" />
                 <span>{t.primaryCta}</span>
-                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-              </Link>
+                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform text-[#35B8A6]" />
+              </button>
 
-              <a
-                href="#features-overview"
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 text-white font-semibold text-sm border border-white/15 backdrop-blur-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+              {/* Secondary: Meet Your Health Companion (triggers companion welcome modal) */}
+              <button
+                onClick={onOpenCompanion}
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 text-white font-semibold text-xs sm:text-sm border border-white/20 backdrop-blur-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#35B8A6]"
               >
+                <MessageSquareHeart className="w-4 h-4 text-[#35B8A6]" />
                 <span>{t.secondaryCta}</span>
-              </a>
+              </button>
             </div>
 
-            {/* Trust Badges */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-white/10 max-w-xl mx-auto lg:mx-0 text-left">
-              <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
-                <span>Multilingual: EN, HI, MR</span>
-              </div>
-              <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
-                <span>Conservative 112 Safety</span>
-              </div>
-              <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
-                <span>Zero Sensitive Logging</span>
-              </div>
+            {/* 5. Trust Badges */}
+            <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-2.5 border-t border-white/10 max-w-xl mx-auto lg:mx-0 text-left">
+              {t.badges.map((b, i) => (
+                <div key={i} className="flex items-center space-x-2 text-xs text-slate-300">
+                  <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
+                  <span className="truncate">{b}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Column: Abstract AI-Health Visual Card */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Outer decorative glow */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#0F766E] to-[#35B8A6] rounded-3xl blur-xl opacity-30 animate-pulse" />
-
-              {/* Polished Healthcare Startup Visual Card */}
-              <div className="relative rounded-2xl bg-[#0F2236]/90 backdrop-blur-xl border border-[#35B8A6]/20 p-6 shadow-2xl space-y-5">
-                {/* Visual Header */}
-                <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center text-white shadow-md">
-                      <Activity className="w-5 h-5 animate-pulse" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
-                        <span>IMD Health Intelligence</span>
-                        <span className="w-2 h-2 rounded-full bg-[#35B8A6]" />
-                      </h3>
-                      <p className="text-[11px] text-slate-400">Clinical Knowledge Platform</p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#35B8A6]/20 text-[#D9F3EC] border border-[#35B8A6]/40">
-                    Live Demo
-                  </span>
-                </div>
-
-                {/* Simulated AI Assistant Chat Bubble */}
-                <div className="space-y-3 text-xs">
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-slate-300 space-y-1">
-                    <div className="flex items-center justify-between text-[10px] text-slate-400">
-                      <span className="font-semibold text-slate-300">Patient Inquiry</span>
-                      <span>Just now</span>
-                    </div>
-                    <p className="text-white font-medium">
-                      &quot;How do I understand my HbA1c result of 6.2%? Is it diabetes?&quot;
-                    </p>
-                  </div>
-
-                  <div className="bg-[#0F766E]/20 border border-[#35B8A6]/30 rounded-xl p-3.5 space-y-2">
-                    <div className="flex items-center justify-between text-[10px]">
-                      <span className="font-bold text-[#35B8A6] flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" /> IMD Care AI Guide
-                      </span>
-                      <span className="text-slate-400 text-[10px]">Empathetic & Evidence-based</span>
-                    </div>
-                    <p className="text-slate-200 text-xs leading-relaxed">
-                      An HbA1c of <strong>6.2%</strong> falls within the prediabetes interval (5.7% – 6.4%). This is an early window of opportunity where diet, daily walking, and medical guidance can help return blood sugar to normal.
-                    </p>
-                    <div className="flex items-center gap-1.5 pt-1 text-[11px] text-[#D9F3EC] font-semibold">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#35B8A6]" />
-                      <span>Ready with practical questions for your physician</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Interactive Vitals / Metric Ribbon */}
-                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-white/10 text-center">
-                  <div className="bg-white/5 rounded-lg p-2.5">
-                    <span className="text-[10px] text-slate-400 block">Emergency</span>
-                    <span className="text-sm font-bold text-red-400 flex items-center justify-center gap-1">
-                      <PhoneCall className="w-3 h-3" /> 112
-                    </span>
-                  </div>
-                  <div className="bg-white/5 rounded-lg p-2.5">
-                    <span className="text-[10px] text-slate-400 block">Languages</span>
-                    <span className="text-sm font-bold text-[#35B8A6]">EN / HI / MR</span>
-                  </div>
-                  <div className="bg-white/5 rounded-lg p-2.5">
-                    <span className="text-[10px] text-slate-400 block">Verification</span>
-                    <span className="text-sm font-bold text-emerald-300">Synthetic Labs</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Right Column: Interactive Animated Indian Healthcare Companion */}
+          <div className="lg:col-span-5 flex items-center justify-center relative">
+            <IndianHealthCompanion
+              onOpenWelcome={onOpenCompanion}
+              language={language}
+            />
           </div>
         </div>
 

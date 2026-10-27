@@ -1,37 +1,51 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   CalendarCheck,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
-  Droplets,
-  Activity,
-  HeartPulse,
-  Clock,
-  Sparkles
+  CheckCircle2
 } from 'lucide-react';
 import { Hero } from '@/components/Hero';
+import { WhatBringsYouHere } from '@/components/WhatBringsYouHere';
+import { WellnessInspiration } from '@/components/WellnessInspiration';
 import { FeatureHighlights } from '@/components/FeatureHighlights';
+import { CompanionWelcomeModal } from '@/components/CompanionWelcomeModal';
 import { useApp } from '@/context/AppContext';
 
 export default function HomePage() {
-  const { language, openEmergencyModal, openDisclaimerModal } = useApp();
+  const { language, setLanguage, openEmergencyModal, openDisclaimerModal } = useApp();
+  const [companionModalOpen, setCompanionModalOpen] = useState(false);
 
   return (
     <div className="space-y-0">
-      {/* 1. Dark Navy Hero Section */}
+      {/* 1. Indian-Inspired Welcome Hero with Language Switcher & Interactive Mascot */}
       <Hero
         language={language}
+        setLanguage={setLanguage}
         openEmergencyModal={() => openEmergencyModal('Hero National Emergency Triage Request')}
+        onOpenCompanion={() => setCompanionModalOpen(true)}
       />
 
-      {/* 2. Three Compact Feature Cards Linking to Dedicated Pages */}
+      {/* 2. Interactive Welcome Companion Modal Panel */}
+      <CompanionWelcomeModal
+        isOpen={companionModalOpen}
+        onClose={() => setCompanionModalOpen(false)}
+        language={language}
+      />
+
+      {/* 3. Interactive “What Brings You Here Today?” 4-Card Section */}
+      <WhatBringsYouHere language={language} />
+
+      {/* 4. “A Little Health Inspiration” Daily Wellness Card */}
+      <WellnessInspiration language={language} />
+
+      {/* 5. Core Feature Modules Overview */}
       <FeatureHighlights language={language} />
 
-      {/* 3. Small Preventive Care Preview in Soft Mint */}
+      {/* 6. Small Preventive Care Preview in Soft Mint */}
       <section className="py-12 bg-[#E8F7F5] border-t border-[#CDE8E2]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#D9F3EC] rounded-2xl border border-[#CDE8E2] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
@@ -72,7 +86,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Medical Disclaimer Strip */}
+      {/* 7. Medical Disclaimer Strip */}
       <section className="py-8 bg-[#E8F7F5] border-t border-[#CDE8E2]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="p-4 bg-white rounded-xl border border-[#CDE8E2] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#243447] shadow-xs">

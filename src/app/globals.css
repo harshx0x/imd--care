@@ -95,3 +95,55 @@
   animation: pulseDot 1.4s infinite ease-in-out;
   animation-delay: 0.4s;
 }
+
+/* Interactive Health Companion Float & Wave Animations */
+@keyframes companionFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-companion-float {
+  animation: companionFloat 4s ease-in-out infinite;
+}
+
+@keyframes companionWave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-6deg);
+  }
+  60% {
+    transform: rotate(12deg);
+  }
+  80% {
+    transform: rotate(-2deg);
+  }
+}
+
+.animate-companion-wave {
+  transform-origin: 245px 145px;
+  animation: companionWave 2.8s ease-in-out infinite;
+}
+
+@keyframes gentlePulseGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.04);
+  }
+}
+
+.animate-gentle-glow {
+  animation: gentlePulseGlow 4s ease-in-out infinite;
+}
