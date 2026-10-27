@@ -125,7 +125,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
   };
 
   return (
-    <section id="symptoms" className="py-8 sm:py-12 bg-[#E8F7F5]">
+    <section id="symptoms" className="py-8 sm:py-12 bg-[#F8FAFC]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-2">
@@ -309,7 +309,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               >
                 {loading ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <RefreshCw className="w-4 h-4 animate-spin-smooth" />
                     <span>{t.symptoms.loadingCta}</span>
                   </>
                 ) : (
@@ -372,7 +372,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 {/* 4 Organized Guidance Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Card 1: Possible Explanations */}
-                  <div className="bg-white rounded-xl p-5 border border-[#CDE8E2] shadow-xs space-y-3">
+                  <div className="bg-white rounded-xl p-5 border border-[#CDE8E2] shadow-xs space-y-3 card-hover-lift">
                     <div className="flex items-center space-x-2 text-[#0F766E]">
                       <Info className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
@@ -390,7 +390,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   </div>
 
                   {/* Card 2: General Self-Care */}
-                  <div className="bg-white rounded-xl p-5 border border-[#CDE8E2] shadow-xs space-y-3">
+                  <div className="bg-white rounded-xl p-5 border border-[#CDE8E2] shadow-xs space-y-3 card-hover-lift">
                     <div className="flex items-center space-x-2 text-[#35B8A6]">
                       <CheckCircle className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
@@ -408,7 +408,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   </div>
 
                   {/* Card 3: When to Consult a Doctor */}
-                  <div className="bg-white rounded-xl p-5 border border-amber-200 shadow-xs space-y-3">
+                  <div className="bg-white rounded-xl p-5 border border-amber-200 shadow-xs space-y-3 card-hover-lift">
                     <div className="flex items-center space-x-2 text-amber-700">
                       <Clock className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
@@ -426,7 +426,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   </div>
 
                   {/* Card 4: Red Flag Warning Signs */}
-                  <div className="bg-[#FEE2E2]/80 rounded-xl p-5 border border-red-200 shadow-xs space-y-3">
+                  <div className="bg-[#FEE2E2]/80 rounded-xl p-5 border border-red-200 shadow-xs space-y-3 card-hover-lift">
                     <div className="flex items-center space-x-2 text-red-700">
                       <AlertTriangle className="w-4 h-4" />
                       <h4 className="font-bold text-xs uppercase tracking-wider text-red-950">

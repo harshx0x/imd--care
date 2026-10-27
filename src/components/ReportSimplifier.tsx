@@ -421,7 +421,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
   };
 
   return (
-    <section id="reports" className="py-8 sm:py-12 bg-[#E8F7F5] min-h-[70vh]">
+    <section id="reports" className="py-8 sm:py-12 bg-[#F8FAFC] min-h-[70vh]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Hidden native file input */}
         <input
@@ -571,7 +571,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                 >
                   {extractLoading ? (
                     <>
-                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <RefreshCw className="w-4 h-4 animate-spin-smooth" />
                       <span>{t.reports.analyzingBtn}</span>
                     </>
                   ) : (
@@ -1010,7 +1010,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                       disabled={extractLoading}
                       className="px-4 py-2 bg-[#0F766E] hover:bg-[#0D655F] text-white font-bold text-xs rounded-xl shadow-xs transition btn-interactive cursor-pointer flex items-center gap-1.5"
                     >
-                      <RefreshCw className={`w-3.5 h-3.5 ${extractLoading ? 'animate-spin' : ''}`} />
+                      <RefreshCw className={`w-3.5 h-3.5 ${extractLoading ? 'animate-spin-smooth' : ''}`} />
                       <span>{t.reports.backToReviewBtn}</span>
                     </button>
                   </div>

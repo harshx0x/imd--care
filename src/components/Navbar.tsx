@@ -1,234 +1,290 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   HeartPulse,
-  Globe,
   PhoneCall,
   Menu,
   X,
-  ShieldCheck,
-  ChevronDown
+  LogIn,
+  LogOut,
+  Home,
+  MessageSquareHeart,
+  Stethoscope,
+  FileSpreadsheet,
+  CalendarCheck
 } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 import { Language } from '@/lib/types';
+import { APP_TRANSLATIONS } from '@/lib/translations/app';
 
-interface NavbarProps {
-  activeSection: string;
-  setActiveSection: (section: string) => void;
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  openEmergencyModal: () => void;
-  openDisclaimerModal: () => void;
-  isDemoMode: boolean;
-}
+export function Navbar() {
+  const pathname = usePathname();
+  const {
+    language,
+    setLanguage,
+    openEmergencyModal,
+    user,
+    signOut
+  } = useApp();
 
-export function Navbar({
-  activeSection,
-  setActiveSection,
-  language,
-  setLanguage,
-  openEmergencyModal,
-  openDisclaimerModal,
-  isDemoMode
-}: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
-  const navItems = [
-    { id: 'assistant', label: language === 'hi' ? 'AI सहायक' : language === 'mr' ? 'AI सहाय्यक' : 'AI Assistant' },
-    { id: 'symptoms', label: language === 'hi' ? 'लक्षण मार्गदर्शन' : language === 'mr' ? 'लक्षण मार्गदर्शन' : 'Symptom Guidance' },
-    { id: 'reports', label: language === 'hi' ? 'रिपोर्ट सरलीकरण' : language === 'mr' ? 'रिपोर्ट विश्लेषण' : 'Report Simplifier' },
-    { id: 'preventive', label: language === 'hi' ? 'निवारक देखभाल' : language === 'mr' ? 'प्रतिबंधक काळजी' : 'Preventive Care' }
+  const languages: { code: Language; label: string }[] = [
+    { code: 'en', label: 'EN' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'mr', label: 'मराठी' }
   ];
 
-  const languages: { code: Language; name: string; native: string }[] = [
-    { code: 'en', name: 'English', native: 'English' },
-    { code: 'hi', name: 'Hindi', native: 'हिंदी' },
-    { code: 'mr', name: 'Marathi', native: 'मराठी' }
+  const navLinks = [
+    { href: '/', label: t.nav.home, icon: Home },
+    { href: '/assistant', label: t.nav.assistant, icon: MessageSquareHeart },
+    { href: '/symptoms', label: t.nav.symptoms, icon: Stethoscope },
+    { href: '/reports', label: t.nav.reports, icon: FileSpreadsheet },
+    { href: '/preventive-care', label: t.nav.preventive, icon: CalendarCheck }
   ];
 
-  const handleNavClick = (id: string) => {
-    setActiveSection(id);
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  }
+
+  const isLinkActive = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
   };
 
-  const currentLangObj = languages.find((l) => l.code === language) || languages[0];
-
   return (
-    <header className="sticky top-0 z-40 bg-[#102A43]/95 backdrop-blur-md border-b border-white/10 text-white transition-all">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Logo & Brand */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleNavClick('hero')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] flex items-center justify-center shadow-lg shadow-[#0F766E]/20 text-white border border-[#DDF5EF]/30">
-              <HeartPulse className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-xl tracking-tight text-white">IMD Care</span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#0F766E]/50 text-[#DDF5EF] border border-[#2DD4BF]/30">
-                  AI Health
-                </span>
-              </div>
-              <span className="text-[11px] text-[#DDF5EF]/80 font-medium block">
-                Better Health Understanding
-              </span>
-            </div>
+    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-3 pb-2 transition-all">
+      {/* Floating Smooth Curved Navbar Container */}
+      <nav
+        aria-label="Primary Navigation"
+        className="max-w-7xl mx-auto bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xs shadow-slate-900/5 px-4 sm:px-6 h-16 flex items-center justify-between transition-all"
+      >
+        {/* Brand Logo & Name */}
+        <Link
+          href="/"
+          className="flex items-center space-x-2.5 group focus:outline-none focus:ring-2 focus:ring-[#0F766E]/40 rounded-xl py-1 pr-2 transition-transform"
+        >
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] flex items-center justify-center text-white shadow-sm shadow-[#0F766E]/25 group-hover:scale-105 transition-transform">
+            <HeartPulse className="w-5 h-5 text-white" />
           </div>
+          <span className="font-bold text-lg tracking-tight text-[#102A43] antialiased">
+            IMD Care
+          </span>
+        </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id;
+        {/* Center: Desktop Navigation Links */}
+        <div className="hidden lg:flex items-center space-x-1">
+          {navLinks.map((item) => {
+            const active = isLinkActive(item.href);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 ease-out ${
+                  active
+                    ? 'bg-[#0F766E]/10 text-[#0F766E] font-semibold shadow-xs'
+                    : 'text-slate-600 hover:text-[#102A43] hover:bg-slate-100/70 hover:-translate-y-0.5 active:translate-y-0'
+                }`}
+                aria-current={active ? 'page' : undefined}
+              >
+                <Icon className={`w-4 h-4 ${active ? 'text-[#0F766E]' : 'text-slate-400'}`} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Right Controls: Segmented Language Switcher, 112 Emergency Pill, Sign In / Profile */}
+        <div className="hidden sm:flex items-center space-x-2.5">
+          {/* Smooth Segmented Language Switcher (Curved Pill) */}
+          <div className="flex items-center p-1 bg-slate-100/90 rounded-full border border-slate-200 text-xs font-semibold">
+            {languages.map((l) => {
+              const active = language === l.code;
               return (
                 <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-all ${
-                    isActive
-                      ? 'bg-[#0F766E] text-white shadow-sm'
-                      : 'text-slate-200 hover:text-white hover:bg-white/10'
+                  key={l.code}
+                  type="button"
+                  onClick={() => setLanguage(l.code)}
+                  className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                    active
+                      ? 'bg-white text-[#0F766E] shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-[#102A43]'
+                  }`}
+                  aria-pressed={active}
+                >
+                  {l.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Emergency 112 Curved Pill */}
+          <button
+            type="button"
+            onClick={() => openEmergencyModal('Navbar 112 emergency click')}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 active:bg-rose-200 text-rose-700 text-xs font-semibold transition-all border border-rose-200/80 shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-rose-400"
+            title="Dial 112 National Emergency"
+          >
+            <span className="flex h-2 w-2 rounded-full bg-rose-600 animate-pulse" />
+            <PhoneCall className="w-3.5 h-3.5 text-rose-600" />
+            <span>112</span>
+          </button>
+
+          {/* Sign In / User Profile */}
+          {user ? (
+            <div className="flex items-center space-x-2 pl-1">
+              <div className="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-full text-xs font-medium text-slate-700">
+                <div className="w-5 h-5 rounded-full bg-[#0F766E] text-white flex items-center justify-center font-bold text-[10px]">
+                  {user.user_metadata?.full_name?.[0] || user.email?.[0] || 'U'}
+                </div>
+                <span className="max-w-[100px] truncate">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => signOut()}
+                  className="text-slate-400 hover:text-rose-600 ml-1 transition cursor-pointer"
+                  title={t.nav.signOut}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center space-x-1.5 px-4 py-1.5 rounded-full bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] text-white font-semibold text-xs transition-all shadow-xs hover:shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>{t.nav.signInRegister}</span>
+            </Link>
+          )}
+        </div>
+
+        {/* Mobile Controls: Quick Language Switcher & Hamburger */}
+        <div className="flex items-center space-x-2 sm:hidden">
+          {/* Quick Language Toggle Pill */}
+          <button
+            type="button"
+            onClick={() => {
+              const next: Language = language === 'en' ? 'hi' : language === 'hi' ? 'mr' : 'en';
+              setLanguage(next);
+            }}
+            className="px-2.5 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 border border-slate-200"
+          >
+            {language === 'en' ? 'EN' : language === 'hi' ? 'हिंदी' : 'मराठी'}
+          </button>
+
+          {/* Emergency 112 Icon */}
+          <button
+            type="button"
+            onClick={() => openEmergencyModal('Mobile 112 click')}
+            className="p-1.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200"
+            aria-label="Call 112"
+          >
+            <PhoneCall className="w-4 h-4 text-rose-600" />
+          </button>
+
+          {/* Hamburger Menu Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Box with Smooth Curved Edges */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden mt-2 max-w-7xl mx-auto bg-white/98 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+          {/* Nav Links */}
+          <nav className="space-y-1">
+            {navLinks.map((item) => {
+              const active = isLinkActive(item.href);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition ${
+                    active
+                      ? 'bg-[#0F766E]/10 text-[#0F766E] font-semibold'
+                      : 'text-slate-700 hover:bg-slate-50'
                   }`}
                 >
-                  {item.label}
-                </button>
+                  <Icon className={`w-4 h-4 ${active ? 'text-[#0F766E]' : 'text-slate-400'}`} />
+                  <span>{item.label}</span>
+                </Link>
               );
             })}
           </nav>
 
-          {/* Right Action Group */}
-          <div className="hidden sm:flex items-center space-x-3">
-            {/* Status Pill */}
-            <div
-              className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
-                isDemoMode
-                  ? 'bg-amber-500/10 border-amber-400/30 text-amber-300'
-                  : 'bg-emerald-500/10 border-emerald-400/30 text-emerald-300'
-              }`}
-              title={isDemoMode ? 'Running in Offline Demo Mode with pre-vetted synthetic clinical data' : 'Connected to OpenAI API'}
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  isDemoMode ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400'
-                }`}
-              />
-              <span>{isDemoMode ? 'Demo Mode' : 'OpenAI Live'}</span>
-            </div>
-
-            {/* Language Selector */}
-            <div className="relative">
-              <button
-                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-xs font-semibold text-slate-100 transition border border-white/10"
-                aria-expanded={langDropdownOpen}
-              >
-                <Globe className="w-3.5 h-3.5 text-[#2DD4BF]" />
-                <span>{currentLangObj.native}</span>
-                <ChevronDown className="w-3 h-3 text-slate-300" />
-              </button>
-
-              {langDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-36 rounded-xl bg-white text-slate-800 shadow-xl border border-slate-100 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  {languages.map((l) => (
-                    <button
-                      key={l.code}
-                      onClick={() => {
-                        setLanguage(l.code);
-                        setLangDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-2 text-xs font-medium flex items-center justify-between hover:bg-[#DDF5EF]/50 transition ${
-                        language === l.code ? 'text-[#0F766E] font-bold bg-[#DDF5EF]/30' : 'text-slate-700'
-                      }`}
-                    >
-                      <span>{l.native}</span>
-                      <span className="text-[10px] text-slate-400">{l.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Emergency 112 CTA */}
-            <button
-              onClick={openEmergencyModal}
-              className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs font-bold rounded-lg transition shadow-md shadow-red-900/30 border border-red-400/40"
-            >
-              <PhoneCall className="w-3.5 h-3.5 animate-bounce" />
-              <span>112 Emergency</span>
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-2 sm:hidden">
-            <button
-              onClick={openEmergencyModal}
-              className="px-2.5 py-1 bg-red-600 text-white text-xs font-bold rounded-md flex items-center space-x-1"
-            >
-              <PhoneCall className="w-3 h-3" />
-              <span>112</span>
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="sm:hidden border-t border-white/10 bg-[#0A1926] px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-150">
-          <div className="flex items-center justify-between pb-2 border-b border-white/10">
-            <span className="text-xs text-slate-400">Language:</span>
-            <div className="flex space-x-1">
+          {/* Language Selector */}
+          <div className="pt-2 border-t border-slate-100">
+            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl">
               {languages.map((l) => (
                 <button
                   key={l.code}
+                  type="button"
                   onClick={() => setLanguage(l.code)}
-                  className={`px-2 py-1 rounded text-xs font-semibold ${
-                    language === l.code ? 'bg-[#0F766E] text-white' : 'bg-white/10 text-slate-300'
+                  className={`py-1.5 rounded-lg text-xs font-semibold text-center transition ${
+                    language === l.code
+                      ? 'bg-white text-[#0F766E] shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  {l.native}
+                  {l.label}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="space-y-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium ${
-                  activeSection === item.id
-                    ? 'bg-[#0F766E] text-white'
-                    : 'text-slate-200 hover:bg-white/5'
-                }`}
+          {/* User Profile / Sign In */}
+          <div className="pt-2 border-t border-slate-100">
+            {user ? (
+              <div className="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+                <div className="flex items-center space-x-2 min-w-0">
+                  <div className="w-7 h-7 rounded-full bg-[#0F766E] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    {user.user_metadata?.full_name?.[0] || user.email?.[0] || 'U'}
+                  </div>
+                  <div className="truncate text-xs">
+                    <p className="font-semibold text-slate-800 truncate">{user.user_metadata?.full_name || 'Member'}</p>
+                    <p className="text-[11px] text-slate-500 truncate">{user.email}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    signOut();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="px-2.5 py-1 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                >
+                  {t.nav.signOut}
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-[#0F766E] text-white font-semibold text-xs rounded-xl shadow-xs"
               >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="pt-2 flex flex-col space-y-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                openDisclaimerModal();
-              }}
-              className="text-xs text-slate-300 hover:text-white text-left px-3 py-1 flex items-center gap-1.5"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#2DD4BF]" />
-              <span>Medical Safety & Privacy Notice</span>
-            </button>
+                <LogIn className="w-4 h-4" />
+                <span>{t.nav.signInRegister}</span>
+              </Link>
+            )}
           </div>
         </div>
       )}

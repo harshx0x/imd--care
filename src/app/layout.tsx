@@ -5,7 +5,7 @@ import { AppShell } from "@/components/AppShell";
 export const metadata: Metadata = {
   title: "IMD Care — Intelligent Medical & Health Guidance",
   description:
-    "Better Health Understanding Starts Here. Understand symptoms, simplify medical reports, and make informed healthcare decisions with AI-powered guidance.",
+    "Your Health. Better Understood. Simplify health questions, analyze lab reports, evaluate symptoms, and discover preventive health guidance.",
 };
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full scroll-smooth">
-      <body className="min-h-full flex flex-col bg-[#E8F7F5] text-[#243447] antialiased selection:bg-[#0F766E]/20 selection:text-[#0F766E]">
+      <body className="min-h-full flex flex-col bg-[#F8FAFC] text-[#102A43] antialiased selection:bg-[#0F766E]/20 selection:text-[#0F766E]">
         <AppShell>{children}</AppShell>
       </body>
     </html>

@@ -215,7 +215,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
   };
 
   return (
-    <section id="preventive" className="py-16 sm:py-20 bg-[#E8F7F5] border-t border-[#CDE8E2]">
+    <section id="preventive" className="py-16 sm:py-20 bg-[#F8FAFC]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
@@ -369,7 +369,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   return (
                     <div
                       key={r.id}
-                      className={`p-3.5 rounded-xl border transition flex items-center justify-between gap-3 ${
+                      className={`p-3.5 rounded-xl border transition flex items-center justify-between gap-3 card-hover-lift ${
                         r.completed
                           ? 'bg-[#E8F7F5]/40 border-[#CDE8E2] opacity-60'
                           : 'bg-white border-[#CDE8E2] hover:border-[#35B8A6] shadow-xs'

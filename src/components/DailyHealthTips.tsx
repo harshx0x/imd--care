@@ -167,7 +167,7 @@ export function DailyHealthTips({
               aria-label={tUI.nextTipBtn[language]}
               className="p-1.5 rounded-lg bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2] transition cursor-pointer btn-interactive"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isChanging ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isChanging ? 'animate-spin-smooth' : ''}`} />
             </button>
           </div>
         </div>
@@ -254,7 +254,7 @@ export function DailyHealthTips({
                 onClick={handleNextTip}
                 className="inline-flex items-center space-x-2 px-4 py-2 bg-[#0F766E] hover:bg-[#0D655F] text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm transition btn-interactive cursor-pointer"
               >
-                <RefreshCw className={`w-3.5 h-3.5 ${isChanging ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-3.5 h-3.5 ${isChanging ? 'animate-spin-smooth' : ''}`} />
                 <span>{tUI.nextTipBtn[language]}</span>
               </button>
             </div>
@@ -304,14 +304,14 @@ export function DailyHealthTips({
   /* VARIANT 3: FEATURED (Prominent Homepage Section)                          */
   /* ========================================================================= */
   return (
-    <section className={`py-10 bg-[#E8F7F5] border-t border-[#CDE8E2] ${className}`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl border border-[#CDE8E2] p-6 sm:p-8 md:p-10 shadow-sm relative overflow-hidden card-hover-lift">
+    <section className={`py-16 bg-[#F8FAFC] border-t border-slate-200/80 ${className}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 md:p-10 shadow-sm relative overflow-hidden card-hover-lift reveal-on-scroll">
           {/* Subtle Background Aqua/Mint Gradient Accents */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#35B8A6]/15 via-[#0F766E]/5 to-transparent rounded-full pointer-events-none" />
 
           {/* Top Bar: Badge, Category, Counter, and Next Tip Button */}
-          <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#CDE8E2]">
+          <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div className="flex items-center space-x-4">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center text-white shadow-md border border-[#D9F3EC]/50 shrink-0">
                 {renderTipIcon(activeTip.icon, 'w-7 h-7 text-white')}

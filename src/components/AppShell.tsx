@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { AppProvider, useApp } from '@/context/AppContext';
-import { Sidebar } from './Sidebar';
-import { TopNav } from './TopNav';
+import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { EmergencyModal } from './EmergencyModal';
 import { DisclaimerModal } from './DisclaimerModal';
 import { PageTransition } from './PageTransition';
+import { ScrollRevealInit } from './ScrollRevealInit';
 
 function AppLayoutInner({ children }: { children: React.ReactNode }) {
   const {
@@ -22,29 +22,23 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex bg-[#E8F7F5] text-[#243447] overflow-x-hidden">
-      {/* Persistent Desktop Sidebar */}
-      <Sidebar />
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#102A43] overflow-x-hidden">
+      {/* Polished Unified Navigation Bar */}
+      <Navbar />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
-        {/* Minimal Clean Top Bar */}
-        <TopNav />
+      {/* Dynamic Page Content with smooth route transitions and generous whitespace */}
+      <main className="flex-1 min-w-0">
+        <PageTransition>
+          {children}
+        </PageTransition>
+      </main>
 
-        {/* Dynamic Page Content — scrolls naturally with smooth page route transition */}
-        <main className="flex-1 min-w-0">
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </main>
-
-        {/* Global Consistent Footer */}
-        <Footer
-          language={language}
-          openEmergencyModal={() => openEmergencyModal('Footer emergency call link')}
-          openDisclaimerModal={openDisclaimerModal}
-        />
-      </div>
+      {/* Global Consistent Footer */}
+      <Footer
+        language={language}
+        openEmergencyModal={() => openEmergencyModal('Footer emergency call link')}
+        openDisclaimerModal={openDisclaimerModal}
+      />
 
       {/* Global Modals */}
       <EmergencyModal
@@ -57,6 +51,8 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
         isOpen={disclaimerModalOpen}
         onClose={closeDisclaimerModal}
       />
+
+      <ScrollRevealInit />
     </div>
   );
 }

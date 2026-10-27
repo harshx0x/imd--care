@@ -188,7 +188,7 @@ export function HealthAssistant({
   };
 
   return (
-    <section id="assistant" className="py-8 sm:py-12 bg-[#E8F7F5]">
+    <section id="assistant" className="py-8 sm:py-12 bg-[#F8FAFC]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">

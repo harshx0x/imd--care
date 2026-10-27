@@ -1,5 +1,5 @@
 # IMD Care — Intelligent Medical & Health Guidance
-> **Better Health Understanding Starts Here.**  
+> **Your Health. Better Understood.**  
 > *A responsive, culturally nuanced AI healthcare web application built for the Healthcare Hackathon.*
 
 ---

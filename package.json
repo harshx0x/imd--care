@@ -7,6 +7,9 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "test": "node tests/test-rag-pipeline.js && node tests/test-backend-security.js",
+    "test:security": "node tests/test-backend-security.js",
+    "test:benchmark": "node tests/run-accuracy-benchmarks.js",
     "seed:rag": "node scripts/seed-rag.js"
   },
   "dependencies": {

@@ -32,9 +32,9 @@ export function Footer({
         <IndianJaliPattern className="w-full h-full text-[#35B8A6]/15" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Top Emergency Highlight Banner */}
-        <div className="bg-[#0A1926]/90 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
+        <div className="bg-[#0A1926]/90 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg reveal-on-scroll">
           <div className="flex items-center space-x-4 text-center md:text-left">
             <div className="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-900/40">
               <PhoneCall className="w-6 h-6 animate-pulse" />

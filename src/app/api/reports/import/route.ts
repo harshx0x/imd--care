@@ -12,6 +12,9 @@ import {
   ExtractedReportData,
   Language
 } from '@/lib/types';
+import { checkRateLimit } from '@/lib/security/rate-limiter';
+import { validateFileMagicBytes } from '@/lib/security/input-validator';
+import { metricsTracker } from '@/lib/monitoring/metrics-tracker';
 
 // Max file size: 10 MB
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -19,13 +22,27 @@ const ALLOWED_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image
 const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png'];
 
 export async function POST(req: NextRequest) {
+  const start = Date.now();
+
+  // Rate Limiting
+  const rateCheck = checkRateLimit(req, 'reports');
+  if (!rateCheck.allowed) {
+    metricsTracker.recordRequest('/api/reports/import', 'POST', 429, Date.now() - start);
+    return NextResponse.json(
+      { error: 'Too many report upload requests. Please wait a moment.', retryAfter: rateCheck.resetInSeconds },
+      { status: 429, headers: { 'Retry-After': String(rateCheck.resetInSeconds) } }
+    );
+  }
+
   try {
     const contentType = req.headers.get('content-type') || '';
 
     // Check if this is a JSON request for the explanation step
     if (contentType.includes('application/json')) {
       const body = await req.json();
-      return handleExplainRequest(body);
+      const res = await handleExplainRequest(body);
+      metricsTracker.recordRequest('/api/reports/import', 'POST', res.status, Date.now() - start);
+      return res;
     }
 
     // Otherwise, handle multipart/form-data
@@ -102,7 +119,16 @@ export async function POST(req: NextRequest) {
     // 4. Read File in Memory (Zero Permanent Storage)
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const isPdf = lowerName.endsWith('.pdf') || file.type === 'application/pdf';
+
+    // Cryptographic Magic Byte Signature Verification
+    const magicCheck = validateFileMagicBytes(buffer);
+    if (!magicCheck.valid) {
+      metricsTracker.recordReportProcessed('pdf_text_structured', true);
+      metricsTracker.recordRequest('/api/reports/import', 'POST', 400, Date.now() - start);
+      return NextResponse.json({ error: magicCheck.error || 'Invalid file content.' }, { status: 400 });
+    }
+
+    const isPdf = magicCheck.fileType === 'pdf';
 
     let extractedText = '';
     let extractionMethod: 'pdf_text_structured' | 'ocr_tesseract' | 'vision_multimodal' = 'pdf_text_structured';
@@ -335,6 +361,11 @@ OUTPUT JSON FORMAT ONLY:
     parsedData.extractionMethod = extractionMethod;
     parsedData.language = language;
 
+    metricsTracker.recordReportProcessed(
+      extractionMethod === 'ocr_tesseract' ? 'ocr_tesseract' : 'pdf_text_structured'
+    );
+    metricsTracker.recordRequest('/api/reports/import', 'POST', 200, Date.now() - start);
+
     // If caller requested extraction-only (the Review step)
     if (action === 'extract') {
       return NextResponse.json(parsedData);
@@ -352,6 +383,7 @@ OUTPUT JSON FORMAT ONLY:
     return NextResponse.json(fullAnalysis);
   } catch (err: unknown) {
     console.error('Import report endpoint error:', err);
+    metricsTracker.recordRequest('/api/reports/import', 'POST', 500, Date.now() - start);
     return NextResponse.json(
       {
         error: 'An unexpected error occurred while processing the uploaded lab report. Please try again.'

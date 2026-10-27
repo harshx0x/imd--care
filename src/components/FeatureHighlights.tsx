@@ -6,6 +6,7 @@ import {
   MessageSquareHeart,
   Stethoscope,
   FileSpreadsheet,
+  CalendarCheck,
   ArrowRight,
   CheckCircle,
   Sparkles
@@ -17,200 +18,237 @@ interface FeatureHighlightsProps {
 }
 
 export function FeatureHighlights({ language }: FeatureHighlightsProps) {
-  const translations = {
+  const content = {
     en: {
-      sectionBadge: 'Core Intelligence Modules',
-      sectionTitle: 'Complete Health Understanding Suite',
-      sectionSubtitle: 'Designed to bridge the communication gap between patients and modern clinical care.',
+      badge: 'Core Platform Features',
+      title: 'Four Core Healthcare Capabilities',
+      subtitle:
+        'Designed to address the real-world healthcare literacy challenge: clear answers, responsible symptom evaluation, diagnostic report clarity, and everyday wellness.',
       cards: [
         {
           id: 'assistant',
           href: '/assistant',
           icon: MessageSquareHeart,
+          badge: 'Context-Aware AI',
           title: 'AI Health Assistant',
-          badge: 'Multilingual Conversational AI',
           description:
-            'Engage in culturally aware, empathetic health conversations in English, Hindi, and Marathi. Get clear explanations for lifestyle, preventive wellness, and everyday health questions.',
-          highlights: ['English, Hindi & Marathi', 'Evidence-based explanations', 'Clear medical boundaries'],
-          actionText: 'Open Health Assistant'
+            'Ask health questions and receive clear, understandable answers without repetitive introductions. Supports follow-up questions with verified medical citations.',
+          highlights: ['English, Hindi & Marathi', 'No repetitive canned intros', 'Verified clinical references'],
+          actionText: 'Ask a Question'
         },
         {
           id: 'symptoms',
           href: '/symptoms',
           icon: Stethoscope,
-          badge: 'Conservative 112 Triage',
+          badge: 'Responsible Triage',
           title: 'Smart Symptom Guidance',
           description:
-            'Review non-emergency health discomfort with duration and severity evaluation. Organizes findings into possible causes, self-care, doctor consult timelines, and red-flag alerts.',
-          highlights: ['Conservative emergency rules', 'When to see a physician', 'No dangerous self-prescription'],
-          actionText: 'Start Symptom Intake'
+            'Enter symptoms, duration, and details. Receive possible explanations, general self-care, doctor visit timelines, and red-flag warnings without a fake diagnosis.',
+          highlights: ['Possible explanations', 'Clear warning red flags', 'Never a confirmed diagnosis'],
+          actionText: 'Check Symptoms'
         },
         {
           id: 'reports',
           href: '/reports',
           icon: FileSpreadsheet,
-          badge: 'Synthetic Lab Clarifier',
+          badge: 'PDF / Image OCR',
           title: 'Medical Report Simplifier',
           description:
-            'Transform complex laboratory biomarkers into easy-to-understand plain language. Review synthetic test panels (CBC, HbA1c, Lipid, TSH) and prepare empowered questions for your doctor.',
-          highlights: ['Synthetic sample panels', 'Reference range breakdown', 'Questions for doctor visit'],
-          actionText: 'Simplify Lab Report'
+            'Upload laboratory test reports in PDF, JPG, or PNG up to 10 MB. Extracts test values, units, and reference ranges; flags uncertain results; and never invents missing data.',
+          highlights: ['PDF, JPG & PNG up to 10 MB', 'Highlights values outside range', 'Empowering doctor questions'],
+          actionText: 'Understand a Lab Report'
+        },
+        {
+          id: 'preventive',
+          href: '/preventive-care',
+          icon: CalendarCheck,
+          badge: 'Daily Wellness',
+          title: 'Preventive Care',
+          description:
+            'Interactive daily health tips, hydration guidance, sleep advice, physical activity suggestions, and habit reminders with tip rotation on refresh.',
+          highlights: ['Hydration & sleep guidance', 'Interactive Next Tip button', 'Private browser storage'],
+          actionText: 'Explore Preventive Care'
         }
       ]
     },
     hi: {
-      sectionBadge: 'मुख्य स्वास्थ्य मॉड्यूल',
-      sectionTitle: 'संपूर्ण स्वास्थ्य समझ और साक्षरता',
-      sectionSubtitle: 'मरीजों और आधुनिक चिकित्सा देखभाल के बीच भाषा और समझ की दूरी को पाटने के लिए निर्मित।',
+      badge: 'मुख्य मंच सुविधाएं',
+      title: 'चार मुख्य स्वास्थ्य क्षमताएं',
+      subtitle:
+        'स्वास्थ्य समझ की वास्तविक चुनौतियों का समाधान: सरल उत्तर, जिम्मेदार लक्षण समीक्षा, रिपोर्ट स्पष्टता और दैनिक स्वास्थ्य देखभाल।',
       cards: [
         {
           id: 'assistant',
           href: '/assistant',
           icon: MessageSquareHeart,
-          badge: 'बहुभाषी स्वास्थ्य AI',
-          title: 'एआई स्वास्थ्य सहायक',
+          badge: 'संदर्भ-सचेत AI',
+          title: 'AI स्वास्थ्य सहायक',
           description:
-            'अंग्रेजी, हिंदी और मराठी में स्वास्थ्य संबंधी प्रश्न पूछें। जीवनशैली, निवारक स्वास्थ्य और घरेलू प्राथमिक देखभाल पर स्पष्ट, विश्वसनीय उत्तर प्राप्त करें।',
-          highlights: ['अंग्रेजी, हिंदी व मराठी में उपलब्ध', 'प्रमाण-आधारित सरल मार्गदर्शन', 'सुरक्षित प्राथमिक सलाह'],
-          actionText: 'सहायक से पूछें'
+            'स्वास्थ्य संबंधी प्रश्न पूछें और बिना किसी दोहराव वाली भूमिका के सीधे, स्पष्ट उत्तर प्राप्त करें। सत्यापित संदर्भों के साथ फॉलो-अप प्रश्नों का समर्थन करता है।',
+          highlights: ['अंग्रेजी, हिंदी और मराठी', 'सीधे और स्पष्ट उत्तर', 'सत्यापित संदर्भ व दिशानिर्देश'],
+          actionText: 'प्रश्न पूछें'
         },
         {
           id: 'symptoms',
           href: '/symptoms',
           icon: Stethoscope,
-          badge: 'सुरक्षित 112 ट्राइएज',
-          title: 'लक्षण संबंधी मार्गदर्शन',
+          badge: 'जिम्मेदार ट्राइएज',
+          title: 'स्मार्ट लक्षण मार्गदर्शन',
           description:
-            'लक्षणों की अवधि और गंभीरता के आधार पर संभावित कारणों, घरेलू देखभाल और डॉक्टर से कब मिलना चाहिए, इसकी व्यवस्थित जानकारी प्राप्त करें।',
-          highlights: ['आपातकालीन सुरक्षा फिल्टर', 'डॉक्टर परामर्श की समय-सीमा', 'स्व-दवा से सुरक्षा'],
+            'लक्षण, अवधि और विवरण दर्ज करें। बिना किसी नकली निदान के संभावित कारणों, घरेलू देखभाल, डॉक्टर से मिलने का समय और चेतावनी संकेतों को समझें।',
+          highlights: ['संभावित स्वास्थ्य कारण', 'स्पष्ट चेतावनी संकेत (Red Flags)', 'स्व-दवा से पूर्ण सुरक्षा'],
           actionText: 'लक्षण जांचें'
         },
         {
           id: 'reports',
           href: '/reports',
           icon: FileSpreadsheet,
-          badge: 'लैब रिपोर्ट सरलीकरण',
-          title: 'मेडिकल रिपोर्ट को सरल भाषा में समझें',
+          badge: 'PDF / इमेज OCR',
+          title: 'मेडिकल रिपोर्ट सरलीकरण',
           description:
-            'जटिल लैब टेस्टों (CBC, HbA1c, थायरॉइड, लिपिड) को सरल हिंदी में समझें और अगली डॉक्टर विजिट के लिए महत्वपूर्ण प्रश्न तैयार करें।',
-          highlights: ['सिंथेटिक डेमो टेस्ट उपलब्ध', 'संदर्भ सीमा की तुलना', 'डॉक्टर से पूछने योग्य सवाल'],
-          actionText: 'रिपोर्ट समझें'
+            'PDF, JPG या PNG में 10 MB तक की लैब रिपोर्ट अपलोड करें। मान, इकाइयां और सामान्य सीमाएं निकालें, असामान्य मानों को हाइलाइट करें और लापता मान कभी न गढ़ें।',
+          highlights: ['10 MB तक PDF, JPG, PNG', 'संदर्भ सीमा से बाहर मान हाइलाइट', 'डॉक्टर से पूछने योग्य प्रश्न'],
+          actionText: 'लैब रिपोर्ट समझें'
+        },
+        {
+          id: 'preventive',
+          href: '/preventive-care',
+          icon: CalendarCheck,
+          badge: 'दैनिक कल्याण',
+          title: 'निवारक देखभाल',
+          description:
+            'उपयोगी स्वास्थ्य सुझाव, हाइड्रेशन मार्गदर्शन, नींद की सलाह, शारीरिक गतिविधि सुझाव और रिफ्रेश पर घूमने वाले सुझावों के साथ दैनिक दिनचर्या।',
+          highlights: ['जल और नींद का मार्गदर्शन', 'नेक्स्ट टिप (Next Tip) बटन', 'निजी ब्राउज़र मेमोरी'],
+          actionText: 'निवारक देखभाल देखें'
         }
       ]
     },
     mr: {
-      sectionBadge: 'प्रमुख आरोग्य मॉड्यूल्स',
-      sectionTitle: 'आरोग्य साक्षरतेची संपूर्ण प्रणाली',
-      sectionSubtitle: 'वैद्यकीय माहिती समजण्यास सोपी बनवण्यासाठी विशेष रचना.',
+      badge: 'मुख्य व्यासपीठ वैशिष्ट्ये',
+      title: 'चार मुख्य आरोग्य क्षमता',
+      subtitle:
+        'आरोग्य साक्षरतेच्या आव्हानांवर मात: स्पष्ट उत्तरे, जबाबदार लक्षण मूल्यमापन, लॅब रिपोर्ट सुलभता आणि प्रतिबंधक काळजी.',
       cards: [
         {
           id: 'assistant',
           href: '/assistant',
           icon: MessageSquareHeart,
-          badge: 'बहुभाषिक AI सहाय्यक',
-          title: 'एआई आरोग्य सहाय्यक',
+          badge: 'संदर्भ-सजग AI',
+          title: 'AI आरोग्य सहाय्यक',
           description:
-            'मराठी, हिंदी आणि इंग्रजीमध्ये आरोग्यविषयक शंकांचे निरसन करा. दैनंदिन आरोग्य आणि जीवनशैलीबद्दल विश्वासार्ह माहिती मिळवा.',
-          highlights: ['मराठी भाषेचा पूर्ण पाठिंबा', 'सोपे आणि शास्त्रीय मार्गदर्शन', 'सुरक्षित माहिती'],
-          actionText: 'संभाषण सुरू करा'
+            'आरोग्यविषयक प्रश्न विचारा आणि वारंवार प्रास्ताविक न येता थेट स्पष्ट उत्तरे मिळवा. पुराव्यांसह पुढील प्रश्नांचे अचूक निरसन करते.',
+          highlights: ['इंग्रजी, हिंदी व मराठी', 'थेट आणि मुद्देसूद उत्तरे', 'सत्यापित वैद्यकीय संदर्भ'],
+          actionText: 'प्रश्न विचारा'
         },
         {
           id: 'symptoms',
           href: '/symptoms',
           icon: Stethoscope,
-          badge: 'तातडीचे ११२ ट्रायज',
-          title: 'लक्षणांबाबत मार्गदर्शन',
+          badge: 'जबाबदार मूल्यमापन',
+          title: 'स्मार्ट लक्षण मार्गदर्शन',
           description:
-            'लक्षणे, त्यांचा कालावधी आणि तीव्रता नोंदवून संभाव्य कारणे, घरगुती काळजी आणि डॉक्टरांचा सल्ला कधी घ्यावा हे समजून घ्या.',
-          highlights: ['आणीबाणी सुरक्षा नियम', 'डॉक्टरांच्या सल्ल्याची वेळ', 'कोणतेही परस्पर औषध नाही'],
+            'लक्षणे, कालावधी आणि माहिती प्रविष्ट करा. अंतिम रोगनिदान न देता संभाव्य कारणे, घरगुती काळजी आणि धोक्याचे संकेत समजून घ्या.',
+          highlights: ['संभाव्य आरोग्य कारणे', 'धोक्याचे इशारे (Red Flags)', 'डॉक्टरांच्या सल्ल्याची वेळ'],
           actionText: 'लक्षणे तपासा'
         },
         {
           id: 'reports',
           href: '/reports',
           icon: FileSpreadsheet,
-          badge: 'लॅब अहवाल विश्लेषण',
-          title: 'वैद्यकीय अहवाल सोप्या भाषेत समजून घ्या',
+          badge: 'PDF / इमेज OCR',
+          title: 'वैद्यकीय रिपोर्ट सुलभिकरण',
           description:
-            'रक्त तपासणी आणि लॅब रिपोर्टचे किचकट आकडे सोप्या भाषेत समजून घ्या आणि डॉक्टरांना विचारण्यासाठी योग्य प्रश्न तयार करा.',
-          highlights: ['सिंथेटिक नमुने उपलब्ध', 'संदर्भ श्रेणीची तुलना', 'डॉक्टरांसाठी महत्त्वाचे प्रश्न'],
-          actionText: 'अहवाल तपासा'
+            '१० MB पर्यंत PDF, JPG किंवा PNG रिपोर्ट अपलोड करा. चाचण्यांचे मूल्य, युनिट आणि संदर्भ श्रेणी तपासा, विसंगती ओळखा आणि गहाळ मूल्ये कधीही कल्पित न करणे.',
+          highlights: ['१० MB पर्यंत PDF/JPG/PNG', 'मर्यादेबाहेरील घटक हायलाइट', 'डॉक्टरांसाठी विचारण्याजोगे प्रश्न'],
+          actionText: 'लॅब रिपोर्ट समजून घ्या'
+        },
+        {
+          id: 'preventive',
+          href: '/preventive-care',
+          icon: CalendarCheck,
+          badge: 'दैनिक स्वास्थ्य',
+          title: 'प्रतिबंधक काळजी',
+          description:
+            'आरोग्य टिप्स, पाणी पिण्याचे मार्गदर्शन, झोपेचा सल्ला, शारीरिक हालचाली आणि रिफ्रेशवर फिरणाऱ्या टिप्ससह दैनंदिन सवयींचे ट्रॅकिंग.',
+          highlights: ['पाणी आणि झोपेचे नियोजन', 'नेक्स्ट टिप (Next Tip) बटण', 'ब्राउझरमधील खाजगी डेटा'],
+          actionText: 'प्रतिबंधक काळजी एक्सप्लोर करा'
         }
       ]
     }
   };
 
-  const t = translations[language] || translations.en;
+  const c = content[language] || content.en;
 
   return (
-    <section id="features-overview" className="py-12 sm:py-16 bg-[#E8F7F5]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 sm:py-24 bg-[#F8FAFC]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-2 mb-10 sm:mb-12">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold tracking-wide uppercase border border-[#35B8A6]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
-            <span>{t.sectionBadge}</span>
+        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3 reveal-on-scroll">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#E6F4F1] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#0F766E]/20">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>{c.badge}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43] tracking-tight">
-            {t.sectionTitle}
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#102A43] tracking-tight">
+            {c.title}
           </h2>
-          <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
-            {t.sectionSubtitle}
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            {c.subtitle}
           </p>
         </div>
 
-        {/* 3 Feature Cards with Staggered Entrance Animations */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {t.cards.map((card, idx) => {
+        {/* 4 Core Feature Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {c.cards.map((card, idx) => {
             const Icon = card.icon;
-            const delayClass = idx === 0 ? 'delay-100' : idx === 1 ? 'delay-200' : 'delay-300';
+            const staggerClass = idx === 0 ? 'stagger-1' : idx === 1 ? 'stagger-2' : idx === 2 ? 'stagger-3' : 'stagger-4';
             return (
-              <Link
+              <div
                 key={card.id}
-                href={card.href}
-                className={`group relative bg-white rounded-2xl p-6 sm:p-7 border border-[#CDE8E2] shadow-sm hover:shadow-xl hover:border-[#35B8A6] card-hover-lift animate-fade-in-up ${delayClass} flex flex-col justify-between cursor-pointer block`}
+                className={`bg-white rounded-2xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-xs card-hover-lift reveal-on-scroll ${staggerClass} hover:border-[#0F766E]/40 group`}
               >
-                <div className="space-y-4">
-                  {/* Icon & Badge */}
+                <div className="space-y-5">
+                  {/* Top Bar with Icon and Badge */}
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-[#D9F3EC] text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition-colors duration-200 flex items-center justify-center shadow-inner">
-                      <Icon className="w-6 h-6" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] text-white flex items-center justify-center shadow-md shadow-[#0F766E]/20 transition-transform duration-300 ease-out group-hover:scale-110">
+                      <Icon className="w-6 h-6 icon-hover-scale" />
                     </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#D9F3EC]/80 text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition border border-[#CDE8E2]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#0F766E] px-2.5 py-1 rounded-full bg-[#E6F4F1] border border-[#0F766E]/15">
                       {card.badge}
                     </span>
                   </div>
 
                   {/* Title & Description */}
-                  <div>
-                    <h3 className="text-lg font-bold text-[#102A43] group-hover:text-[#0F766E] transition-colors">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold text-[#102A43] group-hover:text-[#0F766E] transition-colors">
                       {card.title}
                     </h3>
-                    <p className="text-xs text-[#64748B] mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {card.description}
                     </p>
                   </div>
 
-                  {/* Key Highlights */}
-                  <div className="pt-2 space-y-1.5 border-t border-[#CDE8E2]/60">
+                  {/* Feature Highlights Bullets */}
+                  <div className="pt-2 space-y-1.5 border-t border-slate-100">
                     {card.highlights.map((h, i) => (
-                      <div key={i} className="flex items-center space-x-2 text-[11px] text-[#243447] font-medium">
-                        <CheckCircle className="w-3.5 h-3.5 text-[#0F766E] shrink-0" />
+                      <div key={i} className="flex items-center space-x-2 text-xs text-slate-600">
+                        <CheckCircle className="w-4 h-4 text-[#0F766E] shrink-0" />
                         <span>{h}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Bottom Action Link */}
-                <div className="pt-4 mt-5 border-t border-[#CDE8E2]/60 flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#0F766E] group-hover:underline flex items-center gap-1.5">
-                    {card.actionText}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#35B8A6]" />
-                  </span>
-                  <span className="text-[10px] text-[#64748B] font-medium">Open Page →</span>
+                {/* Card Action Link */}
+                <div className="pt-6 mt-6 border-t border-slate-100">
+                  <Link
+                    href={card.href}
+                    className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-slate-50 group-hover:bg-[#0F766E] text-slate-800 group-hover:text-white font-bold text-xs sm:text-sm transition-all duration-200 shadow-xs cursor-pointer btn-interactive"
+                  >
+                    <span>{card.actionText}</span>
+                    <ArrowRight className="w-4 h-4 text-[#0F766E] group-hover:text-white group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>
