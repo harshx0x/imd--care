@@ -31,7 +31,7 @@ export function Footer({
         <IndianJaliPattern className="w-full h-full text-[#DDF5EF]" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Top Emergency Highlight Banner */}
         <div className="bg-[#0A1926]/90 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-4 text-center md:text-left">
