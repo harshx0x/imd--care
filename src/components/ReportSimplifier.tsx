@@ -113,30 +113,30 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
   };
 
   return (
-    <section id="reports" className="py-16 sm:py-20 bg-white border-t border-slate-200">
+    <section id="reports" className="py-8 sm:py-12 bg-[#E8F7F5]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#DDF5EF] text-[#0F766E] text-xs font-bold uppercase tracking-wider">
-            <FileSpreadsheet className="w-3.5 h-3.5" />
+        <div className="text-center max-w-3xl mx-auto mb-10 space-y-2">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
+            <FileSpreadsheet className="w-3.5 h-3.5 text-[#35B8A6]" />
             <span>Biomarker Translation Engine</span>
           </div>
-          <h2 className="text-3xl font-extrabold text-[#102A43]">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43]">
             {language === 'hi' ? 'मेडिकल रिपोर्ट सरलीकरण' : language === 'mr' ? 'वैद्यकीय अहवाल विश्लेषण' : 'Medical Report Simplifier'}
           </h2>
-          <p className="text-xs sm:text-sm text-[#486581]">
+          <p className="text-xs sm:text-sm text-[#64748B]">
             Demystify diagnostic lab numbers. Get clear layman explanations and empowered questions for your next doctor appointment.
           </p>
         </div>
 
         {/* Synthetic Sample Selection Strip */}
-        <div className="mb-8 bg-[#F8FAFC] border border-slate-200 rounded-2xl p-4 sm:p-5">
+        <div className="mb-8 bg-white border border-[#CDE8E2] rounded-2xl p-4 sm:p-5 shadow-sm">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#0F766E]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#243447] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
               Choose a Ready-to-Use Synthetic Sample Report:
             </span>
-            <span className="text-[11px] font-semibold text-emerald-800 bg-[#DDF5EF] px-2.5 py-0.5 rounded-full border border-[#0F766E]/20">
+            <span className="text-[11px] font-semibold text-[#0F766E] bg-[#D9F3EC] px-2.5 py-0.5 rounded-full border border-[#35B8A6]/30">
               100% Synthetic & Confidential
             </span>
           </div>
@@ -151,10 +151,10 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                   className={`p-3 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
                     isSelected
                       ? 'bg-[#0F766E] text-white border-[#0F766E] shadow-sm'
-                      : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
+                      : 'bg-[#E8F7F5]/50 hover:bg-[#D9F3EC] text-[#243447] border-[#CDE8E2]'
                   }`}
                 >
-                  <span className={`text-[10px] uppercase font-bold block ${isSelected ? 'text-[#DDF5EF]' : 'text-slate-400'}`}>
+                  <span className={`text-[10px] uppercase font-bold block ${isSelected ? 'text-[#D9F3EC]' : 'text-[#64748B]'}`}>
                     {sample.category.split('/')[0]}
                   </span>
                   <span className="text-xs font-bold mt-1 line-clamp-1">
@@ -172,7 +172,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
         {/* Form & Output Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Form Column */}
-          <div className="lg:col-span-5 bg-[#F8FAFC] rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs">
+          <div className="lg:col-span-5 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm">
             <h3 className="text-base font-bold text-[#102A43] mb-4 flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#0F766E]" />
               <span>Lab Test Input Details</span>
@@ -180,7 +180,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
 
             <form onSubmit={handleExplain} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-[#243447] mb-1 uppercase tracking-wider">
                   Test Name *
                 </label>
                 <input
@@ -189,13 +189,13 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                   onChange={(e) => setTestName(e.target.value)}
                   placeholder="e.g. Hemoglobin, LDL Cholesterol, TSH"
                   required
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                  className="w-full bg-[#E8F7F5]/30 border border-[#CDE8E2] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-[#243447] mb-1 uppercase tracking-wider">
                     Result Value *
                   </label>
                   <input
@@ -204,12 +204,12 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                     onChange={(e) => setResultValue(e.target.value)}
                     placeholder="e.g. 10.2, 148"
                     required
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                    className="w-full bg-[#E8F7F5]/30 border border-[#CDE8E2] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-[#243447] mb-1 uppercase tracking-wider">
                     Unit *
                   </label>
                   <input
@@ -218,13 +218,13 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                     onChange={(e) => setUnit(e.target.value)}
                     placeholder="e.g. g/dL, mg/dL, %"
                     required
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                    className="w-full bg-[#E8F7F5]/30 border border-[#CDE8E2] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-[#243447] mb-1 uppercase tracking-wider">
                   Laboratory Reference Range
                 </label>
                 <input
@@ -232,12 +232,12 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                   value={referenceRange}
                   onChange={(e) => setReferenceRange(e.target.value)}
                   placeholder="e.g. 12.0 - 15.5 g/dL (Adult Female)"
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                  className="w-full bg-[#E8F7F5]/30 border border-[#CDE8E2] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-[#243447] mb-1 uppercase tracking-wider">
                   Clinical Context / Notes (Optional)
                 </label>
                 <input
@@ -245,7 +245,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                   value={clinicalContext}
                   onChange={(e) => setClinicalContext(e.target.value)}
                   placeholder="e.g. Fasting test, routine wellness review"
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                  className="w-full bg-[#E8F7F5]/30 border border-[#CDE8E2] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                 />
               </div>
 
@@ -268,7 +268,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
               </button>
 
               {error && (
-                <p className="text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200">
+                <p className="text-xs text-red-700 bg-[#FEE2E2] p-2.5 rounded-lg border border-red-200">
                   {error}
                 </p>
               )}
@@ -278,31 +278,31 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
           {/* Explanation Output Column */}
           <div className="lg:col-span-7">
             {!explanation ? (
-              <div className="bg-[#F8FAFC] rounded-2xl border border-slate-200 p-8 text-center space-y-4 shadow-xs flex flex-col items-center justify-center min-h-[380px]">
-                <div className="w-16 h-16 rounded-2xl bg-[#DDF5EF] text-[#0F766E] flex items-center justify-center shadow-inner">
+              <div className="bg-white rounded-2xl border border-[#CDE8E2] p-8 text-center space-y-4 shadow-sm flex flex-col items-center justify-center min-h-[380px]">
+                <div className="w-16 h-16 rounded-2xl bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center shadow-inner">
                   <FileSpreadsheet className="w-8 h-8" />
                 </div>
                 <div className="max-w-md">
                   <h4 className="text-base font-bold text-[#102A43]">
                     Ready to Simplify Your Lab Report
                   </h4>
-                  <p className="text-xs text-[#486581] mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed">
                     Select one of the synthetic samples above or type in your test values. Click &quot;Explain This Lab Test&quot; to generate an accessible summary and doctor-visit questions.
                   </p>
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5 animate-in fade-in duration-200">
+              <div className="bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-5 animate-in fade-in duration-200">
                 {/* Result Header & Status */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#CDE8E2]/60 gap-3">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400">
+                    <span className="text-[10px] uppercase font-bold text-[#64748B]">
                       Report Explanation
                     </span>
                     <h3 className="text-lg font-bold text-[#102A43]">
                       {explanation.testName}
                     </h3>
-                    <p className="text-xs text-slate-600 mt-0.5 font-medium">
+                    <p className="text-xs text-[#243447] mt-0.5 font-medium">
                       Entered: <strong>{resultValue} {unit}</strong> (Reference Range: {referenceRange || 'Standard Lab Range'})
                     </p>
                   </div>
@@ -311,21 +311,21 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
 
                 {/* Plain-Language Explanation */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#102A43] flex items-center gap-1.5">
                     <Info className="w-4 h-4 text-[#0F766E]" />
                     What this test means in plain language:
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed bg-[#F8FAFC] p-4 rounded-xl border border-slate-100">
+                  <p className="text-xs sm:text-sm text-[#243447] leading-relaxed bg-[#E8F7F5]/50 p-4 rounded-xl border border-[#CDE8E2]">
                     {explanation.plainLanguageExplanation}
                   </p>
                 </div>
 
                 {/* Factors to Consider */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#102A43]">
                     Everyday factors that can influence this result:
                   </h4>
-                  <ul className="text-xs text-slate-700 space-y-1.5 pl-1">
+                  <ul className="text-xs text-[#243447] space-y-1.5 pl-1">
                     {explanation.factorsToConsider.map((factor, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle className="w-3.5 h-3.5 text-[#0F766E] shrink-0 mt-0.5" />
@@ -335,13 +335,13 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                   </ul>
                 </div>
 
-                {/* Questions for Doctor */}
-                <div className="space-y-2 bg-[#DDF5EF]/40 p-4 rounded-xl border border-[#0F766E]/20">
+                {/* Questions for Doctor in Soft Mint */}
+                <div className="space-y-2 bg-[#D9F3EC]/70 p-4 rounded-xl border border-[#CDE8E2]">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-[#0F766E] flex items-center gap-1.5">
-                    <HelpCircle className="w-4 h-4" />
+                    <HelpCircle className="w-4 h-4 text-[#35B8A6]" />
                     Recommended Questions to Ask Your Doctor:
                   </h4>
-                  <ul className="text-xs text-slate-800 space-y-2">
+                  <ul className="text-xs text-[#243447] space-y-2">
                     {explanation.questionsForDoctor.map((q, i) => (
                       <li key={i} className="flex items-start gap-2 italic">
                         <span className="font-bold text-[#0F766E] not-italic shrink-0">{i + 1}.</span>
@@ -352,7 +352,7 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                 </div>
 
                 {/* Educational Disclaimer */}
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-500 flex items-start gap-2">
+                <div className="p-3 bg-white rounded-xl border border-[#CDE8E2] text-[11px] text-[#64748B] flex items-start gap-2 shadow-2xs">
                   <ShieldCheck className="w-4 h-4 text-[#0F766E] shrink-0 mt-0.5" />
                   <p>
                     <strong>Synthetic Educational Interpretation:</strong> {explanation.disclaimer} Always present your original diagnostic report to a registered medical practitioner.

@@ -21,7 +21,7 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex bg-[#F8FAFC] text-[#243447] overflow-x-hidden">
+    <div className="min-h-screen flex bg-[#E8F7F5] text-[#243447] overflow-x-hidden">
       {/* Persistent Desktop Sidebar */}
       <Sidebar />
 

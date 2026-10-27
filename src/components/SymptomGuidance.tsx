@@ -120,42 +120,42 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
   };
 
   return (
-    <section id="symptoms" className="py-16 sm:py-20 bg-[#F8FAFC] border-t border-slate-200">
+    <section id="symptoms" className="py-8 sm:py-12 bg-[#E8F7F5]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#DDF5EF] text-[#0F766E] text-xs font-bold uppercase tracking-wider">
-            <Stethoscope className="w-3.5 h-3.5" />
+        <div className="text-center max-w-3xl mx-auto mb-10 space-y-2">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
+            <Stethoscope className="w-3.5 h-3.5 text-[#35B8A6]" />
             <span>Structured Health Triage</span>
           </div>
-          <h2 className="text-3xl font-extrabold text-[#102A43]">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43]">
             {language === 'hi' ? 'स्मार्ट लक्षण मार्गदर्शन' : language === 'mr' ? 'स्मार्ट लक्षण मार्गदर्शन' : 'Smart Symptom Guidance'}
           </h2>
-          <p className="text-xs sm:text-sm text-[#486581]">
+          <p className="text-xs sm:text-sm text-[#64748B]">
             Educational review of non-emergency symptoms. Not a clinical diagnosis or treatment prescription.
           </p>
         </div>
 
-        {/* Immediate Emergency Client-Side Alert Banner */}
+        {/* Immediate Emergency Client-Side Alert Banner with Accessible Pale Red */}
         {immediateEmergencyWarning && (
-          <div className="mb-8 p-5 rounded-2xl bg-red-600 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
+          <div className="mb-8 p-5 rounded-2xl bg-[#FEE2E2] border-2 border-red-500 text-red-950 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in duration-200">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-xs">
                 <AlertTriangle className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="font-black text-base tracking-wide">
+                <h3 className="font-black text-base tracking-wide text-red-900">
                   IMMEDIATE EMERGENCY WARNING DETECTED
                 </h3>
-                <p className="text-xs text-red-100 mt-0.5">{immediateEmergencyWarning}</p>
-                <p className="text-xs text-red-200 font-semibold mt-1">
+                <p className="text-xs text-red-800 mt-0.5">{immediateEmergencyWarning}</p>
+                <p className="text-xs text-red-900 font-bold mt-1">
                   National Emergency: <strong>112</strong> | Medical Ambulance: <strong>108</strong>
                 </p>
               </div>
             </div>
             <button
               onClick={openEmergencyModal}
-              className="px-5 py-2.5 bg-white text-red-700 hover:bg-red-50 font-bold text-xs rounded-xl shadow-md shrink-0 flex items-center gap-1.5 cursor-pointer"
+              className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center gap-1.5 cursor-pointer"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Open Emergency Instructions</span>
@@ -165,16 +165,16 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Form Column */}
-          <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm">
-            <h3 className="text-lg font-bold text-[#102A43] mb-4 flex items-center gap-2">
+          <div className="lg:col-span-5 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm">
+            <h3 className="text-base font-bold text-[#102A43] mb-4 flex items-center gap-2">
               <Activity className="w-5 h-5 text-[#0F766E]" />
               <span>Symptom Intake Form</span>
             </h3>
 
-            <form onSubmit={handleEvaluate} className="space-y-5">
+            <form onSubmit={handleEvaluate} className="space-y-4">
               {/* Symptom Input */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
                   Describe what you are experiencing *
                 </label>
                 <textarea
@@ -183,14 +183,14 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   placeholder="e.g., Dull headache on forehead with sensitivity to computer lights, feeling tired..."
                   rows={3}
                   required
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition resize-none"
+                  className="w-full bg-[#E8F7F5]/40 border border-[#CDE8E2] rounded-xl p-3 text-xs sm:text-sm text-[#243447] focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition resize-none"
                 />
               </div>
 
               {/* Quick Prompt Chips */}
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1.5">
-                  Or select a common demonstration symptom:
+                <span className="text-[10px] uppercase font-bold text-[#64748B] block mb-1.5">
+                  Or select a demonstration scenario:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {quickSymptoms[language]?.map((item, idx) => (
@@ -198,7 +198,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                       key={idx}
                       type="button"
                       onClick={() => handleQuickSymptom(item.text)}
-                      className="text-[11px] bg-slate-100 hover:bg-[#DDF5EF] hover:text-[#0F766E] text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200/60 font-medium transition cursor-pointer"
+                      className="text-[11px] bg-[#D9F3EC]/70 hover:bg-[#0F766E] hover:text-white text-[#0F766E] px-2.5 py-1 rounded-lg border border-[#CDE8E2] font-medium transition cursor-pointer"
                     >
                       {item.label}
                     </button>
@@ -210,13 +210,13 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Duration */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
                     Duration
                   </label>
                   <select
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                    className="w-full bg-white border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   >
                     <option value="Less than 24 hours">&lt; 24 Hours</option>
                     <option value="1-3 days">1 to 3 Days</option>
@@ -228,10 +228,10 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
 
                 {/* Severity */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
                     Severity
                   </label>
-                  <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
+                  <div className="grid grid-cols-3 gap-1 bg-[#E8F7F5] p-1 rounded-xl border border-[#CDE8E2]">
                     {(['mild', 'moderate', 'severe'] as const).map((sev) => (
                       <button
                         key={sev}
@@ -244,7 +244,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                               : sev === 'moderate'
                               ? 'bg-amber-500 text-white shadow-xs'
                               : 'bg-[#0F766E] text-white shadow-xs'
-                            : 'text-slate-600 hover:text-slate-900'
+                            : 'text-[#64748B] hover:text-[#243447]'
                         }`}
                       >
                         {sev}
@@ -257,13 +257,13 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               {/* Age Group and Optional Conditions */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
                     Age Group
                   </label>
                   <select
                     value={ageGroup}
                     onChange={(e) => setAgeGroup(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                    className="w-full bg-white border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   >
                     <option value="Child (0-12)">Child (0–12 yrs)</option>
                     <option value="Adolescent (13-17)">Adolescent (13–17 yrs)</option>
@@ -274,7 +274,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-[#243447] mb-1.5 uppercase tracking-wider">
                     Existing Conditions (Optional)
                   </label>
                   <input
@@ -282,7 +282,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     value={existingConditions}
                     onChange={(e) => setExistingConditions(e.target.value)}
                     placeholder="e.g. Diabetes, Hypertension"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                    className="w-full bg-white border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   />
                 </div>
               </div>
@@ -307,7 +307,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               </button>
 
               {error && (
-                <p className="text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200">
+                <p className="text-xs text-red-700 bg-[#FEE2E2] p-2.5 rounded-lg border border-red-200">
                   {error}
                 </p>
               )}
@@ -317,19 +317,19 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
           {/* Right Results Column */}
           <div className="lg:col-span-7 space-y-5">
             {!result ? (
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-8 text-center space-y-4 shadow-sm flex flex-col items-center justify-center min-h-[380px]">
-                <div className="w-16 h-16 rounded-2xl bg-[#DDF5EF] text-[#0F766E] flex items-center justify-center shadow-inner">
+              <div className="bg-white rounded-2xl border border-[#CDE8E2] p-8 text-center space-y-4 shadow-sm flex flex-col items-center justify-center min-h-[380px]">
+                <div className="w-16 h-16 rounded-2xl bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center shadow-inner">
                   <Stethoscope className="w-8 h-8" />
                 </div>
                 <div className="max-w-md">
                   <h4 className="text-base font-bold text-[#102A43]">
                     Awaiting Symptom Details
                   </h4>
-                  <p className="text-xs text-[#486581] mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed">
                     Enter your symptoms or pick a pre-set demonstration scenario on the left. The system will categorize your inquiry into four clear, educational review sections.
                   </p>
                 </div>
-                <div className="pt-2 flex items-center gap-2 text-[11px] text-slate-500">
+                <div className="pt-2 flex items-center gap-2 text-[11px] text-[#64748B]">
                   <ShieldCheck className="w-4 h-4 text-[#0F766E]" />
                   <span>Conservative Indian 112 emergency verification active</span>
                 </div>
@@ -337,11 +337,11 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
             ) : (
               <div className="space-y-4 animate-in fade-in duration-200">
                 {/* Result Controls Header */}
-                <div className="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-slate-200">
+                <div className="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-[#CDE8E2] shadow-xs">
                   <div className="flex items-center space-x-2">
                     <span className="text-xs font-bold text-[#102A43]">Guidance Summary</span>
                     {result.isDemo && (
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
                         Demo Mode Guidance
                       </span>
                     )}
@@ -350,7 +350,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                     onClick={resetForm}
                     className="text-xs text-[#0F766E] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                   >
-                    <RefreshCw className="w-3 h-3" />
+                    <RefreshCw className="w-3 h-3 text-[#35B8A6]" />
                     <span>Evaluate New Symptoms</span>
                   </button>
                 </div>
@@ -358,14 +358,14 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 {/* 4 Organized Guidance Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Card 1: Possible Explanations */}
-                  <div className="bg-white rounded-xl p-5 border border-emerald-100 shadow-xs space-y-3">
+                  <div className="bg-white rounded-xl p-5 border border-[#CDE8E2] shadow-xs space-y-3">
                     <div className="flex items-center space-x-2 text-[#0F766E]">
                       <Info className="w-4 h-4" />
-                      <h4 className="font-bold text-xs uppercase tracking-wider text-slate-800">
+                      <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
                         1. Possible Explanations
                       </h4>
                     </div>
-                    <ul className="text-xs text-slate-700 space-y-2">
+                    <ul className="text-xs text-[#243447] space-y-2">
                       {result.possibleExplanations.map((exp, i) => (
                         <li key={i} className="flex items-start gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#0F766E] shrink-0 mt-1.5" />
@@ -376,17 +376,17 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   </div>
 
                   {/* Card 2: General Self-Care */}
-                  <div className="bg-white rounded-xl p-5 border border-teal-100 shadow-xs space-y-3">
-                    <div className="flex items-center space-x-2 text-teal-700">
+                  <div className="bg-white rounded-xl p-5 border border-[#CDE8E2] shadow-xs space-y-3">
+                    <div className="flex items-center space-x-2 text-[#35B8A6]">
                       <CheckCircle className="w-4 h-4" />
-                      <h4 className="font-bold text-xs uppercase tracking-wider text-slate-800">
+                      <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
                         2. General Self-Care
                       </h4>
                     </div>
-                    <ul className="text-xs text-slate-700 space-y-2">
+                    <ul className="text-xs text-[#243447] space-y-2">
                       {result.selfCareAdvice.map((care, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-teal-600 shrink-0 mt-1.5" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#35B8A6] shrink-0 mt-1.5" />
                           <span>{care}</span>
                         </li>
                       ))}
@@ -397,11 +397,11 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   <div className="bg-white rounded-xl p-5 border border-amber-200 shadow-xs space-y-3">
                     <div className="flex items-center space-x-2 text-amber-700">
                       <Clock className="w-4 h-4" />
-                      <h4 className="font-bold text-xs uppercase tracking-wider text-slate-800">
+                      <h4 className="font-bold text-xs uppercase tracking-wider text-[#102A43]">
                         3. When to Consult a Doctor
                       </h4>
                     </div>
-                    <ul className="text-xs text-slate-700 space-y-2">
+                    <ul className="text-xs text-[#243447] space-y-2">
                       {result.whenToConsultDoctor.map((doc, i) => (
                         <li key={i} className="flex items-start gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-600 shrink-0 mt-1.5" />
@@ -412,14 +412,14 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                   </div>
 
                   {/* Card 4: Red Flag Warning Signs */}
-                  <div className="bg-red-50/70 rounded-xl p-5 border border-red-200 shadow-xs space-y-3">
+                  <div className="bg-[#FEE2E2]/80 rounded-xl p-5 border border-red-200 shadow-xs space-y-3">
                     <div className="flex items-center space-x-2 text-red-700">
                       <AlertTriangle className="w-4 h-4" />
-                      <h4 className="font-bold text-xs uppercase tracking-wider text-red-900">
-                        4. Warning Signs (Seek Immediate Care)
+                      <h4 className="font-bold text-xs uppercase tracking-wider text-red-950">
+                        4. Warning Signs (Immediate Care)
                       </h4>
                     </div>
-                    <ul className="text-xs text-red-900 space-y-2">
+                    <ul className="text-xs text-red-950 space-y-2">
                       {result.warningSigns.map((warn, i) => (
                         <li key={i} className="flex items-start gap-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 mt-1.5" />
@@ -431,7 +431,7 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
                 </div>
 
                 {/* Medical Safety Disclaimer Box */}
-                <div className="p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 leading-relaxed flex items-start gap-2.5">
+                <div className="p-4 bg-white rounded-xl border border-[#CDE8E2] text-xs text-[#64748B] leading-relaxed flex items-start gap-2.5 shadow-2xs">
                   <ShieldCheck className="w-5 h-5 text-[#0F766E] shrink-0 mt-0.5" />
                   <p>
                     <strong>Medical Safety Notice:</strong> {result.disclaimer} Always consult a licensed clinical medical officer for prescription management or definitive triage.

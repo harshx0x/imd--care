@@ -29,12 +29,12 @@ export function Footer({
   return (
     <footer className="relative bg-[#102A43] text-white pt-16 pb-12 border-t border-white/10 overflow-hidden">
       <div className="absolute inset-0">
-        <IndianJaliPattern className="w-full h-full text-[#DDF5EF]" />
+        <IndianJaliPattern className="w-full h-full text-[#35B8A6]/15" />
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Top Emergency Highlight Banner */}
-        <div className="bg-[#0A1926]/90 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="bg-[#0A1926]/90 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
           <div className="flex items-center space-x-4 text-center md:text-left">
             <div className="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-900/40">
               <PhoneCall className="w-6 h-6 animate-pulse" />
@@ -62,7 +62,7 @@ export function Footer({
           {/* Col 1: Brand Info */}
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center space-x-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center shadow-md">
                 <HeartPulse className="w-5 h-5 text-white" />
               </div>
               <span className="font-extrabold text-xl tracking-tight text-white">IMD Care</span>
@@ -70,7 +70,7 @@ export function Footer({
             <p className="text-xs text-slate-300 leading-relaxed">
               Better Health Understanding Starts Here. Bridging the medical literacy divide across India with culturally nuanced, multi-lingual AI assistance.
             </p>
-            <div className="flex items-center space-x-2 text-[11px] text-[#2DD4BF] font-semibold">
+            <div className="flex items-center space-x-2 text-[11px] text-[#35B8A6] font-semibold">
               <ShieldCheck className="w-4 h-4" />
               <span>Ethical AI & Clinical Safety First</span>
             </div>
@@ -149,7 +149,7 @@ export function Footer({
                   onClick={openDisclaimerModal}
                   className="hover:text-white transition text-left flex items-center gap-1 cursor-pointer"
                 >
-                  <FileText className="w-3.5 h-3.5 text-[#2DD4BF]" />
+                  <FileText className="w-3.5 h-3.5 text-[#35B8A6]" />
                   <span>Medical Disclaimer</span>
                 </button>
               </li>
@@ -158,7 +158,7 @@ export function Footer({
                   onClick={openDisclaimerModal}
                   className="hover:text-white transition text-left flex items-center gap-1 cursor-pointer"
                 >
-                  <Lock className="w-3.5 h-3.5 text-[#2DD4BF]" />
+                  <Lock className="w-3.5 h-3.5 text-[#35B8A6]" />
                   <span>Zero Data Retention Privacy</span>
                 </button>
               </li>

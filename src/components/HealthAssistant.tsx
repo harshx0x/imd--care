@@ -179,34 +179,34 @@ export function HealthAssistant({
   };
 
   return (
-    <section id="assistant" className="py-12 sm:py-16 bg-white border-t border-slate-200">
+    <section id="assistant" className="py-8 sm:py-12 bg-[#E8F7F5]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#DDF5EF] text-[#0F766E] text-xs font-bold uppercase tracking-wider">
-            <Bot className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
+            <Bot className="w-3.5 h-3.5 text-[#35B8A6]" />
             <span>Interactive Health Consultation</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43]">
             {language === 'hi' ? 'AI स्वास्थ्य सहायक' : language === 'mr' ? 'AI आरोग्य सहाय्यक' : 'AI Health Assistant'}
           </h2>
-          <p className="text-xs sm:text-sm text-[#486581]">
+          <p className="text-xs sm:text-sm text-[#64748B]">
             Ask questions about common health topics, nutrition, and home comfort measures in English, Hindi, or Marathi.
           </p>
         </div>
 
         {/* Chat Card Container */}
-        <div className="bg-[#F8FAFC] rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col h-[650px]">
+        <div className="bg-white rounded-2xl border border-[#CDE8E2] shadow-md overflow-hidden flex flex-col h-[650px]">
           {/* Chat Header Bar */}
-          <div className="bg-[#102A43] text-white px-5 py-3.5 flex items-center justify-between">
+          <div className="bg-[#102A43] text-white px-5 py-3.5 flex items-center justify-between border-b border-[#35B8A6]/20">
             <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-xl bg-[#0F766E] flex items-center justify-center text-white shadow-sm border border-[#2DD4BF]/30">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center text-white shadow-sm border border-[#D9F3EC]/30">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center space-x-2">
                   <h3 className="font-bold text-sm text-white">IMD Care Assistant</h3>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span className="w-2 h-2 rounded-full bg-[#35B8A6]" />
                 </div>
                 <p className="text-[11px] text-slate-300">
                   {language === 'hi' ? 'हिंदी में सक्रिय' : language === 'mr' ? 'मराठीमध्ये सक्रिय' : 'Active in English'}
@@ -221,7 +221,7 @@ export function HealthAssistant({
                   <button
                     key={lang}
                     onClick={() => setLanguage(lang)}
-                    className={`px-2 py-1 rounded-md transition ${
+                    className={`px-2 py-1 rounded-md transition cursor-pointer ${
                       language === lang
                         ? 'bg-[#0F766E] text-white shadow-sm'
                         : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -234,7 +234,7 @@ export function HealthAssistant({
 
               <button
                 onClick={handleClearChat}
-                className="p-1.5 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition"
+                className="p-1.5 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg transition cursor-pointer"
                 title="Reset conversation"
               >
                 <Trash2 className="w-4 h-4" />
@@ -243,7 +243,7 @@ export function HealthAssistant({
           </div>
 
           {/* Messages Stream */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-[#E8F7F5]/40">
             {messages.map((msg) => {
               const isAssistant = msg.role === 'assistant';
               const isEmergencyMsg = msg.content.includes('EMERGENCY RED FLAG') || msg.content.includes('आपातकालीन चेतावनी') || msg.content.includes('तातडीची वैद्यकीय सूचना');
@@ -254,18 +254,18 @@ export function HealthAssistant({
                   className={`flex items-start space-x-3 ${isAssistant ? 'justify-start' : 'justify-end'}`}
                 >
                   {isAssistant && (
-                    <div className="w-8 h-8 rounded-full bg-[#DDF5EF] text-[#0F766E] flex items-center justify-center shrink-0 mt-1 shadow-xs border border-[#0F766E]/20">
+                    <div className="w-8 h-8 rounded-full bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center shrink-0 mt-1 shadow-xs border border-[#CDE8E2]">
                       <Bot className="w-4 h-4" />
                     </div>
                   )}
 
                   <div
-                    className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-xs sm:text-sm shadow-sm ${
+                    className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-xs sm:text-sm shadow-xs ${
                       isAssistant
                         ? isEmergencyMsg
-                          ? 'bg-red-50 text-red-950 border-2 border-red-400'
-                          : 'bg-white text-[#243447] border border-slate-200'
-                        : 'bg-[#0F766E] text-white'
+                          ? 'bg-[#FEE2E2] text-red-950 border-2 border-red-400'
+                          : 'bg-white text-[#243447] border border-[#CDE8E2]'
+                        : 'bg-[#0F766E] text-white shadow-xs'
                     }`}
                   >
                     <div className="flex items-center justify-between text-[10px] pb-1.5 mb-1.5 border-b border-black/5">
@@ -284,7 +284,7 @@ export function HealthAssistant({
                       </span>
                       <div className="flex items-center space-x-1.5 opacity-70">
                         {isAssistant && (
-                          <span className={`px-1.5 py-0.2 rounded text-[9px] font-semibold ${msg.isDemo ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}`}>
+                          <span className={`px-1.5 py-0.2 rounded text-[9px] font-semibold ${msg.isDemo ? 'bg-amber-100 text-amber-800' : 'bg-[#D9F3EC] text-[#0F766E]'}`}>
                             {msg.isDemo ? 'Demo Mode' : 'OpenAI'}
                           </span>
                         )}
@@ -300,7 +300,7 @@ export function HealthAssistant({
                       <div className="mt-3 pt-2 border-t border-red-200 flex items-center justify-between">
                         <button
                           onClick={openEmergencyModal}
-                          className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition"
+                          className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition cursor-pointer"
                         >
                           <PhoneCall className="w-3 h-3" />
                           <span>Call 112 / View Protocol</span>
@@ -321,11 +321,11 @@ export function HealthAssistant({
             {/* Loading typing indicator */}
             {loading && (
               <div className="flex items-start space-x-3 justify-start">
-                <div className="w-8 h-8 rounded-full bg-[#DDF5EF] text-[#0F766E] flex items-center justify-center shrink-0 mt-1">
+                <div className="w-8 h-8 rounded-full bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center shrink-0 mt-1 border border-[#CDE8E2]">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="bg-white border border-slate-200 rounded-2xl px-4 py-3 shadow-xs flex items-center space-x-2">
-                  <span className="text-xs text-slate-500 font-medium">Formulating clinical guidance</span>
+                <div className="bg-white border border-[#CDE8E2] rounded-2xl px-4 py-3 shadow-xs flex items-center space-x-2">
+                  <span className="text-xs text-[#64748B] font-medium">Formulating clinical guidance</span>
                   <div className="flex space-x-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#0F766E] animate-dot-1" />
                     <span className="w-1.5 h-1.5 rounded-full bg-[#0F766E] animate-dot-2" />
@@ -337,11 +337,11 @@ export function HealthAssistant({
 
             {/* Error display */}
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800 flex items-center justify-between">
+              <div className="p-3 bg-[#FEE2E2] border border-red-200 rounded-xl text-xs text-red-900 flex items-center justify-between">
                 <span>{error}</span>
                 <button
                   onClick={() => handleSendMessage()}
-                  className="px-2.5 py-1 bg-red-100 hover:bg-red-200 text-red-900 font-semibold rounded-md transition"
+                  className="px-2.5 py-1 bg-red-100 hover:bg-red-200 text-red-900 font-semibold rounded-md transition cursor-pointer"
                 >
                   Retry
                 </button>
@@ -352,9 +352,9 @@ export function HealthAssistant({
           </div>
 
           {/* Suggested Prompts Shelf */}
-          <div className="bg-white border-t border-slate-200 px-4 py-2.5">
+          <div className="bg-white border-t border-[#CDE8E2] px-4 py-2.5">
             <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none">
-              <span className="text-[10px] uppercase font-bold text-slate-400 shrink-0">
+              <span className="text-[10px] uppercase font-bold text-[#64748B] shrink-0">
                 Suggested:
               </span>
               {suggestedPrompts[language]?.map((prompt, idx) => (
@@ -362,7 +362,7 @@ export function HealthAssistant({
                   key={idx}
                   onClick={() => handleSendMessage(prompt)}
                   disabled={loading}
-                  className="text-xs bg-slate-100 hover:bg-[#DDF5EF] text-[#243447] hover:text-[#0F766E] px-3 py-1 rounded-full whitespace-nowrap transition border border-slate-200/60 font-medium shrink-0 disabled:opacity-50 cursor-pointer"
+                  className="text-xs bg-[#D9F3EC]/80 hover:bg-[#0F766E] text-[#0F766E] hover:text-white px-3 py-1 rounded-full whitespace-nowrap transition border border-[#CDE8E2] font-medium shrink-0 disabled:opacity-50 cursor-pointer shadow-2xs"
                 >
                   {prompt}
                 </button>
@@ -371,7 +371,7 @@ export function HealthAssistant({
           </div>
 
           {/* Chat Input Bar */}
-          <div className="bg-white p-3 sm:p-4 border-t border-slate-200 flex items-center space-x-2">
+          <div className="bg-white p-3 sm:p-4 border-t border-[#CDE8E2] flex items-center space-x-2">
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -385,7 +385,7 @@ export function HealthAssistant({
               }
               rows={1}
               disabled={loading}
-              className="flex-1 resize-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition"
+              className="flex-1 resize-none bg-[#E8F7F5]/50 border border-[#CDE8E2] rounded-xl px-4 py-2.5 text-xs sm:text-sm text-[#243447] focus:outline-none focus:ring-2 focus:ring-[#0F766E] focus:border-transparent transition"
             />
             <button
               onClick={() => handleSendMessage()}
@@ -399,8 +399,8 @@ export function HealthAssistant({
         </div>
 
         {/* Safety Note */}
-        <p className="text-[11px] text-slate-500 text-center mt-3">
-          Conversations are strictly confidential and never permanently logged. For severe chest pain, stroke signs, or difficulty breathing, call <strong>112</strong> immediately.
+        <p className="text-[11px] text-[#64748B] text-center mt-3">
+          Conversations are strictly confidential and never permanently logged. For severe chest pain, stroke signs, or difficulty breathing, call <strong className="text-red-600">112</strong> immediately.
         </p>
       </div>
     </section>

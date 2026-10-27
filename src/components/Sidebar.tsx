@@ -55,22 +55,22 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200 h-screen sticky top-0 shrink-0 z-30 justify-between select-none">
+    <aside className="hidden lg:flex flex-col w-64 bg-white/95 backdrop-blur-md border-r border-[#CDE8E2] h-screen sticky top-0 shrink-0 z-30 justify-between select-none shadow-xs">
       {/* Brand Header */}
       <div>
-        <div className="p-5 border-b border-slate-100">
+        <div className="p-5 border-b border-[#CDE8E2]/70 bg-gradient-to-b from-white to-[#E8F7F5]/30">
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] flex items-center justify-center shadow-md shadow-[#0F766E]/20 text-white border border-[#DDF5EF]/30 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center shadow-md shadow-[#0F766E]/20 text-white border border-[#D9F3EC]/50 group-hover:scale-105 transition-transform">
               <HeartPulse className="w-6 h-6 text-white" />
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
                 <span className="font-extrabold text-lg tracking-tight text-[#102A43]">IMD Care</span>
-                <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded-md bg-[#DDF5EF] text-[#0F766E] border border-[#0F766E]/20">
+                <span className="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded-md bg-[#D9F3EC] text-[#0F766E] border border-[#35B8A6]/30">
                   AI
                 </span>
               </div>
-              <span className="text-[11px] text-slate-500 font-medium block">
+              <span className="text-[11px] text-[#64748B] font-medium block">
                 Better Health Guidance
               </span>
             </div>
@@ -79,11 +79,11 @@ export function Sidebar() {
 
         {/* Navigation Links */}
         <div className="p-4 space-y-1.5">
-          <span className="px-3 text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-2">
+          <span className="px-3 text-[10px] uppercase font-bold tracking-wider text-[#64748B] block mb-2">
             Navigation Menu
           </span>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1.5">
             {navLinks.map((item) => {
               const Icon = item.icon;
               const isActive = item.href === '/'
@@ -96,12 +96,12 @@ export function Sidebar() {
                   href={item.href}
                   className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition-all duration-150 ${
                     isActive
-                      ? 'bg-[#DDF5EF] text-[#0F766E] font-bold border-l-4 border-[#0F766E] shadow-xs translate-x-0.5'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 font-medium'
+                      ? 'bg-[#D9F3EC] text-[#0F766E] font-bold border-l-4 border-[#0F766E] shadow-xs translate-x-0.5'
+                      : 'text-[#243447] hover:text-[#0F766E] hover:bg-[#E8F7F5] font-medium'
                   }`}
                 >
                   <div className="flex items-center space-x-3 min-w-0">
-                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0F766E]' : 'text-slate-400'}`} />
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0F766E]' : 'text-[#64748B]'}`} />
                     <span className="truncate">{item.label}</span>
                   </div>
                   {item.badge && (
@@ -109,7 +109,7 @@ export function Sidebar() {
                       className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-md shrink-0 ml-1.5 ${
                         isActive
                           ? 'bg-[#0F766E] text-white'
-                          : 'bg-slate-100 text-slate-500'
+                          : 'bg-[#D9F3EC]/80 text-[#0F766E]'
                       }`}
                     >
                       {item.badge}
@@ -123,9 +123,9 @@ export function Sidebar() {
       </div>
 
       {/* Bottom Emergency Card & Links */}
-      <div className="p-4 border-t border-slate-100 space-y-3">
-        {/* Quick Emergency 112 Banner */}
-        <div className="bg-red-50 border border-red-200 rounded-xl p-3 space-y-2">
+      <div className="p-4 border-t border-[#CDE8E2]/70 space-y-3 bg-gradient-to-t from-[#E8F7F5]/40 to-transparent">
+        {/* Quick Emergency 112 Banner with Pale Red Background */}
+        <div className="bg-[#FEE2E2]/90 border border-red-200 rounded-xl p-3 space-y-2 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-[10px] uppercase font-extrabold text-red-700 tracking-wider flex items-center gap-1">
               <PhoneCall className="w-3 h-3 text-red-600 animate-pulse" />
@@ -133,7 +133,7 @@ export function Sidebar() {
             </span>
             <span className="text-xs font-black text-red-600">112 / 108</span>
           </div>
-          <p className="text-[11px] text-red-800 leading-tight">
+          <p className="text-[11px] text-red-900 leading-tight">
             Immediate Indian medical triage for chest pain or stroke signs.
           </p>
           <button
@@ -149,12 +149,12 @@ export function Sidebar() {
         <div className="flex items-center justify-between pt-1 px-1">
           <button
             onClick={openDisclaimerModal}
-            className="text-[11px] text-slate-500 hover:text-[#0F766E] flex items-center gap-1 transition cursor-pointer"
+            className="text-[11px] text-[#64748B] hover:text-[#0F766E] flex items-center gap-1 transition cursor-pointer"
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-3.5 h-3.5 text-[#35B8A6]" />
             <span>Medical Disclaimer</span>
           </button>
-          <span className="text-[10px] text-slate-400 font-mono">v2.0</span>
+          <span className="text-[10px] text-[#64748B] font-mono">v2.1</span>
         </div>
       </div>
     </aside>

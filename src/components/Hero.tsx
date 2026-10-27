@@ -69,7 +69,7 @@ export function Hero({
     <section id="hero" className="relative bg-gradient-to-b from-[#102A43] via-[#0E243A] to-[#0A1926] text-white overflow-hidden pt-12 pb-20 sm:pt-16 sm:pb-28">
       {/* Background Indian Jali & Mandala Accents */}
       <div className="absolute inset-0">
-        <IndianJaliPattern className="w-full h-full text-[#DDF5EF]" />
+        <IndianJaliPattern className="w-full h-full text-[#35B8A6]/15" />
       </div>
       <div className="absolute top-0 right-0 w-96 h-96 -mr-20 -mt-20">
         <MandalaRings className="w-full h-full text-[#0F766E]" />
@@ -80,17 +80,17 @@ export function Hero({
           {/* Left Column: Headline and CTAs */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left">
             {/* Tag Badge */}
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#0F766E]/30 border border-[#2DD4BF]/30 text-xs font-semibold text-[#DDF5EF]">
-              <Sparkles className="w-3.5 h-3.5 text-[#2DD4BF]" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-[#0F766E]/40 border border-[#35B8A6]/40 text-xs font-semibold text-[#D9F3EC]">
+              <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
               <span>{t.tag}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#35B8A6]" />
               <span className="text-slate-300">OpenAI Powered</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
               Better Health Understanding{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2DD4BF] to-[#DDF5EF]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#35B8A6] to-[#D9F3EC]">
                 Starts Here.
               </span>
             </h1>
@@ -122,15 +122,15 @@ export function Hero({
             {/* Trust Badges */}
             <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-white/10 max-w-xl mx-auto lg:mx-0 text-left">
               <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <CheckCircle2 className="w-4 h-4 text-[#2DD4BF] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
                 <span>Multilingual: EN, HI, MR</span>
               </div>
               <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <CheckCircle2 className="w-4 h-4 text-[#2DD4BF] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
                 <span>Conservative 112 Safety</span>
               </div>
               <div className="flex items-center space-x-2 text-xs text-slate-300">
-                <CheckCircle2 className="w-4 h-4 text-[#2DD4BF] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#35B8A6] shrink-0" />
                 <span>Zero Sensitive Logging</span>
               </div>
             </div>
@@ -140,25 +140,25 @@ export function Hero({
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md lg:max-w-none">
               {/* Outer decorative glow */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#0F766E] to-[#2DD4BF] rounded-3xl blur-xl opacity-30 animate-pulse" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#0F766E] to-[#35B8A6] rounded-3xl blur-xl opacity-30 animate-pulse" />
 
               {/* Polished Healthcare Startup Visual Card */}
-              <div className="relative rounded-2xl bg-[#0F2236]/90 backdrop-blur-xl border border-white/15 p-6 shadow-2xl space-y-5">
+              <div className="relative rounded-2xl bg-[#0F2236]/90 backdrop-blur-xl border border-[#35B8A6]/20 p-6 shadow-2xl space-y-5">
                 {/* Visual Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-white/10">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#2DD4BF] flex items-center justify-center text-white shadow-md">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0F766E] to-[#35B8A6] flex items-center justify-center text-white shadow-md">
                       <Activity className="w-5 h-5 animate-pulse" />
                     </div>
                     <div>
                       <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
                         <span>IMD Health Intelligence</span>
-                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                        <span className="w-2 h-2 rounded-full bg-[#35B8A6]" />
                       </h3>
                       <p className="text-[11px] text-slate-400">Clinical Knowledge Platform</p>
                     </div>
                   </div>
-                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#35B8A6]/20 text-[#D9F3EC] border border-[#35B8A6]/40">
                     Live Demo
                   </span>
                 </div>
@@ -175,9 +175,9 @@ export function Hero({
                     </p>
                   </div>
 
-                  <div className="bg-[#0F766E]/20 border border-[#2DD4BF]/30 rounded-xl p-3.5 space-y-2">
+                  <div className="bg-[#0F766E]/20 border border-[#35B8A6]/30 rounded-xl p-3.5 space-y-2">
                     <div className="flex items-center justify-between text-[10px]">
-                      <span className="font-bold text-[#2DD4BF] flex items-center gap-1">
+                      <span className="font-bold text-[#35B8A6] flex items-center gap-1">
                         <Sparkles className="w-3 h-3" /> IMD Care AI Guide
                       </span>
                       <span className="text-slate-400 text-[10px]">Empathetic & Evidence-based</span>
@@ -185,8 +185,8 @@ export function Hero({
                     <p className="text-slate-200 text-xs leading-relaxed">
                       An HbA1c of <strong>6.2%</strong> falls within the prediabetes interval (5.7% – 6.4%). This is an early window of opportunity where diet, daily walking, and medical guidance can help return blood sugar to normal.
                     </p>
-                    <div className="flex items-center gap-1.5 pt-1 text-[11px] text-[#DDF5EF] font-semibold">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#2DD4BF]" />
+                    <div className="flex items-center gap-1.5 pt-1 text-[11px] text-[#D9F3EC] font-semibold">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#35B8A6]" />
                       <span>Ready with practical questions for your physician</span>
                     </div>
                   </div>
@@ -202,7 +202,7 @@ export function Hero({
                   </div>
                   <div className="bg-white/5 rounded-lg p-2.5">
                     <span className="text-[10px] text-slate-400 block">Languages</span>
-                    <span className="text-sm font-bold text-[#2DD4BF]">EN / HI / MR</span>
+                    <span className="text-sm font-bold text-[#35B8A6]">EN / HI / MR</span>
                   </div>
                   <div className="bg-white/5 rounded-lg p-2.5">
                     <span className="text-[10px] text-slate-400 block">Verification</span>

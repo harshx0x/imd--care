@@ -146,18 +146,18 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
   const t = translations[language] || translations.en;
 
   return (
-    <section id="features-overview" className="py-12 sm:py-16 bg-[#F8FAFC]">
+    <section id="features-overview" className="py-12 sm:py-16 bg-[#E8F7F5]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-2 mb-10 sm:mb-12">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#DDF5EF] text-[#0F766E] text-xs font-bold tracking-wide uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold tracking-wide uppercase border border-[#35B8A6]/30">
+            <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
             <span>{t.sectionBadge}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A43] tracking-tight">
             {t.sectionTitle}
           </h2>
-          <p className="text-xs sm:text-sm text-[#486581] leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
             {t.sectionSubtitle}
           </p>
         </div>
@@ -170,15 +170,15 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
               <Link
                 key={card.id}
                 href={card.href}
-                className="group relative bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-[#0F766E]/40 transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 block"
+                className="group relative bg-white rounded-2xl p-6 sm:p-7 border border-[#CDE8E2] shadow-sm hover:shadow-xl hover:border-[#35B8A6] transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 block"
               >
                 <div className="space-y-4">
                   {/* Icon & Badge */}
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-[#DDF5EF] text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition-colors duration-200 flex items-center justify-center shadow-inner">
+                    <div className="w-12 h-12 rounded-2xl bg-[#D9F3EC] text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition-colors duration-200 flex items-center justify-center shadow-inner">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 group-hover:bg-[#DDF5EF] group-hover:text-[#0F766E] transition">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#D9F3EC]/80 text-[#0F766E] group-hover:bg-[#0F766E] group-hover:text-white transition border border-[#CDE8E2]">
                       {card.badge}
                     </span>
                   </div>
@@ -188,15 +188,15 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
                     <h3 className="text-lg font-bold text-[#102A43] group-hover:text-[#0F766E] transition-colors">
                       {card.title}
                     </h3>
-                    <p className="text-xs text-[#486581] mt-2 leading-relaxed">
+                    <p className="text-xs text-[#64748B] mt-2 leading-relaxed">
                       {card.description}
                     </p>
                   </div>
 
                   {/* Key Highlights */}
-                  <div className="pt-2 space-y-1.5 border-t border-slate-100">
+                  <div className="pt-2 space-y-1.5 border-t border-[#CDE8E2]/60">
                     {card.highlights.map((h, i) => (
-                      <div key={i} className="flex items-center space-x-2 text-[11px] text-slate-700 font-medium">
+                      <div key={i} className="flex items-center space-x-2 text-[11px] text-[#243447] font-medium">
                         <CheckCircle className="w-3.5 h-3.5 text-[#0F766E] shrink-0" />
                         <span>{h}</span>
                       </div>
@@ -205,12 +205,12 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
                 </div>
 
                 {/* Bottom Action Link */}
-                <div className="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-4 mt-5 border-t border-[#CDE8E2]/60 flex items-center justify-between">
                   <span className="text-xs font-bold text-[#0F766E] group-hover:underline flex items-center gap-1.5">
                     {card.actionText}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#35B8A6]" />
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium">Open Page →</span>
+                  <span className="text-[10px] text-[#64748B] font-medium">Open Page →</span>
                 </div>
               </Link>
             );

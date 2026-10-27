@@ -31,27 +31,27 @@ export default function HomePage() {
       {/* 2. Three Compact Feature Cards Linking to Dedicated Pages */}
       <FeatureHighlights language={language} />
 
-      {/* 3. Small Preventive Care Preview */}
-      <section className="py-12 bg-white border-t border-slate-200">
+      {/* 3. Small Preventive Care Preview in Soft Mint */}
+      <section className="py-12 bg-[#E8F7F5] border-t border-[#CDE8E2]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-[#F0FBF7] to-[#DDF5EF]/40 rounded-2xl border border-[#BCE7DC] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          <div className="bg-[#D9F3EC] rounded-2xl border border-[#CDE8E2] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
             <div className="space-y-3 max-w-xl text-center md:text-left">
-              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0F766E]/10 text-[#0F766E] text-xs font-bold uppercase tracking-wider">
-                <CalendarCheck className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0F766E]/15 text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
+                <CalendarCheck className="w-3.5 h-3.5 text-[#0F766E]" />
                 <span>Habit & Reminder Tracking</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-[#102A43]">
                 Daily Indian Wellness & Medication Reminders
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#243447] leading-relaxed">
                 Stay on top of prescriptions, clinical follow-ups, hydration goals, and pranayama routines. Data stays private in your browser.
               </p>
-              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-700 font-medium justify-center md:justify-start">
-                <span className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-[#243447] font-medium justify-center md:justify-start">
+                <span className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-lg border border-[#CDE8E2]">
                   <CheckCircle2 className="w-4 h-4 text-[#0F766E]" />
                   <span>Local Storage Privacy</span>
                 </span>
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5 bg-white/80 px-2.5 py-1 rounded-lg border border-[#CDE8E2]">
                   <CheckCircle2 className="w-4 h-4 text-[#0F766E]" />
                   <span>Hydration & Sleep Tracker</span>
                 </span>
@@ -65,7 +65,7 @@ export default function HomePage() {
               >
                 <CalendarCheck className="w-4 h-4" />
                 <span>Open Preventive Care</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 text-[#35B8A6]" />
               </Link>
             </div>
           </div>
@@ -73,9 +73,9 @@ export default function HomePage() {
       </section>
 
       {/* 4. Medical Disclaimer Strip */}
-      <section className="py-8 bg-[#F8FAFC] border-t border-slate-200">
+      <section className="py-8 bg-[#E8F7F5] border-t border-[#CDE8E2]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-4 bg-slate-100 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+          <div className="p-4 bg-white rounded-xl border border-[#CDE8E2] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#243447] shadow-xs">
             <div className="flex items-center space-x-3 text-center sm:text-left">
               <ShieldCheck className="w-5 h-5 text-[#0F766E] shrink-0" />
               <p>

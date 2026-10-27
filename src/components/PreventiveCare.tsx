@@ -189,42 +189,42 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
   const wellnessScore = calculateWellnessScore();
 
   return (
-    <section id="preventive" className="py-16 sm:py-20 bg-[#F8FAFC] border-t border-slate-200">
+    <section id="preventive" className="py-16 sm:py-20 bg-[#E8F7F5] border-t border-[#CDE8E2]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#DDF5EF] text-[#0F766E] text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#D9F3EC] text-[#0F766E] text-xs font-bold uppercase tracking-wider border border-[#35B8A6]/30">
             <CalendarCheck className="w-3.5 h-3.5" />
             <span>Preventive Wellness Routine</span>
           </div>
           <h2 className="text-3xl font-extrabold text-[#102A43]">
             {language === 'hi' ? 'निवारक देखभाल और अनुस्मारक' : language === 'mr' ? 'प्रतिबंधक काळजी आणि स्मरणपत्रे' : 'Basic Preventive Care & Reminders'}
           </h2>
-          <p className="text-xs sm:text-sm text-[#486581]">
+          <p className="text-xs sm:text-sm text-[#64748B]">
             Track essential daily habits, medications, and doctor appointments locally on your device.
           </p>
         </div>
 
         {/* Local storage privacy notice */}
-        <div className="mb-8 p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-start gap-2.5">
-          <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+        <div className="mb-8 p-3.5 bg-[#D9F3EC]/80 border border-[#CDE8E2] rounded-xl text-xs text-[#243447] flex items-start gap-2.5 shadow-xs">
+          <Info className="w-4 h-4 text-[#0F766E] shrink-0 mt-0.5" />
           <p>
-            <strong>Privacy Assurance:</strong> Reminders and wellness counts are stored <strong>strictly in your local browser storage</strong>. No sensitive clinical scheduling data is uploaded or tracked on external servers.
-            <span className="block mt-0.5 text-blue-700">Notice: Browser-local demo reminders do not send background push notifications or SMS. Please keep clinical reminders in your primary calendar or alarm.</span>
+            <strong className="text-[#102A43]">Privacy Assurance:</strong> Reminders and wellness counts are stored <strong>strictly in your local browser storage</strong>. No sensitive clinical scheduling data is uploaded or tracked on external servers.
+            <span className="block mt-0.5 text-[#0F766E] font-medium">Notice: Browser-local demo reminders do not send background push notifications or SMS. Please keep clinical reminders in your primary calendar or alarm.</span>
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Reminders Manager */}
-          <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="lg:col-span-7 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-[#CDE8E2]/60">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-lg bg-[#DDF5EF] text-[#0F766E] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center">
                   <Pill className="w-4 h-4" />
                 </div>
                 <div>
                   <h3 className="font-bold text-base text-[#102A43]">Health Reminders</h3>
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-[11px] text-[#64748B]">
                     {reminders.filter((r) => !r.completed).length} active items
                   </span>
                 </div>
@@ -243,9 +243,9 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
             {showAddForm && (
               <form
                 onSubmit={handleAddReminder}
-                className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 animate-in fade-in duration-150"
+                className="p-4 bg-[#E8F7F5]/50 rounded-xl border border-[#CDE8E2] space-y-3 animate-in fade-in duration-150"
               >
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[#102A43]">
                   New Reminder Entry
                 </h4>
 
@@ -256,19 +256,19 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g. Amlodipine 5mg, Thyroid Follow-up"
                     required
-                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
+                    className="w-full bg-white border border-[#CDE8E2] rounded-lg px-3 py-2 text-xs sm:text-sm text-[#243447] focus:ring-2 focus:ring-[#0F766E] focus:outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div>
-                    <label className="text-[10px] uppercase font-bold text-slate-500 block mb-1">
+                    <label className="text-[10px] uppercase font-bold text-[#64748B] block mb-1">
                       Category
                     </label>
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value as Reminder['category'])}
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none"
+                      className="w-full bg-white border border-[#CDE8E2] rounded-lg px-2.5 py-1.5 text-xs text-[#243447] focus:outline-none"
                     >
                       <option value="medication">Medication</option>
                       <option value="appointment">Doctor Visit</option>
@@ -278,7 +278,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   </div>
 
                   <div>
-                    <label className="text-[10px] uppercase font-bold text-slate-500 block mb-1">
+                    <label className="text-[10px] uppercase font-bold text-[#64748B] block mb-1">
                       Time
                     </label>
                     <input
@@ -286,12 +286,12 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                       value={time}
                       onChange={(e) => setTime(e.target.value)}
                       placeholder="e.g. 08:30 AM"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none"
+                      className="w-full bg-white border border-[#CDE8E2] rounded-lg px-2.5 py-1.5 text-xs text-[#243447] focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[10px] uppercase font-bold text-slate-500 block mb-1">
+                    <label className="text-[10px] uppercase font-bold text-[#64748B] block mb-1">
                       Frequency
                     </label>
                     <input
@@ -299,7 +299,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                       value={frequency}
                       onChange={(e) => setFrequency(e.target.value)}
                       placeholder="e.g. Daily, Weekly"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none"
+                      className="w-full bg-white border border-[#CDE8E2] rounded-lg px-2.5 py-1.5 text-xs text-[#243447] focus:outline-none"
                     />
                   </div>
                 </div>
@@ -310,7 +310,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Optional notes (e.g. Take with warm water)"
-                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:outline-none"
+                    className="w-full bg-white border border-[#CDE8E2] rounded-lg px-3 py-1.5 text-xs text-[#243447] focus:outline-none"
                   />
                 </div>
 
@@ -318,13 +318,13 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   <button
                     type="button"
                     onClick={() => setShowAddForm(false)}
-                    className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 rounded-lg"
+                    className="px-3 py-1.5 text-xs font-semibold text-[#64748B] hover:bg-[#E8F7F5] rounded-lg transition"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 bg-[#0F766E] hover:bg-[#0D655F] text-white text-xs font-bold rounded-lg transition"
+                    className="px-4 py-1.5 bg-[#0F766E] hover:bg-[#0D655F] text-white text-xs font-bold rounded-lg transition shadow-xs"
                   >
                     Save Reminder
                   </button>
@@ -335,7 +335,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
             {/* Reminders List */}
             <div className="space-y-2.5">
               {reminders.length === 0 ? (
-                <div className="p-8 text-center text-slate-400 text-xs">
+                <div className="p-8 text-center text-[#64748B] text-xs">
                   No reminders added yet. Click &quot;Add Reminder&quot; to create one.
                 </div>
               ) : (
@@ -345,8 +345,8 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                       key={r.id}
                       className={`p-3.5 rounded-xl border transition flex items-center justify-between gap-3 ${
                         r.completed
-                          ? 'bg-slate-50 border-slate-200 opacity-60'
-                          : 'bg-white border-slate-200 hover:border-[#0F766E]/40 shadow-xs'
+                          ? 'bg-[#E8F7F5]/40 border-[#CDE8E2] opacity-60'
+                          : 'bg-white border-[#CDE8E2] hover:border-[#35B8A6] shadow-xs'
                       }`}
                     >
                       <div className="flex items-start space-x-3">
@@ -369,23 +369,23 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                             >
                               {r.title}
                             </span>
-                            <span className="text-[9px] uppercase font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                            <span className="text-[9px] uppercase font-bold px-2 py-0.5 rounded-md bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2]">
                               {r.category}
                             </span>
                           </div>
-                          <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-1">
-                            <span className="flex items-center gap-1 font-medium">
+                          <div className="flex items-center gap-3 text-[11px] text-[#64748B] mt-1">
+                            <span className="flex items-center gap-1 font-medium text-[#243447]">
                               <Clock className="w-3 h-3 text-[#0F766E]" />
                               {r.time} ({r.frequency})
                             </span>
-                            {r.notes && <span className="italic">{r.notes}</span>}
+                            {r.notes && <span className="italic text-[#64748B]">{r.notes}</span>}
                           </div>
                         </div>
                       </div>
 
                       <button
                         onClick={() => handleDeleteReminder(r.id)}
-                        className="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-slate-100 transition cursor-pointer"
+                        className="text-[#64748B] hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition cursor-pointer"
                         title="Delete reminder"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -398,28 +398,28 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
           </div>
 
           {/* Right Column: Daily Wellness Checklist */}
-          <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs space-y-6">
+          <div className="lg:col-span-5 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-6">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center justify-between pb-3 border-b border-[#CDE8E2]/60">
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#DDF5EF] text-[#0F766E] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center">
                     <Activity className="w-4 h-4" />
                   </div>
                   <div>
                     <h3 className="font-bold text-base text-[#102A43]">Daily Wellness Tracker</h3>
-                    <span className="text-[11px] text-slate-500">Essential lifestyle pillars</span>
+                    <span className="text-[11px] text-[#64748B]">Essential lifestyle pillars</span>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="text-lg font-black text-[#0F766E]">{wellnessScore}%</span>
-                  <span className="text-[10px] text-slate-400 block font-semibold">Today's Score</span>
+                  <span className="text-[10px] text-[#64748B] block font-semibold">Today's Score</span>
                 </div>
               </div>
 
               {/* Score Progress Bar */}
-              <div className="w-full bg-slate-100 rounded-full h-2 mt-3 overflow-hidden">
+              <div className="w-full bg-[#E8F7F5] rounded-full h-2 mt-3 overflow-hidden border border-[#CDE8E2]/60">
                 <div
-                  className="bg-gradient-to-r from-[#0F766E] to-[#2DD4BF] h-2 transition-all duration-300 rounded-full"
+                  className="bg-gradient-to-r from-[#0F766E] to-[#35B8A6] h-2 transition-all duration-300 rounded-full"
                   style={{ width: `${wellnessScore}%` }}
                 />
               </div>
@@ -428,14 +428,14 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
             {/* Checklist Items */}
             <div className="space-y-4">
               {/* 1. Hydration Tracker */}
-              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+              <div className="p-3.5 bg-[#E8F7F5]/40 hover:bg-[#D9F3EC]/50 rounded-xl border border-[#CDE8E2] flex items-center justify-between transition">
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
                     <Droplets className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Hydration Target</h4>
-                    <span className="text-[11px] text-slate-500">Aim for 8 glasses / 2.5 Liters</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">Hydration Target</h4>
+                    <span className="text-[11px] text-[#64748B]">Aim for 8 glasses / 2.5 Liters</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -445,11 +445,11 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                       setWaterGlasses(next);
                       saveWellness({ waterGlasses: next });
                     }}
-                    className="w-7 h-7 rounded-md bg-white border border-slate-200 text-slate-700 font-bold flex items-center justify-center hover:bg-slate-100 transition cursor-pointer"
+                    className="w-7 h-7 rounded-md bg-white border border-[#CDE8E2] text-[#243447] font-bold flex items-center justify-center hover:bg-[#E8F7F5] transition cursor-pointer"
                   >
                     -
                   </button>
-                  <span className="text-xs font-bold font-mono px-1">{waterGlasses}/8</span>
+                  <span className="text-xs font-bold font-mono px-1 text-[#102A43]">{waterGlasses}/8</span>
                   <button
                     onClick={() => {
                       const next = Math.min(12, waterGlasses + 1);
@@ -470,22 +470,22 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   setWalkDone(next);
                   saveWellness({ walkDone: next });
                 }}
-                className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between cursor-pointer hover:bg-slate-100/80 transition"
+                className="p-3.5 bg-[#E8F7F5]/40 hover:bg-[#D9F3EC]/50 rounded-xl border border-[#CDE8E2] flex items-center justify-between cursor-pointer transition"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center">
                     <Activity className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Physical Activity</h4>
-                    <span className="text-[11px] text-slate-500">30 mins brisk walking, jogging or yoga</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">Physical Activity</h4>
+                    <span className="text-[11px] text-[#64748B]">30 mins brisk walking, jogging or yoga</span>
                   </div>
                 </div>
                 <div>
                   {walkDone ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    <CheckCircle2 className="w-5 h-5 text-[#0F766E]" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-300" />
+                    <Circle className="w-5 h-5 text-[#64748B]/40" />
                   )}
                 </div>
               </div>
@@ -497,22 +497,22 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   setSleepDone(next);
                   saveWellness({ sleepDone: next });
                 }}
-                className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between cursor-pointer hover:bg-slate-100/80 transition"
+                className="p-3.5 bg-[#E8F7F5]/40 hover:bg-[#D9F3EC]/50 rounded-xl border border-[#CDE8E2] flex items-center justify-between cursor-pointer transition"
               >
                 <div className="flex items-center space-x-3">
                   <div className="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center">
                     <Moon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Restorative Sleep</h4>
-                    <span className="text-[11px] text-slate-500">7 to 8 hours uninterrupted rest</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">Restorative Sleep</h4>
+                    <span className="text-[11px] text-[#64748B]">7 to 8 hours uninterrupted rest</span>
                   </div>
                 </div>
                 <div>
                   {sleepDone ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    <CheckCircle2 className="w-5 h-5 text-[#0F766E]" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-300" />
+                    <Circle className="w-5 h-5 text-[#64748B]/40" />
                   )}
                 </div>
               </div>
@@ -524,22 +524,22 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   setPranayamaDone(next);
                   saveWellness({ pranayamaDone: next });
                 }}
-                className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between cursor-pointer hover:bg-slate-100/80 transition"
+                className="p-3.5 bg-[#E8F7F5]/40 hover:bg-[#D9F3EC]/50 rounded-xl border border-[#CDE8E2] flex items-center justify-between cursor-pointer transition"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center">
                     <Wind className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Pranayama / Breathing</h4>
-                    <span className="text-[11px] text-slate-500">10 mins Anulom Vilom or meditation</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">Pranayama / Breathing</h4>
+                    <span className="text-[11px] text-[#64748B]">10 mins Anulom Vilom or meditation</span>
                   </div>
                 </div>
                 <div>
                   {pranayamaDone ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    <CheckCircle2 className="w-5 h-5 text-[#0F766E]" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-300" />
+                    <Circle className="w-5 h-5 text-[#64748B]/40" />
                   )}
                 </div>
               </div>
@@ -551,22 +551,22 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
                   setNutritionDone(next);
                   saveWellness({ nutritionDone: next });
                 }}
-                className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between cursor-pointer hover:bg-slate-100/80 transition"
+                className="p-3.5 bg-[#E8F7F5]/40 hover:bg-[#D9F3EC]/50 rounded-xl border border-[#CDE8E2] flex items-center justify-between cursor-pointer transition"
               >
                 <div className="flex items-center space-x-3">
                   <div className="w-9 h-9 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
                     <Salad className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Nutrient-Rich Diet</h4>
-                    <span className="text-[11px] text-slate-500">Fiber, lentils (dal), raw salad & low salt</span>
+                    <h4 className="text-xs font-bold text-[#102A43]">Nutrient-Rich Diet</h4>
+                    <span className="text-[11px] text-[#64748B]">Fiber, lentils (dal), raw salad & low salt</span>
                   </div>
                 </div>
                 <div>
                   {nutritionDone ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    <CheckCircle2 className="w-5 h-5 text-[#0F766E]" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-300" />
+                    <Circle className="w-5 h-5 text-[#64748B]/40" />
                   )}
                 </div>
               </div>

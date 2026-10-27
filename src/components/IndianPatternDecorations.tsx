@@ -45,8 +45,8 @@ export function MandalaRings({ className = '' }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle cx="100" cy="100" r="90" stroke="#0F766E" strokeWidth="0.75" strokeDasharray="3 3" />
-      <circle cx="100" cy="100" r="70" stroke="#2DD4BF" strokeWidth="1" />
-      <circle cx="100" cy="100" r="50" stroke="#DDF5EF" strokeWidth="0.75" strokeDasharray="2 4" />
+      <circle cx="100" cy="100" r="70" stroke="#35B8A6" strokeWidth="1" />
+      <circle cx="100" cy="100" r="50" stroke="#D9F3EC" strokeWidth="0.75" strokeDasharray="2 4" />
       <circle cx="100" cy="100" r="30" stroke="#0F766E" strokeWidth="1.2" />
       {/* 8 petaled subtle symmetry */}
       {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
@@ -56,7 +56,7 @@ export function MandalaRings({ className = '' }: { className?: string }) {
           y1="30"
           x2="100"
           y2="10"
-          stroke="#2DD4BF"
+          stroke="#35B8A6"
           strokeWidth="1"
           transform={`rotate(${angle} 100 100)`}
         />

@@ -41,18 +41,18 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
         {/* Content */}
         <div className="p-6 overflow-y-auto space-y-6">
           {reason && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-start space-x-3">
+            <div className="p-4 bg-[#FEE2E2] border border-red-200 rounded-xl flex items-start space-x-3">
               <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-sm font-bold text-red-900">Why this alert appeared:</h4>
-                <p className="text-sm text-red-800 mt-0.5">{reason}</p>
+                <h4 className="text-sm font-bold text-red-950">Why this alert appeared:</h4>
+                <p className="text-sm text-red-900 mt-0.5 font-medium">{reason}</p>
               </div>
             </div>
           )}
 
           {/* Primary Action Numbers */}
           <div>
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+            <h3 className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">
               Immediate Emergency Contact (India)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -60,14 +60,14 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
                 <a
                   key={item.number}
                   href={`tel:${item.number}`}
-                  className="flex items-center justify-between p-4 bg-slate-50 hover:bg-red-50 border border-slate-200 hover:border-red-300 rounded-xl transition group"
+                  className="flex items-center justify-between p-4 bg-[#E8F7F5]/40 hover:bg-[#FEE2E2] border border-[#CDE8E2] hover:border-red-300 rounded-xl transition group shadow-xs"
                 >
                   <div>
-                    <span className="text-xs font-semibold text-slate-600 block">{item.name}</span>
+                    <span className="text-xs font-semibold text-[#243447] block">{item.name}</span>
                     <span className="text-2xl font-black text-red-600 group-hover:text-red-700">
                       {item.number}
                     </span>
-                    <span className="text-xs text-slate-500 block mt-0.5">{item.description}</span>
+                    <span className="text-xs text-[#64748B] block mt-0.5">{item.description}</span>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-red-100 group-hover:bg-red-600 flex items-center justify-center transition">
                     <PhoneCall className="w-5 h-5 text-red-600 group-hover:text-white transition" />
@@ -78,12 +78,12 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
           </div>
 
           {/* Critical Steps */}
-          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-            <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-emerald-700" />
+          <div className="bg-[#E8F7F5]/50 p-4 rounded-xl border border-[#CDE8E2] space-y-3">
+            <h4 className="text-sm font-bold text-[#102A43] flex items-center gap-2">
+              <Clock className="w-4 h-4 text-[#0F766E]" />
               Immediate Life-Safety Protocol
             </h4>
-            <ul className="text-xs text-slate-700 space-y-2 list-disc list-inside">
+            <ul className="text-xs text-[#243447] space-y-2 list-disc list-inside">
               <li><strong>Do not drive yourself:</strong> Ask a family member, neighbor, or call an ambulance immediately.</li>
               <li><strong>Rest in a position of comfort:</strong> If experiencing chest pressure or breathlessness, sit upright in a comfortable chair. Loosen any tight clothing around the neck and chest.</li>
               <li><strong>FAST Stroke Check:</strong> If someone shows Facial drooping, Arm weakness, or Slurred speech, Time is critical — seek emergency hospital care within minutes.</li>
@@ -92,17 +92,17 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
           </div>
 
           {/* Disclaimer */}
-          <p className="text-[11px] text-slate-500 italic text-center">
+          <p className="text-[11px] text-[#64748B] italic text-center">
             IMD Care is an automated health literacy tool and does not provide clinical diagnosis or emergency triage. For genuine emergencies, immediately contact emergency medical services.
           </p>
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-100 px-6 py-3 border-t border-slate-200 flex items-center justify-between">
-          <span className="text-xs text-slate-600">Free 24/7 National Emergency Hotline: <strong>112</strong></span>
+        <div className="bg-[#D9F3EC]/50 px-6 py-3 border-t border-[#CDE8E2] flex items-center justify-between">
+          <span className="text-xs text-[#243447]">Free 24/7 National Emergency Hotline: <strong className="text-red-600">112</strong></span>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition"
+            className="px-4 py-2 bg-[#102A43] hover:bg-[#0A1926] text-white text-xs font-semibold rounded-lg transition cursor-pointer"
           >
             I Understand, Close Guidance
           </button>
