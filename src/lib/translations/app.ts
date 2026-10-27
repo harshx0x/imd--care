@@ -221,6 +221,26 @@ export interface AppTranslations {
     deleteTestRow: string;
     sourceDocument: string;
     sourcePreview: string;
+    compactHeading: string;
+    oneLineDesc: string;
+    uploadBtn: string;
+    supportedFormatsShort: string;
+    privacyNoteShort: string;
+    resultsReadyStatus: string;
+    viewAllResults: string;
+    hideAllResults: string;
+    understandThisResult: string;
+    hideExplanation: string;
+    extractionDetails: string;
+    hideExtractionDetails: string;
+    statusWithinRange: string;
+    statusHigh: string;
+    statusLow: string;
+    statusNeedsVerificationTag: string;
+    testsExtractedBadge: (count: number) => string;
+    flaggedBadge: (count: number) => string;
+    previewBtn: string;
+    analyzeAnother: string;
   };
   preventive: {
     sectionBadge: string;
@@ -557,7 +577,28 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       hideRawText: 'Hide Raw Text',
       deleteTestRow: 'Remove row',
       sourceDocument: 'Source Document',
-      sourcePreview: 'Original Document Preview'
+      sourcePreview: 'Original Document Preview',
+      compactHeading: 'Lab Report Analyzer',
+      oneLineDesc: 'Upload your lab report to understand your results.',
+      uploadBtn: 'Upload Lab Report',
+      supportedFormatsShort: 'PDF, JPG, PNG · Max 10 MB',
+      privacyNoteShort: 'Your health information deserves privacy.',
+      resultsReadyStatus: 'Results ready for review',
+      viewAllResults: 'View All Results',
+      hideAllResults: 'Hide All Results',
+      understandThisResult: 'Understand This Result',
+      hideExplanation: 'Hide Explanation',
+      extractionDetails: 'Extraction Details',
+      hideExtractionDetails: 'Hide Extraction Details',
+      statusWithinRange: 'Within Range',
+      statusHigh: 'High',
+      statusLow: 'Low',
+      statusNeedsVerificationTag: 'Needs Verification',
+      testsExtractedBadge: (count: number) => `${count} test${count === 1 ? '' : 's'} extracted`,
+      flaggedBadge: (count: number) =>
+        count === 0 ? 'All markers within normal range' : `${count} flagged out of range`,
+      previewBtn: 'Preview Document',
+      analyzeAnother: 'Analyze Another Report'
     },
     preventive: {
       sectionBadge: 'Preventive Wellness Routine',
@@ -909,7 +950,28 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       hideRawText: 'मूल टेक्स्ट छिपाएं',
       deleteTestRow: 'पंक्ति हटाएं',
       sourceDocument: 'मूल दस्तावेज़',
-      sourcePreview: 'मूल रिपोर्ट का पूर्वावलोकन'
+      sourcePreview: 'मूल रिपोर्ट का पूर्वावलोकन',
+      compactHeading: 'लैब रिपोर्ट विश्लेषक',
+      oneLineDesc: 'अपने परिणामों को समझने के लिए अपनी लैब रिपोर्ट अपलोड करें।',
+      uploadBtn: 'लैब रिपोर्ट अपलोड करें',
+      supportedFormatsShort: 'PDF, JPG, PNG · अधिकतम 10 MB',
+      privacyNoteShort: 'आपकी स्वास्थ्य जानकारी पूर्णतः निजी और सुरक्षित है।',
+      resultsReadyStatus: 'समीक्षा के लिए परिणाम तैयार हैं',
+      viewAllResults: 'सभी परिणाम देखें',
+      hideAllResults: 'परिणाम सूची छुपाएं',
+      understandThisResult: 'यह परिणाम समझें',
+      hideExplanation: 'विवरण छुपाएं',
+      extractionDetails: 'निष्कर्षण विवरण',
+      hideExtractionDetails: 'निष्कर्षण विवरण छुपाएं',
+      statusWithinRange: 'सामान्य सीमा में',
+      statusHigh: 'अधिक (High)',
+      statusLow: 'कम (Low)',
+      statusNeedsVerificationTag: 'सत्यापन आवश्यक',
+      testsExtractedBadge: (count: number) => `${count} टेस्ट निकाले गए`,
+      flaggedBadge: (count: number) =>
+        count === 0 ? 'सभी मान सामान्य सीमा में हैं' : `${count} सामान्य सीमा से बाहर`,
+      previewBtn: 'दस्तावेज़ देखें',
+      analyzeAnother: 'दूसरी रिपोर्ट का विश्लेषण करें'
     },
     preventive: {
       sectionBadge: 'निवारक स्वास्थ्य दिनचर्या',
@@ -1261,7 +1323,28 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       hideRawText: 'मूळ मजकूर लपवा',
       deleteTestRow: 'ओळ हटवा',
       sourceDocument: 'मूळ दस्तऐवज',
-      sourcePreview: 'मूळ अहवाल पूर्वावलोकन'
+      sourcePreview: 'मूळ अहवाल पूर्वावलोकन',
+      compactHeading: 'लॅब अहवाल विश्लेषक',
+      oneLineDesc: 'आपले निकाल समजून घेण्यासाठी आपला लॅब अहवाल अपलोड करा.',
+      uploadBtn: 'लॅब अहवाल अपलोड करा',
+      supportedFormatsShort: 'PDF, JPG, PNG · कमाल 10 MB',
+      privacyNoteShort: 'आपली आरोग्य माहिती पूर्णपणे खाजगी आणि सुरक्षित आहे.',
+      resultsReadyStatus: 'तपासणीसाठी निकाल तयार आहेत',
+      viewAllResults: 'सर्व निकाल पहा',
+      hideAllResults: 'निकाल सूची लपवा',
+      understandThisResult: 'हा निकाल समजून घ्या',
+      hideExplanation: 'स्पष्टीकरण लपवा',
+      extractionDetails: 'माहिती तपशील',
+      hideExtractionDetails: 'माहिती तपशील लपवा',
+      statusWithinRange: 'सामान्य मर्यादेत',
+      statusHigh: 'जास्त (High)',
+      statusLow: 'कमी (Low)',
+      statusNeedsVerificationTag: 'पडताळणी आवश्यक',
+      testsExtractedBadge: (count: number) => `${count} चाचण्या काढल्या गेल्या`,
+      flaggedBadge: (count: number) =>
+        count === 0 ? 'सर्व चाचण्या सामान्य मर्यादेत आहेत' : `${count} सामान्य मर्यादेबाहेर`,
+      previewBtn: 'दस्तऐवज पहा',
+      analyzeAnother: 'दुसऱ्या अहवालाचे विश्लेषण करा'
     },
     preventive: {
       sectionBadge: 'प्रतिबंधात्मक आरोग्य दिनचर्या',
