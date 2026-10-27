@@ -62,6 +62,31 @@ export interface ReportExplanationResult {
   isDemo?: boolean;
 }
 
+export interface ImportedTestItem {
+  testName: string;
+  resultValue: string;
+  unit: string;
+  referenceRange?: string;
+  status: 'below' | 'normal' | 'above' | 'inconclusive';
+  simpleExplanation: string;
+}
+
+export interface ImportedReportAnalysisResult {
+  reportTitle?: string;
+  fileName?: string;
+  fileSize?: string;
+  tests: ImportedTestItem[];
+  overallSummary: string;
+  abnormalReassurance: string;
+  factorsToConsider: string[];
+  questionsForDoctor: string[];
+  disclaimer: string;
+  language: Language;
+  isDemo?: boolean;
+  isUnreadable?: boolean;
+  unreadableReason?: string;
+}
+
 export interface Reminder {
   id: string;
   title: string;

@@ -4,7 +4,9 @@ import {
   SymptomRequest,
   SymptomResult,
   ReportExplanationRequest,
-  ReportExplanationResult
+  ReportExplanationResult,
+  ImportedReportAnalysisResult,
+  ImportedTestItem
 } from './types';
 
 export const SYNTHETIC_LAB_REPORTS: LabReportSample[] = [
@@ -276,6 +278,296 @@ export function getSyntheticReportExplanation(request: ReportExplanationRequest)
     ],
     disclaimer: 'This simplified breakdown is synthetic health education and never replaces an official consultation with a licensed clinical pathologist or physician.',
     language: 'en',
+    isDemo: true
+  };
+}
+
+export function getSyntheticImportedReportAnalysis(
+  fileName: string,
+  extractedText: string = '',
+  language: Language = 'en'
+): ImportedReportAnalysisResult {
+  const lowerFile = fileName.toLowerCase();
+  const lowerText = extractedText.toLowerCase();
+
+  // Detection for intentionally unreadable / corrupted files
+  if (
+    lowerFile.includes('unreadable') ||
+    lowerFile.includes('blur') ||
+    lowerFile.includes('corrupt') ||
+    lowerText.includes('unreadable document')
+  ) {
+    const unreadableReasons: Record<Language, string> = {
+      en: 'The uploaded file could not be parsed clearly. The text or image appears blurry, low-resolution, or obstructed. Please upload a clear digital PDF or well-lit photo of your lab report.',
+      hi: 'अपलोड की गई फ़ाइल को स्पष्ट रूप से पढ़ा नहीं जा सका। टेक्स्ट या तस्वीर धुंधली, कम रिज़ॉल्यूशन वाली या अस्पष्ट है। कृपया अपनी लैब रिपोर्ट का स्पष्ट डिजिटल PDF या अच्छी रोशनी में खींची गई फोटो अपलोड करें।',
+      mr: 'अपलोड केलेली फाईल वाचता आली नाही. प्रतिमा किंवा मजकूर अस्पष्ट, अंधुक किंवा खराब दिसत आहे. कृपया आपल्या लॅब अहवालाची स्पष्ट डिजिटल PDF किंवा चांगल्या प्रकाशातील फोटो अपलोड करा.'
+    };
+
+    return {
+      reportTitle: 'Unreadable Laboratory Document',
+      fileName,
+      tests: [],
+      overallSummary: unreadableReasons[language],
+      abnormalReassurance: '',
+      factorsToConsider: [],
+      questionsForDoctor: [],
+      disclaimer: 'IMD Care is an automated health literacy tool and requires legible diagnostic documents.',
+      language,
+      isDemo: true,
+      isUnreadable: true,
+      unreadableReason: unreadableReasons[language]
+    };
+  }
+
+  // Parse specific tests if present in the text
+  const tests: ImportedTestItem[] = [];
+
+  if (lowerText.includes('hemoglobin') || lowerText.includes('hb')) {
+    const hbMatch = extractedText.match(/(?:hemoglobin|hb)[^\d]*(\d+(?:\.\d+)?)/i);
+    const val = hbMatch ? hbMatch[1] : '10.8';
+    const num = parseFloat(val);
+    const status = num < 12.0 ? 'below' : num > 16.0 ? 'above' : 'normal';
+
+    const explanations: Record<Language, string> = {
+      en: 'Hemoglobin carries oxygen in red blood cells. A value slightly below range often relates to nutritional iron intake, hydration status, or temporary fatigue.',
+      hi: 'हीमोग्लोबिन लाल रक्त कोशिकाओं में ऑक्सीजन का वहन करता है। सीमा से थोड़ा कम मान अक्सर आयरन की कमी या पानी के स्तर से संबंधित होता है।',
+      mr: 'हिमोग्लोबिन रक्तात ऑक्सिजन वाहून नेण्याचे काम करते. सामान्य श्रेणीपेक्षा थोडे कमी असणे हे लोहाचे प्रमाण किंवा थकव्याशी संबंधित असू शकते.'
+    };
+
+    tests.push({
+      testName: 'Hemoglobin (Hb)',
+      resultValue: val,
+      unit: 'g/dL',
+      referenceRange: '12.0 - 15.5 g/dL',
+      status,
+      simpleExplanation: explanations[language]
+    });
+  }
+
+  if (lowerText.includes('glucose') || lowerText.includes('sugar') || lowerText.includes('fbs')) {
+    const gMatch = extractedText.match(/(?:glucose|sugar|fbs)[^\d]*(\d+(?:\.\d+)?)/i);
+    const val = gMatch ? gMatch[1] : '104';
+    const num = parseFloat(val);
+    const status = num > 99 ? 'above' : num < 70 ? 'below' : 'normal';
+
+    const explanations: Record<Language, string> = {
+      en: 'Fasting blood glucose measures circulating energy. Slightly elevated numbers may reflect recent carbohydrates, fasting timing, or minor morning stress (dawn effect).',
+      hi: 'खाली पेट ग्लूकोज रक्त में शर्करा का स्तर मापता है। थोड़ा बढ़ा हुआ मान हालिया भोजन के समय या सुबह के हार्मोनल तनाव से प्रभावित हो सकता है।',
+      mr: 'उपाशीपोटी रक्तातील साखरेचे मोजमाप. किंचित वाढलेला निकाल हा जेवणाची वेळ किंवा ताणतणावामुळेही असू शकतो.'
+    };
+
+    tests.push({
+      testName: 'Fasting Blood Glucose',
+      resultValue: val,
+      unit: 'mg/dL',
+      referenceRange: '70 - 99 mg/dL',
+      status,
+      simpleExplanation: explanations[language]
+    });
+  }
+
+  if (lowerText.includes('tsh') || lowerText.includes('thyroid')) {
+    const tshMatch = extractedText.match(/tsh[^\d]*(\d+(?:\.\d+)?)/i);
+    const val = tshMatch ? tshMatch[1] : '2.8';
+    const num = parseFloat(val);
+    const status = num > 4.5 ? 'above' : num < 0.4 ? 'below' : 'normal';
+
+    const explanations: Record<Language, string> = {
+      en: 'TSH coordinates metabolic energy release by stimulating the thyroid. Values in this range reflect stable pituitary-thyroid signaling.',
+      hi: 'टीएसएच (TSH) थायरॉइड ग्रंथि को नियंत्रित करता है। यह मान संतुलित थायरॉइड कार्यप्रणाली को दर्शाता है।',
+      mr: 'टीएसएच थायरॉईड ग्रंथीचे कार्य नियंत्रित करते. हा निकाल सामान्य कार्य दर्शवतो.'
+    };
+
+    tests.push({
+      testName: 'Thyroid Stimulating Hormone (TSH)',
+      resultValue: val,
+      unit: 'µIU/mL',
+      referenceRange: '0.4 - 4.5 µIU/mL',
+      status,
+      simpleExplanation: explanations[language]
+    });
+  }
+
+  // If no specific tests detected or empty text (e.g. image without text layer), use a standard comprehensive blood profile
+  if (tests.length === 0) {
+    if (language === 'hi') {
+      tests.push(
+        {
+          testName: 'हीमोग्लोबिन (Hemoglobin Hb)',
+          resultValue: '10.8',
+          unit: 'g/dL',
+          referenceRange: '12.0 - 15.5 g/dL',
+          status: 'below',
+          simpleExplanation: 'लाल रक्त कोशिकाओं में ऑक्सीजन ले जाने वाला प्रोटीन। संदर्भ सीमा से थोड़ा कम मान पोषण और आयरन की स्थिति को दर्शाता है।'
+        },
+        {
+          testName: 'फास्टिंग ब्लड शुगर (Fasting Glucose)',
+          resultValue: '104',
+          unit: 'mg/dL',
+          referenceRange: '70 - 99 mg/dL',
+          status: 'above',
+          simpleExplanation: 'रातभर उपवास के बाद रक्त शर्करा का स्तर। थोड़ा बढ़ा हुआ मान भोजन के समय या तनाव से भी आ सकता है।'
+        },
+        {
+          testName: 'सीरम क्रिएटिनिन (Kidney Function)',
+          resultValue: '0.9',
+          unit: 'mg/dL',
+          referenceRange: '0.7 - 1.2 mg/dL',
+          status: 'normal',
+          simpleExplanation: 'मांसपेशियों के सामान्य उपापचय का अपशिष्ट उत्पाद। यह परिणाम गुर्दों की स्वस्थ कार्यक्षमता का संकेत देता है।'
+        },
+        {
+          testName: 'एलडीएल कोलेस्ट्रॉल (LDL "Bad" Cholesterol)',
+          resultValue: '118',
+          unit: 'mg/dL',
+          referenceRange: 'Less than 100 mg/dL',
+          status: 'above',
+          simpleExplanation: 'धमनियों में वसा का परिवहन करने वाला लिपोप्रोटीन। थोड़ा अधिक मान जीवनशैली और आहार में संतुलन की आवश्यकता दर्शाता है।'
+        }
+      );
+    } else if (language === 'mr') {
+      tests.push(
+        {
+          testName: 'हिमोग्लोबिन (Hemoglobin Hb)',
+          resultValue: '10.8',
+          unit: 'g/dL',
+          referenceRange: '12.0 - 15.5 g/dL',
+          status: 'below',
+          simpleExplanation: 'रक्तातील ऑक्सिजन वाहक घटक. सामान्य श्रेणीपेक्षा थोडे कमी असणे हे आहारातील लोहाच्या प्रमाणावर अवलंबून असते.'
+        },
+        {
+          testName: 'उपाशीपोटी साखर (Fasting Blood Sugar)',
+          resultValue: '104',
+          unit: 'mg/dL',
+          referenceRange: '70 - 99 mg/dL',
+          status: 'above',
+          simpleExplanation: 'उपाशीपोटी रक्तातील ग्लुकोजचे प्रमाण. थोडी वाढ ही आदल्या रात्रीचे जेवण किंवा तणावामुळे असू शकते.'
+        },
+        {
+          testName: 'सीरम क्रिएटिनिन (किडनी कार्यक्षमता)',
+          resultValue: '0.9',
+          unit: 'mg/dL',
+          referenceRange: '0.7 - 1.2 mg/dL',
+          status: 'normal',
+          simpleExplanation: 'किडनीचे आरोग्य तपासण्यासाठी महत्त्वाचा घटक. हा निकाल सामान्य श्रेणीत आहे.'
+        },
+        {
+          testName: 'एलडीएल कोलेस्ट्रॉल (LDL Cholesterol)',
+          resultValue: '118',
+          unit: 'mg/dL',
+          referenceRange: 'Less than 100 mg/dL',
+          status: 'above',
+          simpleExplanation: 'रक्तातील चरबीचे प्रमाण. थोडी वाढ ही आहारातील बदल आणि शतपावलीसारख्या व्यायामाने सुधारू शकते.'
+        }
+      );
+    } else {
+      tests.push(
+        {
+          testName: 'Hemoglobin (Hb)',
+          resultValue: '10.8',
+          unit: 'g/dL',
+          referenceRange: '12.0 - 15.5 g/dL',
+          status: 'below',
+          simpleExplanation: 'Measures the oxygen-carrying protein in red blood cells. Slightly below range suggests monitoring dietary iron and hydration.'
+        },
+        {
+          testName: 'Fasting Blood Glucose',
+          resultValue: '104',
+          unit: 'mg/dL',
+          referenceRange: '70 - 99 mg/dL',
+          status: 'above',
+          simpleExplanation: 'Reflects blood sugar after an overnight fast. Mild elevation can be influenced by dinner timing, sleep quality, or temporary stress.'
+        },
+        {
+          testName: 'Serum Creatinine',
+          resultValue: '0.9',
+          unit: 'mg/dL',
+          referenceRange: '0.7 - 1.2 mg/dL',
+          status: 'normal',
+          simpleExplanation: 'Byproduct of muscle metabolism filtered by healthy kidneys. Indicates healthy renal filtration.'
+        },
+        {
+          testName: 'LDL Cholesterol',
+          resultValue: '118',
+          unit: 'mg/dL',
+          referenceRange: 'Less than 100 mg/dL',
+          status: 'above',
+          simpleExplanation: 'Transports cholesterol through circulation. Mild elevation warrants review of healthy fats and daily walking.'
+        }
+      );
+    }
+  }
+
+  const overallSummaries: Record<Language, string> = {
+    en: `Successfully parsed ${tests.length} laboratory biomarkers from "${fileName}". The report displays a routine diagnostic screening profile with mostly stable markers alongside minor variations.`,
+    hi: `दस्तावेज़ "${fileName}" से ${tests.length} लैब बायोमार्कर्स सफलतापूर्वक निकाले गए। रिपोर्ट में कुछ मान संदर्भ सीमा के भीतर और कुछ मामूली रूप से भिन्न पाए गए हैं।`,
+    mr: `"${fileName}" फाईलमधून ${tests.length} लॅब चाचण्यांचे यशस्वी विश्लेषण झाले. अहवालात काही चाचण्या सामान्य तर काही किंचित फरकाने आढळल्या आहेत.`
+  };
+
+  const abnormalReassurances: Record<Language, string> = {
+    en: 'Important Clinical Reassurance: Abnormal values do not automatically mean you have a disease. Laboratory reference intervals represent a broad statistical bell curve (the middle 95% of healthy individuals). Minor deviations are frequently caused by benign day-to-day variables — such as how much water you drank before the test, your last meal timing, stress levels, recent exercise, sleep quality, or assay calibration differences between diagnostic labs. Only a licensed doctor can evaluate test results in the full context of your physical examination and medical history.',
+    hi: 'महत्वपूर्ण चिकित्सीय आश्वासन: किसी जांच का मान असामान्य (कम या अधिक) होने का अर्थ यह बिल्कुल नहीं है कि आपको कोई बीमारी है। लैब संदर्भ सीमाएं स्वस्थ आबादी के 95% औसत पर आधारित होती हैं। मामूली उतार-चढ़ाव पूरी तरह सामान्य हो सकते हैं और यह निर्जलीकरण, उपवास की सटीक अवधि, तनाव, अनिद्रा या प्रयोगशाला मशीनों के अंतर से भी हो सकते हैं। केवल एक पंजीकृत डॉक्टर ही आपके व्यक्तिगत स्वास्थ्य इतिहास के संदर्भ में इसका सही मूल्यांकन कर सकते हैं।',
+    mr: 'महत्त्वाचे वैद्यकीय आश्वासन: चाचणीचा निकाल असामान्य असणे म्हणजे आजारच आहे असे मुळीच नाही. प्रयोगशाळेच्या संदर्भ श्रेणी या सामान्य व्यक्तींच्या सांख्यिकीवर आधारित असतात. पाण्याचे प्रमाण, आदल्या दिवशीचा आहार, झोप, कामाचा ताण आणि लॅबच्या पद्धती यांमुळे आकडे बदलू शकतात. म्हणूनच कोणत्याही निष्कर्षावर येण्यापूर्वी आपल्या डॉक्टरांचा प्रत्यक्ष सल्ला घेणे आवश्यक आहे.'
+  };
+
+  const factorsToConsider: Record<Language, string[]> = {
+    en: [
+      'Hydration Status: Being under-hydrated can concentrate blood markers and falsely elevate hemoglobin or creatinine.',
+      'Fasting Window: Blood drawn less than 8 hours after food directly influences fasting glucose and triglycerides.',
+      'Biological Rhythms: Hormones like TSH naturally fluctuate depending on morning vs. afternoon sample collection.',
+      'Laboratory Methodologies: Different diagnostic centers use differing assay equipment and calibration baselines.'
+    ],
+    hi: [
+      'पानी का स्तर (हाइड्रेशन): कम पानी पीने से रक्त के कण अधिक गाढ़े दिख सकते हैं जिससे हीमोग्लोबिन या क्रिएटिनिन अधिक आ सकता है।',
+      'उपवास की अवधि: 8-10 घंटे का उपवास न होने से ब्लड ग्लूकोज का परिणाम प्रभावित हो सकता है।',
+      'दैनिक जैविक चक्र: सुबह और दोपहर के समय टीएसएच (TSH) जैसे हार्मोन में स्वाभाविक उतार-चढ़ाव होता है।',
+      'प्रयोगशाला विधियाँ: अलग-अलग डायग्नोस्टिक लैब विभिन्न मशीनों और मानकों का उपयोग करती हैं।'
+    ],
+    mr: [
+      'पाण्याचे प्रमाण: शरीरात पाण्याचे प्रमाण कमी असल्यास रक्तातील घटकांचे प्रमाण जास्त दिसू शकते.',
+      'उपाशीपोटी राहण्याचा वेळ: किमान ८ ते १० तास उपाशीपोटी न राहिल्यास साखरेचा निकाल बदलू शकतो.',
+      'नैसर्गिक चक्र: सकाळ आणि दुपारच्या नमुन्यांमध्ये हार्मोन्सचे प्रमाण नैसर्गिकरित्या बदलू शकते.',
+      'लॅब पद्धती: विविध प्रयोगशाळांच्या चाचणी पद्धतींमध्ये थोडा फरक असू शकतो.'
+    ]
+  };
+
+  const questionsForDoctor: Record<Language, string[]> = {
+    en: [
+      '"Doctor, do these specific biomarker values align with my current symptoms and health history?"',
+      '"Could any of the mild variations be related to my hydration, diet, or sleep prior to the test?"',
+      '"Do you recommend repeating these tests in 4 to 6 weeks, or ordering additional follow-up panels?"',
+      '"Are there simple lifestyle, hydration, or dietary habits I can adopt right now?"'
+    ],
+    hi: [
+      '"डॉक्टर साहब, क्या ये परिणाम मेरे वर्तमान लक्षणों और स्वास्थ्य इतिहास के अनुकूल हैं?"',
+      '"क्या कोई हल्का बदलाव जांच से पहले के खान-पान, पानी या नींद से संबंधित हो सकता है?"',
+      '"क्या मुझे 4 से 6 सप्ताह बाद इस जांच को दोहराने की आवश्यकता है?"',
+      '"क्या मेरे लिए आहार या दैनिक दिनचर्या में किसी सुधार की सिफारिश करेंगे?"'
+    ],
+    mr: [
+      '"डॉक्टर, हे निकाल माझ्या सध्याच्या आरोग्याशी सुसंगत आहेत का?"',
+      '"हे किरकोळ बदल आदल्या दिवसाच्या आहाराशी किंवा झोपेशी संबंधित असू शकतात का?"',
+      '"काही आठवड्यांनी ही चाचणी पुन्हा करून घेण्याची गरज आहे का?"',
+      '"आहार आणि जीवनशैलीत कोणते बदल करणे योग्य ठरेल?"'
+    ]
+  };
+
+  const disclaimers: Record<Language, string> = {
+    en: 'This imported report analysis is an AI-powered health literacy summary and does not constitute a clinical medical diagnosis. Never start, stop, or change medication dosages without consulting a licensed physician.',
+    hi: 'यह इम्पोर्टेड रिपोर्ट विश्लेषण एक AI-संचालित स्वास्थ्य साक्षरता सारांश है और चिकित्सीय निदान का विकल्प नहीं है। डॉक्टर की सलाह के बिना कभी भी दवाओं में बदलाव न करें।',
+    mr: 'हे विश्लेषण केवळ आरोग्य साक्षरतेसाठी असून प्रत्यक्ष वैद्यकीय निदान नाही. डॉक्टरांच्या सल्ल्याशिवाय औषधांमध्ये कोणताही बदल करू नका.'
+  };
+
+  return {
+    reportTitle: fileName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+    fileName,
+    tests,
+    overallSummary: overallSummaries[language],
+    abnormalReassurance: abnormalReassurances[language],
+    factorsToConsider: factorsToConsider[language],
+    questionsForDoctor: questionsForDoctor[language],
+    disclaimer: disclaimers[language],
+    language,
     isDemo: true
   };
 }

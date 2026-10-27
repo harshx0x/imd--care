@@ -176,6 +176,32 @@ export interface AppTranslations {
     disclaimerPrefix: string;
     disclaimerSuffix: string;
     errorMessage: string;
+    tabManual: string;
+    tabImport: string;
+    importBadge: string;
+    importTitle: string;
+    importSubtitle: string;
+    dropzoneTitle: string;
+    dropzoneSubtitle: string;
+    browseFiles: string;
+    supportedFormats: string;
+    privacyPledge: string;
+    selectedFileTitle: string;
+    removeFile: string;
+    importAnother: string;
+    analyzeBtn: string;
+    analyzingBtn: string;
+    analyzingHint: string;
+    extractedTestsTitle: string;
+    testsCountLabel: (count: number) => string;
+    measuredResultLabel: string;
+    referenceRangeLabel: string;
+    notSpecified: string;
+    reassuranceTitle: string;
+    unreadableTitle: string;
+    unreadableTryAgain: string;
+    errorOversized: string;
+    errorUnsupportedType: string;
   };
   preventive: {
     sectionBadge: string;
@@ -465,7 +491,34 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       disclaimerPrefix: 'Synthetic Educational Interpretation:',
       disclaimerSuffix:
         'Always present your original diagnostic report to a registered medical practitioner.',
-      errorMessage: 'Unable to simplify lab report. Please check your connection and try again.'
+      errorMessage: 'Unable to simplify lab report. Please check your connection and try again.',
+      tabManual: 'Enter Values Manually',
+      tabImport: 'Import Lab Report',
+      importBadge: 'Document Vision & PDF Parsing',
+      importTitle: 'Import Diagnostic Lab Report',
+      importSubtitle:
+        'Upload your lab report PDF or photo to extract biomarkers and receive plain-language guidance.',
+      dropzoneTitle: 'Upload your lab report to understand your results.',
+      dropzoneSubtitle: 'Drag & drop your document here or select from your computer',
+      browseFiles: 'Browse Files',
+      supportedFormats: 'Supports PDF, JPG, JPEG, and PNG files up to 10 MB',
+      privacyPledge: '100% In-Memory Processing • Zero Permanent Storage',
+      selectedFileTitle: 'Report Document Ready',
+      removeFile: 'Remove File',
+      importAnother: 'Import Another',
+      analyzeBtn: 'Analyze Report',
+      analyzingBtn: 'Analyzing Report...',
+      analyzingHint: 'Extracting biomarkers and compiling layman explanations...',
+      extractedTestsTitle: 'Extracted Lab Biomarkers',
+      testsCountLabel: (count: number) => `${count} Test${count === 1 ? '' : 's'} Identified`,
+      measuredResultLabel: 'Measured Result:',
+      referenceRangeLabel: 'Reference Range:',
+      notSpecified: 'Not specified on report',
+      reassuranceTitle: 'Important Note on Test Values',
+      unreadableTitle: 'Document Could Not Be Read Clearly',
+      unreadableTryAgain: 'Please upload a clearer, well-lit photo or digital PDF report.',
+      errorOversized: 'The uploaded file exceeds the 10 MB limit. Please select a smaller file.',
+      errorUnsupportedType: 'Unsupported file format. Please upload a PDF, JPG, or PNG report.'
     },
     preventive: {
       sectionBadge: 'Preventive Wellness Routine',
@@ -770,7 +823,34 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       disclaimerPrefix: 'सिंथेटिक शैक्षिक विश्लेषण:',
       disclaimerSuffix:
         'किसी भी निर्णय से पहले अपनी मूल लैब रिपोर्ट पंजीकृत चिकित्सक को दिखाएं।',
-      errorMessage: 'लैब रिपोर्ट सरल करने में असमर्थ। कृपया कनेक्शन जांचें और पुनः प्रयास करें।'
+      errorMessage: 'लैब रिपोर्ट सरल करने में असमर्थ। कृपया कनेक्शन जांचें और पुनः प्रयास करें।',
+      tabManual: 'आंकड़े स्वयं दर्ज करें',
+      tabImport: 'लैब रिपोर्ट आयात करें (Import)',
+      importBadge: 'दस्तावेज़ विज़न और PDF विश्लेषण',
+      importTitle: 'डायग्नोस्टिक लैब रिपोर्ट आयात करें',
+      importSubtitle:
+        'बायोमार्कर्स निकालने और सरल भाषा में मार्गदर्शन पाने के लिए अपनी रिपोर्ट (PDF या फोटो) अपलोड करें।',
+      dropzoneTitle: 'अपने परिणामों को समझने के लिए अपनी लैब रिपोर्ट अपलोड करें।',
+      dropzoneSubtitle: 'फ़ाइल को यहाँ खींचकर छोड़ें या अपने डिवाइस से चुनें',
+      browseFiles: 'फ़ाइलें चुनें (Browse Files)',
+      supportedFormats: 'PDF, JPG, JPEG और PNG फ़ाइलें समर्थित हैं (अधिकतम 10 MB)',
+      privacyPledge: '100% इन-मेमोरी प्रोसेसिंग • सर्वर पर कोई फ़ाइल सहेजी नहीं जाती',
+      selectedFileTitle: 'रिपोर्ट दस्तावेज़ तैयार है',
+      removeFile: 'फ़ाइल हटाएं (Remove)',
+      importAnother: 'दूसरी फ़ाइल चुनें (Import Another)',
+      analyzeBtn: 'रिपोर्ट का विश्लेषण करें (Analyze Report)',
+      analyzingBtn: 'रिपोर्ट का विश्लेषण हो रहा है...',
+      analyzingHint: 'बायोमार्कर्स निकाले जा रहे हैं और सरल व्याख्या तैयार की जा रही है...',
+      extractedTestsTitle: 'पहचाने गए लैब बायोमार्कर्स',
+      testsCountLabel: (count: number) => `${count} जांच विवरण प्राप्त हुए`,
+      measuredResultLabel: 'मापा गया परिणाम:',
+      referenceRangeLabel: 'संदर्भ सीमा (Reference Range):',
+      notSpecified: 'रिपोर्ट में निर्दिष्ट नहीं',
+      reassuranceTitle: 'टेस्ट परिणामों पर महत्वपूर्ण जानकारी',
+      unreadableTitle: 'दस्तावेज़ को स्पष्ट रूप से पढ़ा नहीं जा सका',
+      unreadableTryAgain: 'कृपया एक स्पष्ट, अच्छी रोशनी वाली तस्वीर या डिजिटल PDF रिपोर्ट अपलोड करें।',
+      errorOversized: 'अपलोड की गई फ़ाइल 10 MB से बड़ी है। कृपया छोटी फ़ाइल चुनें।',
+      errorUnsupportedType: 'असमर्थित फ़ाइल प्रारूप। कृपया केवल PDF, JPG या PNG रिपोर्ट अपलोड करें।'
     },
     preventive: {
       sectionBadge: 'निवारक स्वास्थ्य दिनचर्या',
@@ -1075,7 +1155,34 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       disclaimerPrefix: 'प्रात्यक्षिक शैक्षणिक विश्लेषण:',
       disclaimerSuffix:
         'कोणत्याही निर्णयापूर्वी मूळ लॅब अहवाल तज्ज्ञ डॉक्टरांना दाखवा.',
-      errorMessage: 'अहवाल सोपा करताना त्रुटी आली. कृपया इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.'
+      errorMessage: 'अहवाल सोपा करताना त्रुटी आली. कृपया इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.',
+      tabManual: 'आकडे मॅन्युअली भरा',
+      tabImport: 'लॅब अहवाल आयात करा (Import)',
+      importBadge: 'दस्तऐवज व्हिजन व PDF वाचन',
+      importTitle: 'डायग्नोस्टिक लॅब अहवाल आयात करा',
+      importSubtitle:
+        'बायोमार्कर्सचे सोपे विश्लेषण मिळवण्यासाठी आपला लॅब अहवाल (PDF किंवा फोटो) अपलोड करा.',
+      dropzoneTitle: 'आपले निकाल समजून घेण्यासाठी आपला लॅब अहवाल अपलोड करा.',
+      dropzoneSubtitle: 'फाईल येथे ड्रॅग करून टाका किंवा आपल्या डिव्हाइसमधून निवडा',
+      browseFiles: 'फाईल्स निवडा (Browse Files)',
+      supportedFormats: 'PDF, JPG, JPEG आणि PNG फाईल्स स्वीकारल्या जातात (कमाल १० MB)',
+      privacyPledge: '१००% इन-मेमरी प्रक्रिया • सर्व्हरवर कोणतीही फाईल साठवली जात नाही',
+      selectedFileTitle: 'अहवाल फाईल तयार आहे',
+      removeFile: 'फाईल काढा (Remove)',
+      importAnother: 'दुसरी फाईल निवडा (Import Another)',
+      analyzeBtn: 'अहवालाचे विश्लेषण करा (Analyze Report)',
+      analyzingBtn: 'अहवालाचे विश्लेषण सुरू आहे...',
+      analyzingHint: 'बायोमार्कर्स वाचून सोपे स्पष्टीकरण तयार केले जात आहे...',
+      extractedTestsTitle: 'शोधलेले लॅब बायोमार्कर्स',
+      testsCountLabel: (count: number) => `${count} चाचण्या आढळल्या`,
+      measuredResultLabel: 'चाचणीचा निकाल:',
+      referenceRangeLabel: 'लॅब संदर्भ श्रेणी:',
+      notSpecified: 'अहवालात नमूद केलेले नाही',
+      reassuranceTitle: 'चाचणी निकालांबद्दल महत्त्वाची माहिती',
+      unreadableTitle: 'अहवाल स्पष्टपणे वाचता आला नाही',
+      unreadableTryAgain: 'कृपया अधिक स्पष्ट, चांगल्या प्रकाशातील फोटो किंवा डिजिटल PDF अहवाल अपलोड करा.',
+      errorOversized: 'अपलोड केलेली फाईल १० MB पेक्षा मोठी आहे. कृपया लहान फाईल निवडा.',
+      errorUnsupportedType: 'असमर्थित फाईल प्रकार. कृपया फक्त PDF, JPG किंवा PNG फाईल अपलोड करा.'
     },
     preventive: {
       sectionBadge: 'प्रतिबंधात्मक आरोग्य दिनचर्या',
