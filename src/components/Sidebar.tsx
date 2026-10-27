@@ -13,13 +13,16 @@ import {
   PhoneCall,
   ShieldCheck,
   Sparkles,
-  Info
+  Info,
+  User as UserIcon,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { language, openEmergencyModal, openDisclaimerModal, isDemoMode } = useApp();
+  const { language, openEmergencyModal, openDisclaimerModal, isDemoMode, user, signOut } = useApp();
 
   const navLinks = [
     {
@@ -122,8 +125,51 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Bottom Emergency Card & Links */}
+      {/* Bottom User Profile & Emergency Card */}
       <div className="p-4 border-t border-[#CDE8E2]/70 space-y-3 bg-gradient-to-t from-[#E8F7F5]/40 to-transparent">
+        {/* User Authentication Status */}
+        {user ? (
+          <div className="p-2.5 bg-[#D9F3EC]/70 rounded-xl border border-[#CDE8E2] flex items-center justify-between shadow-xs">
+            <div className="flex items-center space-x-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-[#0F766E] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+                {user.user_metadata?.full_name
+                  ? user.user_metadata.full_name[0].toUpperCase()
+                  : user.email?.[0].toUpperCase() || 'U'}
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-bold text-[#102A43] block truncate">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </span>
+                <span className="text-[10px] text-[#64748B] block truncate">
+                  {user.email}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => signOut()}
+              title={language === 'hi' ? 'साइन आउट' : language === 'mr' ? 'साइन आउट' : 'Sign Out'}
+              className="p-1.5 text-[#64748B] hover:text-red-600 hover:bg-white rounded-lg transition cursor-pointer shrink-0"
+              aria-label="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="flex items-center justify-center space-x-2 w-full py-2 px-3 bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2] rounded-xl text-xs font-bold transition shadow-xs cursor-pointer"
+          >
+            <LogIn className="w-3.5 h-3.5 text-[#0F766E]" />
+            <span>
+              {language === 'hi'
+                ? 'साइन इन / रजिस्टर'
+                : language === 'mr'
+                ? 'साइन इन / नोंदणी'
+                : 'Sign In / Register'}
+            </span>
+          </Link>
+        )}
+
         {/* Quick Emergency 112 Banner with Pale Red Background */}
         <div className="bg-[#FEE2E2]/90 border border-red-200 rounded-xl p-3 space-y-2 shadow-xs">
           <div className="flex items-center justify-between">

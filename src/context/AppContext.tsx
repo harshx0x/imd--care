@@ -1,7 +1,9 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { User, Session } from '@supabase/supabase-js';
 import { Language } from '@/lib/types';
+import { getSupabaseBrowserClient, isSupabaseConfigured } from '@/lib/supabase/client';
 
 interface AppContextType {
   language: Language;
@@ -14,6 +16,13 @@ interface AppContextType {
   disclaimerModalOpen: boolean;
   openDisclaimerModal: () => void;
   closeDisclaimerModal: () => void;
+
+  // Authentication State
+  user: User | null;
+  session: Session | null;
+  isAuthLoading: boolean;
+  isSupabaseReady: boolean;
+  signOut: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -24,6 +33,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [emergencyModalOpen, setEmergencyModalOpen] = useState(false);
   const [emergencyReason, setEmergencyReason] = useState<string | undefined>(undefined);
   const [disclaimerModalOpen, setDisclaimerModalOpen] = useState(false);
+
+  // Auth states
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const isSupabaseReady = isSupabaseConfigured();
 
   // Load language preference from localStorage if available
   useEffect(() => {
@@ -51,6 +66,40 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     checkStatus();
   }, []);
 
+  // Initialize Supabase Auth session listener
+  useEffect(() => {
+    if (!isSupabaseReady) {
+      setIsAuthLoading(false);
+      return;
+    }
+
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) {
+      setIsAuthLoading(false);
+      return;
+    }
+
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setIsAuthLoading(false);
+    });
+
+    // Listen to real-time auth changes
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      setIsAuthLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [isSupabaseReady]);
+
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     try {
@@ -73,6 +122,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const openDisclaimerModal = () => setDisclaimerModalOpen(true);
   const closeDisclaimerModal = () => setDisclaimerModalOpen(false);
 
+  const signOut = async () => {
+    const supabase = getSupabaseBrowserClient();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+    setUser(null);
+    setSession(null);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -85,7 +143,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         closeEmergencyModal,
         disclaimerModalOpen,
         openDisclaimerModal,
-        closeDisclaimerModal
+        closeDisclaimerModal,
+        user,
+        session,
+        isAuthLoading,
+        isSupabaseReady,
+        signOut
       }}
     >
       {children}

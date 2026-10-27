@@ -16,14 +16,17 @@ import {
   MessageSquareHeart,
   Stethoscope,
   FileSpreadsheet,
-  CalendarCheck
+  CalendarCheck,
+  User as UserIcon,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Language } from '@/lib/types';
 
 export function TopNav() {
   const pathname = usePathname();
-  const { language, setLanguage, isDemoMode, openEmergencyModal, openDisclaimerModal } = useApp();
+  const { language, setLanguage, isDemoMode, openEmergencyModal, openDisclaimerModal, user, signOut } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
@@ -150,6 +153,37 @@ export function TopNav() {
               <span className="hidden sm:inline">112 Emergency</span>
               <span className="sm:hidden">112</span>
             </button>
+
+            {/* User Profile / Log In Button (Desktop) */}
+            {user ? (
+              <div className="hidden sm:flex items-center space-x-2 bg-[#E8F7F5] border border-[#CDE8E2] rounded-xl px-2.5 py-1 text-xs">
+                <div className="w-5 h-5 rounded-full bg-[#0F766E] text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                  {user.user_metadata?.full_name
+                    ? user.user_metadata.full_name[0].toUpperCase()
+                    : user.email?.[0].toUpperCase() || 'U'}
+                </div>
+                <span className="font-semibold text-[#102A43] max-w-[110px] truncate">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </span>
+                <button
+                  onClick={() => signOut()}
+                  className="text-[#64748B] hover:text-red-600 transition cursor-pointer p-0.5"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] font-bold text-xs rounded-xl border border-[#CDE8E2] transition shadow-xs cursor-pointer"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>
+                  {language === 'hi' ? 'लॉग इन' : language === 'mr' ? 'लॉग इन' : 'Log In'}
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -214,6 +248,52 @@ export function TopNav() {
 
             {/* Bottom Actions */}
             <div className="pt-4 border-t border-[#CDE8E2] space-y-3">
+              {/* User Authentication in Mobile Menu */}
+              {user ? (
+                <div className="p-3 bg-[#D9F3EC]/80 rounded-xl border border-[#CDE8E2] flex items-center justify-between">
+                  <div className="flex items-center space-x-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-full bg-[#0F766E] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+                      {user.user_metadata?.full_name
+                        ? user.user_metadata.full_name[0].toUpperCase()
+                        : user.email?.[0].toUpperCase() || 'U'}
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-bold text-[#102A43] block truncate">
+                        {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                      </span>
+                      <span className="text-[10px] text-[#64748B] block truncate">
+                        {user.email}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      signOut();
+                    }}
+                    className="p-1.5 text-[#64748B] hover:text-red-600 transition cursor-pointer"
+                    title="Sign Out"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full py-2.5 px-3 bg-[#E8F7F5] hover:bg-[#D9F3EC] text-[#0F766E] border border-[#CDE8E2] rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>
+                    {language === 'hi'
+                      ? 'साइन इन / रजिस्टर'
+                      : language === 'mr'
+                      ? 'साइन इन / नोंदणी'
+                      : 'Sign In / Register'}
+                  </span>
+                </Link>
+              )}
+
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

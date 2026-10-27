@@ -87,17 +87,38 @@ The visual design is engineered as a **premium, trustworthy Indian healthtech ex
 
 ---
 
-## ⚙️ Environment Variables
+## ⚙️ Environment Variables & Authentication Setup
 
 Create or configure `.env.local` in the project root:
 
 ```bash
-# OpenAI API Key (Never exposed to the client or browser bundles)
+# ----------------------------------------------------
+# 1. OpenAI API Configuration (Server-Side Only)
+# ----------------------------------------------------
+# Add your real OpenAI API Key below to enable live OpenAI completions.
+# If left blank, IMD Care automatically operates in full offline Demo Mode with pre-vetted synthetic clinical examples.
 OPENAI_API_KEY=your_openai_api_key_here
-
-# Configurable OpenAI Model (Default: gpt-4o-mini)
 OPENAI_MODEL=gpt-4o-mini
+
+# ----------------------------------------------------
+# 2. Supabase Authentication Configuration
+# ----------------------------------------------------
+# Optional for public health literacy browsing; required for live user accounts.
+# Step 1: Create a free project at https://supabase.com
+# Step 2: Navigate to Project Settings -> API
+# Step 3: Copy your Project URL and anon public key:
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
 ```
+
+### 🔐 Authentication Architecture & Privacy
+- **Dedicated Split-Screen Auth Pages**:
+  - `/login` — Login with email and password, show/hide password toggle, and remember me.
+  - `/register` — Account registration with full name, email, password confirmation, and mandatory healthcare safety terms consent.
+  - `/forgot-password` — Secure recovery link request with safe enumeration mitigation.
+- **Three-Language Interface**: Complete instant translation of all greetings, inputs, error messages, and buttons in **English, Hindi (हिंदी), and Marathi (मराठी)**.
+- **Privacy & Healthcare Safety**: Authentication profiles are strictly decoupled from health queries. Zero medical histories, symptom checks, or chat logs are ever stored in auth databases or user profiles.
+- **Transparent Setup Guard**: If Supabase environment variables are missing, the UI presents an informative configuration helper rather than simulating a fake or insecure login system.
 
 ### ⚡ Offline Demo Mode
 When `OPENAI_API_KEY` is not provided or if network/rate-limit errors occur, **IMD Care automatically activates its pre-vetted synthetic clinical knowledge base**. Demo responses are explicitly badged (`Demo Mode`) so judges and evaluators experience a 100% working prototype without requiring an active OpenAI key.
