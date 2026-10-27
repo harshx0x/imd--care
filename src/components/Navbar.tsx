@@ -8,7 +8,6 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Sparkles,
   ChevronDown
 } from 'lucide-react';
 import { Language } from '@/lib/types';

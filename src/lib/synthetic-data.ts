@@ -5,10 +5,9 @@ import {
   SymptomResult,
   ReportExplanationRequest,
   ReportExplanationResult,
-  ImportedReportAnalysisResult,
-  ImportedTestItem
+  ImportedReportAnalysisResult
 } from './types';
-import { parseLabReportText, generateExplanationsForRecords } from './report-parser';
+import { parseLabReportText, generateExplanationsForRecords, determineTestStatus } from './report-parser';
 
 export const SYNTHETIC_LAB_REPORTS: LabReportSample[] = [
   {
@@ -201,20 +200,9 @@ export function getSyntheticSymptomResult(request: SymptomRequest): SymptomResul
 export function getSyntheticReportExplanation(request: ReportExplanationRequest): ReportExplanationResult {
   const { testName, resultValue, unit, referenceRange, language } = request;
 
-  let status: 'below' | 'normal' | 'above' | 'inconclusive' = 'normal';
-  const val = parseFloat(resultValue);
-
-  if (testName.toLowerCase().includes('hemoglobin') || testName.toLowerCase().includes('hb')) {
-    if (!isNaN(val) && val < 12.0) status = 'below';
-    else if (!isNaN(val) && val > 16.0) status = 'above';
-  } else if (testName.toLowerCase().includes('cholesterol') || testName.toLowerCase().includes('ldl')) {
-    if (!isNaN(val) && val > 100) status = 'above';
-  } else if (testName.toLowerCase().includes('hba1c')) {
-    if (!isNaN(val) && val >= 5.7) status = 'above';
-  } else if (testName.toLowerCase().includes('tsh')) {
-    if (!isNaN(val) && val > 4.5) status = 'above';
-    else if (!isNaN(val) && val < 0.4) status = 'below';
-  }
+  const val = parseFloat(resultValue.replace(/[<>=,]/g, ''));
+  const numVal = isNaN(val) ? null : val;
+  const status = determineTestStatus(resultValue, numVal, referenceRange);
 
   if (language === 'hi') {
     return {

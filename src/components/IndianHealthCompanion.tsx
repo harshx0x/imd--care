@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, HeartPulse, MessageSquareHeart } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Language } from '@/lib/types';
 
 interface IndianHealthCompanionProps {

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   User,
   Mail,
@@ -11,16 +10,14 @@ import {
   EyeOff,
   UserPlus,
   AlertCircle,
-  CheckCircle2,
-  ShieldCheck
+  CheckCircle2
 } from 'lucide-react';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { useApp } from '@/context/AppContext';
 import { AUTH_TRANSLATIONS } from '@/lib/translations/auth';
-import { getSupabaseBrowserClient, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 export default function RegisterPage() {
-  const router = useRouter();
   const { language, isSupabaseReady, openDisclaimerModal } = useApp();
   const t = AUTH_TRANSLATIONS[language] || AUTH_TRANSLATIONS.en;
 

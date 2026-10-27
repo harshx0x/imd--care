@@ -7,11 +7,8 @@ import {
   Stethoscope,
   FileSpreadsheet,
   ArrowRight,
-  ShieldCheck,
   CheckCircle,
-  Sparkles,
-  CalendarCheck,
-  Activity
+  Sparkles
 } from 'lucide-react';
 import { Language } from '@/lib/types';
 

@@ -74,18 +74,23 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
   // Cleanup object URL when selectedFile changes
   useEffect(() => {
     if (!selectedFile) {
-      setFilePreviewUrl(null);
       return;
     }
-    if (selectedFile.type.startsWith('image/')) {
-      const url = URL.createObjectURL(selectedFile);
-      setFilePreviewUrl(url);
-      return () => {
-        URL.revokeObjectURL(url);
-      };
-    } else {
-      setFilePreviewUrl(null);
+    const isImage = selectedFile.type.startsWith('image/');
+    const isPdf = selectedFile.type === 'application/pdf' || selectedFile.name.toLowerCase().endsWith('.pdf');
+    if (!isImage && !isPdf) {
+      return;
     }
+
+    const url = URL.createObjectURL(selectedFile);
+    const raf = requestAnimationFrame(() => {
+      setFilePreviewUrl(url);
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      URL.revokeObjectURL(url);
+    };
   }, [selectedFile]);
 
   const formatFileSize = (bytes: number): string => {
@@ -540,12 +545,20 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                 {/* Optional Small Preview Thumbnail / Viewer */}
                 {showPreviewModal && filePreviewUrl && (
                   <div className="rounded-xl border border-[#CDE8E2] bg-[#E8F7F5]/40 p-3 flex flex-col items-center animate-fade-in">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={filePreviewUrl}
-                      alt="Uploaded lab report preview"
-                      className="max-h-48 rounded-lg object-contain border border-[#CDE8E2] shadow-2xs"
-                    />
+                    {selectedFile.type === 'application/pdf' || selectedFile.name.toLowerCase().endsWith('.pdf') ? (
+                      <iframe
+                        src={filePreviewUrl}
+                        title="Uploaded lab report preview"
+                        className="w-full h-72 rounded-lg border border-[#CDE8E2] bg-white shadow-2xs"
+                      />
+                    ) : (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={filePreviewUrl}
+                        alt="Uploaded lab report preview"
+                        className="max-h-48 rounded-lg object-contain border border-[#CDE8E2] shadow-2xs"
+                      />
+                    )}
                   </div>
                 )}
 
@@ -652,6 +665,18 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                         value={referenceRange}
                         onChange={(e) => setReferenceRange(e.target.value)}
                         placeholder={t.reports.rangePlaceholder}
+                        className="w-full bg-[#E8F7F5]/40 border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs text-[#243447] focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-bold text-[#64748B] block mb-1">
+                        {t.reports.contextLabel}
+                      </label>
+                      <input
+                        type="text"
+                        value={clinicalContext}
+                        onChange={(e) => setClinicalContext(e.target.value)}
+                        placeholder={t.reports.contextPlaceholder}
                         className="w-full bg-[#E8F7F5]/40 border border-[#CDE8E2] rounded-xl px-3 py-2 text-xs text-[#243447] focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
                       />
                     </div>

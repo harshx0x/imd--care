@@ -58,8 +58,7 @@ const DEFAULT_REMINDERS: Reminder[] = [
 ];
 
 export function PreventiveCare({ language }: PreventiveCareProps) {
-  const [reminders, setReminders] = useState<Reminder[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [reminders, setReminders] = useState<Reminder[]>(DEFAULT_REMINDERS);
 
   // New Reminder Form State
   const [showAddForm, setShowAddForm] = useState(false);
@@ -80,30 +79,45 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
 
   // Load from localStorage on mount
   useEffect(() => {
+    let cancel = false;
     try {
       const stored = localStorage.getItem('imd_care_reminders');
-      if (stored) {
-        setReminders(JSON.parse(stored));
-      } else {
-        setReminders(DEFAULT_REMINDERS);
-        localStorage.setItem('imd_care_reminders', JSON.stringify(DEFAULT_REMINDERS));
-      }
-
       const storedWellness = localStorage.getItem('imd_care_wellness');
-      if (storedWellness) {
-        const parsed = JSON.parse(storedWellness);
-        setWaterGlasses(parsed.waterGlasses ?? 5);
-        setWalkDone(parsed.walkDone ?? true);
-        setSleepDone(parsed.sleepDone ?? true);
-        setPranayamaDone(parsed.pranayamaDone ?? false);
-        setNutritionDone(parsed.nutritionDone ?? true);
-      }
+
+      requestAnimationFrame(() => {
+        if (cancel) return;
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setReminders(parsed);
+            }
+          } catch {
+            // ignore JSON parse error
+          }
+        } else {
+          localStorage.setItem('imd_care_reminders', JSON.stringify(DEFAULT_REMINDERS));
+        }
+
+        if (storedWellness) {
+          try {
+            const parsed = JSON.parse(storedWellness);
+            setWaterGlasses(parsed.waterGlasses ?? 5);
+            setWalkDone(parsed.walkDone ?? true);
+            setSleepDone(parsed.sleepDone ?? true);
+            setPranayamaDone(parsed.pranayamaDone ?? false);
+            setNutritionDone(parsed.nutritionDone ?? true);
+          } catch {
+            // ignore JSON parse error
+          }
+        }
+      });
     } catch (e) {
       console.warn('LocalStorage access issue:', e);
-      setReminders(DEFAULT_REMINDERS);
-    } finally {
-      setIsLoaded(true);
     }
+    return () => {
+      cancel = true;
+    };
   }, []);
 
   // Save reminders to localStorage

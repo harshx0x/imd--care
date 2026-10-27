@@ -57,25 +57,32 @@ export function HealthAssistant({
 
   // Initial welcome message based on language
   useEffect(() => {
-    if (messages.length === 0) {
-      const initialWelcome: Record<Language, string> = {
-        en: "Namaste! I am your IMD Care AI Health Assistant. How can I help you understand your wellness, lifestyle questions, or symptoms today?\n\n*Note: I provide educational health information and cannot diagnose or prescribe medicines. For emergencies, please call 112.*",
-        hi: "नमस्ते! मैं आपका IMD Care AI स्वास्थ्य सहायक हूँ। आज मैं आपके स्वास्थ्य, जीवनशैली या लक्षणों को समझने में क्या सहायता कर सकता हूँ?\n\n*नोट: यह मार्गदर्शन केवल स्वास्थ्य जागरूकता के लिए है, किसी डॉक्टर का विकल्प नहीं है। आपात स्थिति में 112 डायल करें।*",
-        mr: "नमस्कार! मी आपला IMD Care AI आरोग्य सहाय्यक आहे. आज मी आपल्याला आरोग्यविषयक किंवा जीवनशैलीच्या कोणत्या शंकांचे निरसन करण्यास मदत करू?\n\n*टीप: ही माहिती केवळ आरोग्य साक्षरतेसाठी आहे. तातडीच्या प्रसंगी 112 वर संपर्क करा.*"
-      };
+    const initialWelcome: Record<Language, string> = {
+      en: "Namaste! I am your IMD Care AI Health Assistant. How can I help you understand your wellness, lifestyle questions, or symptoms today?\n\n*Note: I provide educational health information and cannot diagnose or prescribe medicines. For emergencies, please call 112.*",
+      hi: "नमस्ते! मैं आपका IMD Care AI स्वास्थ्य सहायक हूँ। आज मैं आपके स्वास्थ्य, जीवनशैली या लक्षणों को समझने में क्या सहायता कर सकता हूँ?\n\n*नोट: यह मार्गदर्शन केवल स्वास्थ्य जागरूकता के लिए है, किसी डॉक्टर का विकल्प नहीं है। आपात स्थिति में 112 डायल करें।*",
+      mr: "नमस्कार! मी आपला IMD Care AI आरोग्य सहाय्यक आहे. आज मी आपल्याला आरोग्यविषयक किंवा जीवनशैलीच्या कोणत्या शंकांचे निरसन करण्यास मदत करू?\n\n*टीप: ही माहिती केवळ आरोग्य साक्षरतेसाठी आहे. तातडीच्या प्रसंगी 112 वर संपर्क करा.*"
+    };
 
-      setMessages([
-        {
-          id: 'welcome-msg',
-          role: 'assistant',
-          content: initialWelcome[language] || initialWelcome.en,
-          language: language,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          isDemo: isDemoMode
+    const raf = requestAnimationFrame(() => {
+      setMessages((prev) => {
+        if (prev.length === 0 || (prev.length === 1 && prev[0].id === 'welcome-msg')) {
+          return [
+            {
+              id: 'welcome-msg',
+              role: 'assistant',
+              content: initialWelcome[language] || initialWelcome.en,
+              language: language,
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              isDemo: isDemoMode
+            }
+          ];
         }
-      ]);
-    }
-  }, [language, isDemoMode, messages.length]);
+        return prev;
+      });
+    });
+
+    return () => cancelAnimationFrame(raf);
+  }, [language, isDemoMode]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

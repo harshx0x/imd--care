@@ -13,7 +13,7 @@ import {
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { useApp } from '@/context/AppContext';
 import { AUTH_TRANSLATIONS } from '@/lib/translations/auth';
-import { getSupabaseBrowserClient, isSupabaseConfigured } from '@/lib/supabase/client';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 export default function ForgotPasswordPage() {
   const { language, isSupabaseReady } = useApp();

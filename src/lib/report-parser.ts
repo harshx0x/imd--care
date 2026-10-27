@@ -122,6 +122,7 @@ export async function extractTextFromImage(
   buffer: Buffer,
   mimeType: string = 'image/jpeg'
 ): Promise<{ text: string; confidence: number }> {
+  void mimeType;
   let worker: Tesseract.Worker | null = null;
   try {
     worker = await Tesseract.createWorker('eng');

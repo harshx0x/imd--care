@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getOpenAIClient, getOpenAIModel, isOpenAIConfigured } from '@/lib/openai';
-import { checkEmergencySymptoms, getIndianEmergencyNumbers } from '@/lib/emergency';
+import { checkEmergencySymptoms } from '@/lib/emergency';
 import { getSyntheticSymptomResult } from '@/lib/synthetic-data';
 import { SymptomRequest, SymptomResult } from '@/lib/types';
 

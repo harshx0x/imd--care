@@ -9,11 +9,8 @@ import {
   CheckCircle2,
   ShieldCheck,
   AlertTriangle,
-  Info,
   ChevronDown,
-  ChevronUp,
-  Sparkles,
-  Lock
+  ChevronUp
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Language } from '@/lib/types';

@@ -64,8 +64,11 @@ export function DailyHealthTips({
 
   // Hydration-safe initial tip selection from localStorage rotation queue
   useEffect(() => {
-    const initialIndex = getInitialClientTipIndex(filteredTips.length);
-    setTipIndex(initialIndex % filteredTips.length);
+    const raf = requestAnimationFrame(() => {
+      const initialIndex = getInitialClientTipIndex(filteredTips.length);
+      setTipIndex(initialIndex % filteredTips.length);
+    });
+    return () => cancelAnimationFrame(raf);
   }, [filteredTips.length]);
 
   const handleNextTip = () => {

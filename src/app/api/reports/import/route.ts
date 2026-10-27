@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type OpenAI from 'openai';
 import { getOpenAIClient, getOpenAIModel, isOpenAIConfigured } from '@/lib/openai';
 import {
   extractTextFromPdf,
@@ -9,7 +10,6 @@ import {
 import {
   ImportedTestItem,
   ExtractedReportData,
-  ImportedReportAnalysisResult,
   Language
 } from '@/lib/types';
 
@@ -167,7 +167,7 @@ OUTPUT JSON FORMAT ONLY:
   ]
 }`;
 
-        let messagesPayload: any[];
+        let messagesPayload: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
         if (!isPdf) {
           const mimeType = file.type || (lowerName.endsWith('.png') ? 'image/png' : 'image/jpeg');
           const base64 = buffer.toString('base64');
@@ -235,7 +235,14 @@ OUTPUT JSON FORMAT ONLY:
 
         if (Array.isArray(aiParsed.tests) && aiParsed.tests.length > 0) {
           // Normalize AI extracted tests with our strict status & verification logic
-          const normalizedTests: ImportedTestItem[] = aiParsed.tests.map((t: any) => {
+          const normalizedTests: ImportedTestItem[] = aiParsed.tests.map(
+            (t: {
+              testName?: string;
+              resultValue?: string | number;
+              unit?: string;
+              referenceRange?: string;
+              labFlag?: string;
+            }) => {
             const valStr = String(t.resultValue || '').trim();
             const numVal = parseFloat(valStr.replace(/[<>=,]/g, ''));
             const rangeStr = t.referenceRange || 'Not specified on report';
@@ -354,11 +361,17 @@ OUTPUT JSON FORMAT ONLY:
   }
 }
 
+interface ExplainRequestBody {
+  confirmedTests?: ImportedTestItem[];
+  language?: Language;
+  fileName?: string;
+}
+
 /**
  * Handle explanation request for verified records (Step 2)
  */
-async function handleExplainRequest(body: any) {
-  const { confirmedTests, language = 'en', fileName = 'Lab Report' } = body;
+async function handleExplainRequest(body: ExplainRequestBody) {
+  const { confirmedTests = [], language = 'en', fileName = 'Lab Report' } = body;
   return handleExplainRecords(confirmedTests, language, fileName);
 }
 

@@ -10,7 +10,6 @@ import {
   Wind,
   Moon,
   Salad,
-  ShieldCheck,
   CheckCircle2,
   Info
 } from 'lucide-react';

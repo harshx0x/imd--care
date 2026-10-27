@@ -11,7 +11,6 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
-  HeartPulse,
   Info
 } from 'lucide-react';
 import { Language } from '@/lib/types';

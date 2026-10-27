@@ -37,15 +37,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Auth states
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const isSupabaseReady = isSupabaseConfigured();
+  const [isAuthLoading, setIsAuthLoading] = useState(isSupabaseReady);
 
   // Load language preference from localStorage if available
   useEffect(() => {
+    let cancel = false;
     try {
       const savedLang = localStorage.getItem('imd_care_lang');
       if (savedLang && ['en', 'hi', 'mr'].includes(savedLang)) {
-        setLanguageState(savedLang as Language);
+        requestAnimationFrame(() => {
+          if (!cancel) {
+            setLanguageState(savedLang as Language);
+          }
+        });
         if (typeof document !== 'undefined') {
           document.documentElement.lang = savedLang;
         }
@@ -60,25 +65,31 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const res = await fetch('/api/status');
         if (res.ok) {
           const data = await res.json();
-          setIsDemoMode(Boolean(data.demoMode));
+          if (!cancel) {
+            setIsDemoMode(Boolean(data.demoMode));
+          }
         }
       } catch {
-        setIsDemoMode(true);
+        if (!cancel) {
+          setIsDemoMode(true);
+        }
       }
     }
     checkStatus();
+
+    return () => {
+      cancel = true;
+    };
   }, []);
 
   // Initialize Supabase Auth session listener
   useEffect(() => {
     if (!isSupabaseReady) {
-      setIsAuthLoading(false);
       return;
     }
 
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
-      setIsAuthLoading(false);
       return;
     }
 
