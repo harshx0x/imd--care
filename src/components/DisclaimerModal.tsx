@@ -17,8 +17,8 @@ export function DisclaimerModal({ isOpen, onClose }: DisclaimerModalProps) {
   const t = APP_TRANSLATIONS[language] || APP_TRANSLATIONS.en;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-[#CDE8E2] overflow-hidden max-h-[85vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-[#CDE8E2] overflow-hidden max-h-[85vh] flex flex-col animate-fade-in-scale">
         {/* Header */}
         <div className="bg-[#102A43] text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">

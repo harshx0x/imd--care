@@ -197,15 +197,23 @@ export function WhatBringsYouHere({ language }: WhatBringsYouHereProps) {
           </p>
         </div>
 
-        {/* 4 Interactive Feature Cards Grid */}
+        {/* 4 Interactive Feature Cards Grid with Staggered Entrance Animations */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {current.cards.map((card) => {
+          {current.cards.map((card, idx) => {
             const Icon = card.icon;
+            const delayClass =
+              idx === 0
+                ? 'delay-100'
+                : idx === 1
+                ? 'delay-200'
+                : idx === 2
+                ? 'delay-300'
+                : 'delay-400';
             return (
               <Link
                 key={card.id}
                 href={card.href}
-                className="group relative bg-white rounded-2xl p-5 sm:p-6 border border-[#CDE8E2] shadow-sm hover:shadow-xl hover:border-[#35B8A6] transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 block focus:outline-none focus:ring-2 focus:ring-[#0F766E]"
+                className={`group relative bg-white rounded-2xl p-5 sm:p-6 border border-[#CDE8E2] shadow-sm hover:shadow-xl hover:border-[#35B8A6] card-hover-lift animate-fade-in-up ${delayClass} flex flex-col justify-between cursor-pointer block focus:outline-none focus:ring-2 focus:ring-[#0F766E]`}
               >
                 <div className="space-y-3.5">
                   {/* Top Icon & Badge */}

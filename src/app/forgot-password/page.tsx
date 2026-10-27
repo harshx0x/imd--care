@@ -150,7 +150,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 px-4 bg-[#0F766E] hover:bg-[#0D655F] active:bg-[#0B544F] disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer btn-interactive"
             >
               {loading ? (
                 <span>{t.sendingReset}</span>

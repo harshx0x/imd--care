@@ -35,6 +35,7 @@ import {
   ExtractedReportData
 } from '@/lib/types';
 import { APP_TRANSLATIONS } from '@/lib/translations/app';
+import { DailyHealthTips } from '@/components/DailyHealthTips';
 
 interface ReportSimplifierProps {
   language: Language;
@@ -621,9 +622,14 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                       </button>
 
                       {extractLoading && (
-                        <p className="text-xs text-center text-[#0F766E] font-medium animate-pulse">
-                          {t.reports.analyzingHint}
-                        </p>
+                        <div className="space-y-2 pt-1 animate-fade-in">
+                          <div className="w-full bg-[#E8F7F5] rounded-full h-2.5 overflow-hidden border border-[#CDE8E2]">
+                            <div className="progress-shimmer h-full w-full rounded-full" />
+                          </div>
+                          <p className="text-xs text-center text-[#0F766E] font-semibold animate-pulse">
+                            {t.reports.analyzingHint}
+                          </p>
+                        </div>
                       )}
                     </div>
                   )}
@@ -917,6 +923,21 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
                           )}
                         </button>
                       </div>
+
+                      {explainLoading && (
+                        <div className="w-full mt-3 space-y-2 animate-fade-in">
+                          <div className="w-full bg-[#E8F7F5] rounded-full h-2.5 overflow-hidden border border-[#CDE8E2]">
+                            <div className="progress-shimmer h-full w-full rounded-full" />
+                          </div>
+                          <p className="text-xs text-center text-[#0F766E] font-semibold animate-pulse">
+                            {language === 'hi'
+                              ? 'बायोमार्कर्स का सरलीकरण और विश्लेषण जारी है...'
+                              : language === 'mr'
+                              ? 'बायोमार्कर्सचे विश्लेषण आणि सोप्या भाषेतील रूपांतर सुरू आहे...'
+                              : 'Simplifying laboratory biomarkers into plain-language explanations...'}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1330,6 +1351,11 @@ export function ReportSimplifier({ language }: ReportSimplifierProps) {
             </div>
           </div>
         )}
+
+        {/* Compact Daily Medical Tip for Report Simplifier Users */}
+        <div className="mt-12 max-w-4xl mx-auto animate-fade-in-up delay-100">
+          <DailyHealthTips language={language} variant="compact" />
+        </div>
       </div>
     </section>
   );

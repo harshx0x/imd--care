@@ -20,6 +20,7 @@ import { Language } from '@/lib/types';
 import { AUTH_TRANSLATIONS } from '@/lib/translations/auth';
 import { IndianJaliPattern, MandalaRings } from '@/components/IndianPatternDecorations';
 import { IndianHealthCompanion } from '@/components/IndianHealthCompanion';
+import { DailyHealthTips } from '@/components/DailyHealthTips';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -204,9 +205,14 @@ export function AuthLayout({ children, activeTab }: AuthLayoutProps) {
             </div>
           )}
 
-          {/* The White Card containing the active form */}
-          <div className="bg-white rounded-3xl border border-[#CDE8E2] shadow-xl p-6 sm:p-8 lg:p-10 transition-all">
+          {/* The White Card containing the active form with smooth entrance animation */}
+          <div className="bg-white rounded-3xl border border-[#CDE8E2] shadow-xl p-6 sm:p-8 lg:p-10 transition-all card-hover-lift animate-fade-in-up">
             {children}
+          </div>
+
+          {/* Subtle Daily Medical Tip for Auth Users */}
+          <div className="mt-6 animate-fade-in-up delay-150">
+            <DailyHealthTips language={language} variant="compact" />
           </div>
         </div>
 

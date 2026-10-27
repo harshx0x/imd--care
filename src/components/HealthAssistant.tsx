@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { ChatMessage, Language } from '@/lib/types';
 import { APP_TRANSLATIONS } from '@/lib/translations/app';
+import { DailyHealthTips } from '@/components/DailyHealthTips';
 
 interface HealthAssistantProps {
   language: Language;
@@ -250,7 +251,7 @@ export function HealthAssistant({
               return (
                 <div
                   key={msg.id}
-                  className={`flex items-start space-x-3 ${isAssistant ? 'justify-start' : 'justify-end'}`}
+                  className={`flex items-start space-x-3 animate-fade-in-up ${isAssistant ? 'justify-start' : 'justify-end'}`}
                 >
                   {isAssistant && (
                     <div className="w-8 h-8 rounded-full bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center shrink-0 mt-1 shadow-xs border border-[#CDE8E2]">
@@ -399,6 +400,11 @@ export function HealthAssistant({
         <p className="text-[11px] text-[#64748B] text-center mt-3">
           {t.assistant.safetyNote}
         </p>
+
+        {/* Compact Daily Medical Tip for Assistant Users */}
+        <div className="mt-8 max-w-3xl mx-auto animate-fade-in-up delay-100">
+          <DailyHealthTips language={language} variant="compact" />
+        </div>
       </div>
     </section>
   );

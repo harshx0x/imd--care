@@ -7,6 +7,7 @@ import { TopNav } from './TopNav';
 import { Footer } from './Footer';
 import { EmergencyModal } from './EmergencyModal';
 import { DisclaimerModal } from './DisclaimerModal';
+import { PageTransition } from './PageTransition';
 
 function AppLayoutInner({ children }: { children: React.ReactNode }) {
   const {
@@ -30,9 +31,11 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
         {/* Minimal Clean Top Bar */}
         <TopNav />
 
-        {/* Dynamic Page Content — scrolls naturally */}
+        {/* Dynamic Page Content — scrolls naturally with smooth page route transition */}
         <main className="flex-1 min-w-0">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </main>
 
         {/* Global Consistent Footer */}

@@ -20,8 +20,8 @@ export function EmergencyModal({ isOpen, onClose, reason }: EmergencyModalProps)
   const emergencyNumbers = getIndianEmergencyNumbers();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border-2 border-red-500 overflow-hidden max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border-2 border-red-500 overflow-hidden max-h-[90vh] flex flex-col animate-fade-in-scale">
         {/* Header */}
         <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">

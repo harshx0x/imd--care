@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Hero } from '@/components/Hero';
 import { WhatBringsYouHere } from '@/components/WhatBringsYouHere';
-import { WellnessInspiration } from '@/components/WellnessInspiration';
+import { DailyHealthTips } from '@/components/DailyHealthTips';
 import { FeatureHighlights } from '@/components/FeatureHighlights';
 import { CompanionWelcomeModal } from '@/components/CompanionWelcomeModal';
 import { useApp } from '@/context/AppContext';
@@ -42,8 +42,8 @@ export default function HomePage() {
       {/* 3. Interactive “What Brings You Here Today?” 4-Card Section */}
       <WhatBringsYouHere language={language} />
 
-      {/* 4. “A Little Health Inspiration” Daily Wellness Card */}
-      <WellnessInspiration language={language} />
+      {/* 4. Interactive Daily Health Tips Feature (Trilingual + Hydration-Safe Rotation) */}
+      <DailyHealthTips language={language} variant="featured" />
 
       {/* 5. Core Feature Modules Overview */}
       <FeatureHighlights language={language} />

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Reminder, Language } from '@/lib/types';
 import { APP_TRANSLATIONS } from '@/lib/translations/app';
+import { DailyHealthTips } from '@/components/DailyHealthTips';
 
 interface PreventiveCareProps {
   language: Language;
@@ -227,7 +228,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Reminders Manager */}
-          <div className="lg:col-span-7 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-5">
+          <div className="lg:col-span-7 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-5 card-hover-lift animate-fade-in-up delay-100">
             <div className="flex items-center justify-between pb-3 border-b border-[#CDE8E2]/60">
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 rounded-lg bg-[#D9F3EC] text-[#0F766E] flex items-center justify-center">
@@ -409,7 +410,7 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
           </div>
 
           {/* Right Column: Daily Wellness Checklist */}
-          <div className="lg:col-span-5 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-6">
+          <div className="lg:col-span-5 bg-white rounded-2xl border border-[#CDE8E2] p-6 sm:p-7 shadow-sm space-y-6 card-hover-lift animate-fade-in-up delay-200">
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-[#CDE8E2]/60">
                 <div className="flex items-center space-x-2">
@@ -583,6 +584,27 @@ export function PreventiveCare({ language }: PreventiveCareProps) {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Dedicated Interactive Medical Tips & Lifestyle Micro-Habits */}
+        <div className="mt-12 pt-8 border-t border-[#CDE8E2]/80">
+          <div className="mb-6">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#102A43] tracking-tight">
+              {language === 'hi'
+                ? 'दैनिक स्वास्थ्य और जीवनशैली परामर्श'
+                : language === 'mr'
+                ? 'दैनिक आरोग्य आणि जीवनशैली सल्ला'
+                : 'Daily Medical Health & Lifestyle Advice'}
+            </h3>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-1">
+              {language === 'hi'
+                ? 'अपनी सुविधानुसार श्रेणी चुनें और चिकित्सकीय दृष्टि से प्रमाणित स्वस्थ आदतें अपनाएं।'
+                : language === 'mr'
+                ? 'आपल्या आवडीनुसार वर्ग निवडा आणि वैद्यकीयदृष्ट्या सिद्ध आरोग्यदायी सवयी अंगीकारा.'
+                : 'Filter by category to explore verified micro-habits for sustainable wellness.'}
+            </p>
+          </div>
+          <DailyHealthTips language={language} variant="expanded" />
         </div>
       </div>
     </section>

@@ -162,15 +162,16 @@ export function FeatureHighlights({ language }: FeatureHighlightsProps) {
           </p>
         </div>
 
-        {/* 3 Feature Cards */}
+        {/* 3 Feature Cards with Staggered Entrance Animations */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {t.cards.map((card) => {
+          {t.cards.map((card, idx) => {
             const Icon = card.icon;
+            const delayClass = idx === 0 ? 'delay-100' : idx === 1 ? 'delay-200' : 'delay-300';
             return (
               <Link
                 key={card.id}
                 href={card.href}
-                className="group relative bg-white rounded-2xl p-6 sm:p-7 border border-[#CDE8E2] shadow-sm hover:shadow-xl hover:border-[#35B8A6] transition-all duration-200 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 block"
+                className={`group relative bg-white rounded-2xl p-6 sm:p-7 border border-[#CDE8E2] shadow-sm hover:shadow-xl hover:border-[#35B8A6] card-hover-lift animate-fade-in-up ${delayClass} flex flex-col justify-between cursor-pointer block`}
               >
                 <div className="space-y-4">
                   {/* Icon & Badge */}

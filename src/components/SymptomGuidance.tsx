@@ -15,6 +15,7 @@ import {
 import { SymptomRequest, SymptomResult, Language } from '@/lib/types';
 import { checkEmergencySymptoms } from '@/lib/emergency';
 import { APP_TRANSLATIONS } from '@/lib/translations/app';
+import { DailyHealthTips } from '@/components/DailyHealthTips';
 
 interface SymptomGuidanceProps {
   language: Language;
@@ -454,6 +455,11 @@ export function SymptomGuidance({ language, openEmergencyModal }: SymptomGuidanc
               </div>
             )}
           </div>
+        </div>
+
+        {/* Compact Daily Medical Tip for Symptom Checker Users */}
+        <div className="mt-12 max-w-4xl mx-auto animate-fade-in-up delay-100">
+          <DailyHealthTips language={language} variant="compact" />
         </div>
       </div>
     </section>
