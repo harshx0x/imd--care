@@ -2,14 +2,17 @@
 
 import React from 'react';
 import { ShieldCheck, ArrowRight } from 'lucide-react';
-import { Hero } from '@/components/Hero';
-import { HowItWorks } from '@/components/HowItWorks';
-import { FeatureHighlights } from '@/components/FeatureHighlights';
+import { WelcomeHeader } from '@/components/home/WelcomeHeader';
+import { AssistantHeroCard } from '@/components/assistant/AssistantHeroCard';
+import { MoodCheckIn } from '@/components/mood/MoodCheckIn';
+import { DailyActivityTracker } from '@/components/activity/DailyActivityTracker';
 import { DailyHealthTips } from '@/components/DailyHealthTips';
+import { HealthToolsGrid } from '@/components/home/HealthToolsGrid';
+import { HowItWorks } from '@/components/HowItWorks';
 import { useApp } from '@/context/AppContext';
 
 export default function HomePage() {
-  const { language, openEmergencyModal, openDisclaimerModal } = useApp();
+  const { language, openDisclaimerModal } = useApp();
 
   const disclaimerText = {
     en: 'Medical Disclaimer: IMD Care is an AI health literacy and education platform designed to make health information easier to understand. It does not provide medical diagnoses, clinical prescriptions, or emergency triage. Always consult a qualified healthcare professional for medical concerns. In an acute emergency, dial 112 or 108 immediately.',
@@ -24,28 +27,34 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-0">
-      {/* 1. Clear Hero Section (Headline: "Your Health. Better Understood.", Two CTAs, Interactive Preview) */}
-      <Hero
-        language={language}
-        openEmergencyModal={() => openEmergencyModal('Hero National Emergency Triage Request')}
-      />
+    <div className="space-y-0 pb-6">
+      {/* 1. Welcome Header: Friendly greeting, date, and user account / emergency pill */}
+      <WelcomeHeader language={language} />
 
-      {/* 2. Simple Three-Step "How It Works" Section */}
-      <HowItWorks language={language} />
+      {/* 2. Primary Health Section: Hero introducing IMD Care & AI Health Assistant */}
+      <AssistantHeroCard language={language} />
 
-      {/* 3. Refined Feature Section for the Four Core Features */}
-      <FeatureHighlights language={language} />
+      {/* 3. Mood Check-in: "How are you feeling today?" with interactive activity & weekly log */}
+      <MoodCheckIn language={language} />
 
-      {/* 4. Daily Health Tip Section with Next Tip Button and Auto-Rotation on Refresh */}
+      {/* 4. Daily Activity Tracker: Circular step ring, goal editor, and weekly activity chart */}
+      <DailyActivityTracker language={language} />
+
+      {/* 5. Daily Health Tip: Illustrated tip with tailored SVG artwork and Learn More modal */}
       <DailyHealthTips language={language} variant="featured" />
 
-      {/* 5. Medical Safety & Disclaimer Banner */}
+      {/* 6. Health Tools: Compact links to Assistant, Symptoms, Reports, Preventive Care, and HealthQuest */}
+      <HealthToolsGrid language={language} />
+
+      {/* Educational 3-Step Flow */}
+      <HowItWorks language={language} />
+
+      {/* 7. Medical Safety & Disclaimer Banner */}
       <section className="py-8 bg-slate-100/80 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-5 bg-white rounded-2xl border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs reveal-on-scroll">
+          <div className="p-5 bg-white rounded-2xl border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs">
             <div className="flex items-center space-x-3 text-center md:text-left">
-              <div className="w-9 h-9 rounded-xl bg-[#E6F4F1] flex items-center justify-center shrink-0 text-[#0F766E] border border-[#0F766E]/20">
+              <div className="w-9 h-9 rounded-xl bg-[#E8F7F5] flex items-center justify-center shrink-0 text-[#0F766E] border border-[#0F766E]/20">
                 <ShieldCheck className="w-5 h-5 text-[#0F766E]" />
               </div>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
