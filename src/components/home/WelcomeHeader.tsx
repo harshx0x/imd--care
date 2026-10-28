@@ -77,10 +77,10 @@ export function WelcomeHeader({ language }: WelcomeHeaderProps) {
   return (
     <section className="pt-2 pb-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white/80 backdrop-blur-xs border border-slate-200/80 rounded-2xl p-4 sm:p-6 shadow-xs">
-          <div className="space-y-1.5 max-w-4xl">
-            {/* Top row: IMD Care Health Hub badge & Calendar date */}
-            <div className="flex items-center gap-2 flex-wrap">
+        <div className="bg-white/80 backdrop-blur-xs border border-slate-200/80 rounded-2xl p-5 sm:p-6 shadow-xs text-center">
+          <div className="flex flex-col items-center justify-center text-center space-y-2 max-w-2xl mx-auto">
+            {/* Top row: IMD Care Health Hub badge & Calendar date (centered) */}
+            <div className="flex items-center justify-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#E8F7F5] text-[#0F766E] text-xs font-semibold border border-[#0F766E]/20">
                 <Sparkles className="w-3.5 h-3.5 text-[#35B8A6]" />
                 IMD Care Health Hub
@@ -93,8 +93,8 @@ export function WelcomeHeader({ language }: WelcomeHeaderProps) {
               )}
             </div>
 
-            {/* Greeting Heading */}
-            <h2 className="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight">
+            {/* Greeting Heading (centered) */}
+            <h2 className="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight text-center">
               {greeting || 'Namaste'}
               {displayName && (
                 <span className="text-[#0F766E]">, {displayName}</span>
@@ -102,8 +102,8 @@ export function WelcomeHeader({ language }: WelcomeHeaderProps) {
               !
             </h2>
 
-            {/* Subtitle */}
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            {/* Subtitle (centered) */}
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed text-center">
               {welcomeSubtext[language]}
             </p>
           </div>
