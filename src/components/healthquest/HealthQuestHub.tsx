@@ -67,6 +67,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
   const [isResultsModalOpen, setIsResultsModalOpen] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [todayStr, setTodayStr] = useState<string>('');
+  const [sessionKey, setSessionKey] = useState(0);
 
   // Hydrate client-only progress and date on mount
   React.useEffect(() => {
@@ -100,6 +101,9 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
     setIsAnswerSubmitted(false);
     setSessionNewBadges([]);
     setSessionTakeaways([]);
+    setIsResultsModalOpen(false);
+    setShowCelebration(false);
+    setSessionKey((prev) => prev + 1);
 
     if (mode === 'healthy_day') {
       setActiveQuestions([]);
@@ -124,6 +128,9 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
     setIsAnswerSubmitted(false);
     setSessionNewBadges([]);
     setSessionTakeaways([]);
+    setIsResultsModalOpen(false);
+    setShowCelebration(false);
+    setSessionKey((prev) => prev + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -551,6 +558,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
           {/* Render Mode View */}
           {activeMode === 'healthy_day' && (
             <HealthyDayView
+              key={`healthy_day-${sessionKey}`}
               onFinish={handleHealthyDayFinish}
               onExit={handleExitToHub}
               language={language}
@@ -559,7 +567,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
 
           {activeMode === 'myth_buster' && currentQuestion && (
             <MythBusterView
-              key={currentQuestion.id}
+              key={`${currentQuestion.id}-${sessionKey}`}
               question={currentQuestion}
               onAnswer={handleAnswerQuestion}
               language={language}
@@ -568,7 +576,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
 
           {activeMode === 'knowledge_quiz' && currentQuestion && (
             <QuizView
-              key={currentQuestion.id}
+              key={`${currentQuestion.id}-${sessionKey}`}
               question={currentQuestion}
               onAnswer={handleAnswerQuestion}
               language={language}
@@ -577,7 +585,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
 
           {activeMode === 'food_detective' && currentQuestion && (
             <FoodDetectiveView
-              key={currentQuestion.id}
+              key={`${currentQuestion.id}-${sessionKey}`}
               question={currentQuestion}
               onAnswer={handleAnswerQuestion}
               language={language}
@@ -586,7 +594,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
 
           {activeMode === 'emergency_quest' && currentQuestion && (
             <EmergencyQuestView
-              key={currentQuestion.id}
+              key={`${currentQuestion.id}-${sessionKey}`}
               question={currentQuestion}
               onAnswer={handleAnswerQuestion}
               language={language}
