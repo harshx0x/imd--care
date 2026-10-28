@@ -14,7 +14,8 @@ import {
   MessageSquareHeart,
   Stethoscope,
   FileSpreadsheet,
-  CalendarCheck
+  CalendarCheck,
+  Gamepad2
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Language } from '@/lib/types';
@@ -44,7 +45,8 @@ export function Navbar() {
     { href: '/assistant', label: t.nav.assistant, icon: MessageSquareHeart },
     { href: '/symptoms', label: t.nav.symptoms, icon: Stethoscope },
     { href: '/reports', label: t.nav.reports, icon: FileSpreadsheet },
-    { href: '/preventive-care', label: t.nav.preventive, icon: CalendarCheck }
+    { href: '/preventive-care', label: t.nav.preventive, icon: CalendarCheck },
+    { href: '/healthquest', label: t.nav.healthquest, icon: Gamepad2 }
   ];
 
   const [prevPathname, setPrevPathname] = useState(pathname);

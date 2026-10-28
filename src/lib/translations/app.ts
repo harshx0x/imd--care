@@ -28,6 +28,7 @@ export interface AppTranslations {
     symptoms: string;
     reports: string;
     preventive: string;
+    healthquest: string;
     signInRegister: string;
     signOut: string;
     emergencyHelplines: string;
@@ -375,6 +376,7 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       symptoms: 'Smart Symptom Guidance',
       reports: 'Medical Report Simplifier',
       preventive: 'Preventive Care',
+      healthquest: 'HealthQuest',
       signInRegister: 'Sign In / Register',
       signOut: 'Sign Out',
       emergencyHelplines: 'Emergency Helplines',
@@ -755,6 +757,7 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       symptoms: 'लक्षण संबंधी मार्गदर्शन',
       reports: 'मेडिकल रिपोर्ट को सरल भाषा में समझें',
       preventive: 'निवारक स्वास्थ्य देखभाल',
+      healthquest: 'हेल्थक्वेस्ट',
       signInRegister: 'साइन इन / रजिस्टर',
       signOut: 'साइन आउट',
       emergencyHelplines: 'आपातकालीन हेल्पलाइन',
@@ -1135,6 +1138,7 @@ export const APP_TRANSLATIONS: Record<Language, AppTranslations> = {
       symptoms: 'लक्षणांबाबत मार्गदर्शन',
       reports: 'वैद्यकीय अहवाल सोप्या भाषेत समजून घ्या',
       preventive: 'प्रतिबंधात्मक आरोग्यसेवा',
+      healthquest: 'हेल्थक्वेस्ट',
       signInRegister: 'साइन इन / नोंदणी',
       signOut: 'साइन आउट',
       emergencyHelplines: 'तातडीची हेल्पलाइन',
