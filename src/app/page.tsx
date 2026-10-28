@@ -5,7 +5,6 @@ import { ShieldCheck, ArrowRight } from 'lucide-react';
 import { WelcomeHeader } from '@/components/home/WelcomeHeader';
 import { AssistantHeroCard } from '@/components/assistant/AssistantHeroCard';
 import { MoodCheckIn } from '@/components/mood/MoodCheckIn';
-import { DailyActivityTracker } from '@/components/activity/DailyActivityTracker';
 import { DailyHealthTips } from '@/components/DailyHealthTips';
 import { HealthToolsGrid } from '@/components/home/HealthToolsGrid';
 import { HowItWorks } from '@/components/HowItWorks';
@@ -37,13 +36,10 @@ export default function HomePage() {
       {/* 3. Mood Check-in: "How are you feeling today?" with interactive activity & weekly log */}
       <MoodCheckIn language={language} />
 
-      {/* 4. Daily Activity Tracker: Circular step ring, goal editor, and weekly activity chart */}
-      <DailyActivityTracker language={language} />
-
-      {/* 5. Daily Health Tip: Illustrated tip with tailored SVG artwork and Learn More modal */}
+      {/* 4. Daily Health Tip: Illustrated tip with tailored SVG artwork and Learn More modal */}
       <DailyHealthTips language={language} variant="featured" />
 
-      {/* 6. Health Tools: Compact links to Assistant, Symptoms, Reports, Preventive Care, and HealthQuest */}
+      {/* 5. Health Tools: Compact links to Assistant, Symptoms, Reports, Preventive Care, and HealthQuest */}
       <HealthToolsGrid language={language} />
 
       {/* Educational 3-Step Flow */}
