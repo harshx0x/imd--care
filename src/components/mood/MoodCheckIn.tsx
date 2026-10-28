@@ -378,21 +378,21 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
   };
 
   return (
-    <section className="py-8 bg-[#F8FAFC]">
+    <section className="py-8 bg-gradient-to-b from-[#F0F8F7] to-[#F7FAFC]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-[#E8F7F5]/60 to-transparent rounded-bl-full pointer-events-none" />
+        <div className="bg-gradient-to-b from-[#F0F8F7] to-[#F7FAFC] rounded-3xl p-6 sm:p-8 border border-[#DCE9E7] shadow-xs relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-[#E0F4F0]/60 to-transparent rounded-bl-full pointer-events-none" />
 
           {/* Section Header */}
           <div className="mb-6 relative z-10">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F7F5] text-[#0F766E] text-xs font-semibold border border-[#0F766E]/20 mb-2">
-              <Heart className="w-3.5 h-3.5 text-[#35B8A6]" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E0F4F0] text-[#0F766E] text-xs font-semibold border border-[#0F766E]/20 mb-2">
+              <Heart className="w-3.5 h-3.5 text-[#0F766E]" />
               <span>{t.badge}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-[#102A43] tracking-tight">
               {t.title}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-[#526780] mt-1 max-w-2xl leading-relaxed">
               {t.subtitle}
             </p>
           </div>
@@ -407,27 +407,24 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
                   type="button"
                   onClick={() => handleSelectMood(mood.id)}
                   aria-pressed={isSelected}
-                  className={`p-4 rounded-2xl border text-center flex flex-col items-center justify-between transition-all duration-200 cursor-pointer group ${
+                  className={`p-4 rounded-2xl text-center flex flex-col items-center justify-between transition-all duration-200 cursor-pointer group ${
                     isSelected
-                      ? 'border-2 shadow-sm scale-[1.03]'
-                      : 'border-slate-200/90 hover:border-slate-300 hover:bg-slate-50/80 hover:-translate-y-0.5'
+                      ? 'bg-[#E0F4F0] border-2 border-[#0F766E] shadow-xs scale-[1.02]'
+                      : 'bg-white border border-[#DCE9E7] shadow-2xs hover:border-[#0F766E]/40 hover:shadow-xs hover:-translate-y-0.5'
                   }`}
-                  style={{
-                    borderColor: isSelected ? mood.color : undefined,
-                    backgroundColor: isSelected ? mood.bgLight : undefined
-                  }}
                 >
                   <div className="mb-2 transition-transform duration-200 group-hover:scale-110">
                     {renderMoodIcon(mood.id)}
                   </div>
                   <div>
                     <span
-                      className="block text-sm font-bold tracking-tight"
-                      style={{ color: isSelected ? mood.color : '#102A43' }}
+                      className={`block text-sm font-bold tracking-tight ${
+                        isSelected ? 'text-[#0F766E]' : 'text-[#102A43]'
+                      }`}
                     >
                       {mood.label[language]}
                     </span>
-                    <span className="block text-2xs text-slate-500 mt-0.5">
+                    <span className="block text-2xs text-[#526780] mt-0.5">
                       {mood.sublabel[language]}
                     </span>
                   </div>
@@ -438,8 +435,8 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
 
           {/* Selected Mood Detail & Supportive Activity Offer */}
           {activeMoodItem && (
-            <div className="mt-6 pt-6 border-t border-slate-100 animate-fade-in relative z-10">
-              <div className="bg-gradient-to-r from-slate-50 via-[#E8F7F5]/40 to-white rounded-2xl p-5 border border-slate-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="mt-6 pt-6 border-t border-[#DCE9E7] animate-fade-in relative z-10">
+              <div className="bg-gradient-to-r from-white via-[#F0F8F7]/80 to-white rounded-2xl p-5 border border-[#DCE9E7] shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div className="flex items-start gap-3.5">
                   <div className="mt-0.5">{renderMoodIcon(activeMoodItem.id, 'w-10 h-10')}</div>
                   <div>
@@ -448,17 +445,17 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
                         {activeMoodItem.label[language]}
                       </span>
                       {savedSuccess && (
-                        <span className="inline-flex items-center gap-1 text-2xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 text-2xs text-[#0F766E] bg-[#E0F4F0] px-2.5 py-0.5 rounded-full font-medium border border-[#0F766E]/20">
+                          <CheckCircle2 className="w-3 h-3 text-[#0F766E]" />
                           {t.savedNotice}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                    <p className="text-xs text-[#526780] mt-0.5 leading-relaxed">
                       {activeMoodItem.supportiveMsg[language]}
                     </p>
-                    <div className="mt-2 text-2xs text-slate-500 flex items-center gap-1">
-                      <span className="font-semibold text-slate-700">{activeMoodItem.activityTitle[language]}:</span>
+                    <div className="mt-2 text-2xs text-[#526780] flex items-center gap-1">
+                      <span className="font-semibold text-[#102A43]">{activeMoodItem.activityTitle[language]}:</span>
                       <span>{activeMoodItem.activityDesc[language]}</span>
                     </div>
                   </div>
@@ -485,7 +482,7 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
                   <button
                     type="button"
                     onClick={handleResetMood}
-                    className="text-xs text-slate-500 hover:text-slate-800 underline px-2 py-1 cursor-pointer"
+                    className="text-xs text-[#526780] hover:text-[#102A43] underline px-2 py-1 cursor-pointer"
                   >
                     {t.changeMoodBtn}
                   </button>
@@ -567,10 +564,10 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
           )}
 
           {/* Weekly Mood Flow Row */}
-          <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="mt-6 pt-5 border-t border-[#DCE9E7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-[#526780]">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <span className="font-semibold text-slate-700">{t.weeklyHeading}:</span>
+              <Calendar className="w-4 h-4 text-[#526780]" />
+              <span className="font-semibold text-[#102A43]">{t.weeklyHeading}:</span>
               <div className="flex items-center gap-1.5 ml-2">
                 {weeklyHistory.map((dayMood, idx) => (
                   <div
@@ -581,20 +578,20 @@ export function MoodCheckIn({ language }: MoodCheckInProps) {
                     <div
                       className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                         dayMood
-                          ? 'bg-[#E8F7F5] border border-[#0F766E]/30 text-[#0F766E]'
-                          : 'bg-slate-100 border border-slate-200 text-slate-400'
+                          ? 'bg-[#E0F4F0] border border-[#0F766E]/40 text-[#0F766E]'
+                          : 'bg-white border border-[#DCE9E7] text-[#526780]/60'
                       }`}
                     >
                       {dayMood ? dayMood.charAt(0).toUpperCase() : '·'}
                     </div>
-                    <span className="text-3xs text-slate-400 mt-0.5">{t.days[idx]}</span>
+                    <span className="text-3xs text-[#526780] mt-0.5">{t.days[idx]}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Privacy Shield Disclaimer */}
-            <div className="flex items-center gap-1.5 text-2xs text-slate-400 max-w-md">
+            <div className="flex items-center gap-1.5 text-2xs text-[#526780] max-w-md">
               <ShieldCheck className="w-4 h-4 text-[#0F766E] shrink-0" />
               <span>{t.privacyNote}</span>
             </div>
