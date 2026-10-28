@@ -116,3 +116,4 @@ export const HEALTH_BADGES: HealthBadge[] = [
     }
   }
 ];
+

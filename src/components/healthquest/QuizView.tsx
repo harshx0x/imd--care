@@ -167,3 +167,4 @@ export function QuizView({ question, onAnswer, language }: QuizViewProps) {
     </div>
   );
 }
+

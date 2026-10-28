@@ -83,17 +83,17 @@ export function MythBusterView({
         </div>
 
         {/* 3 Choices: True / False / Depends */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
           {question.options.map((opt) => {
             const isSelected = selectedId === opt.id;
             const isCorrectOption = opt.id === question.correctOptionId;
 
-            let buttonStyles = 'border-slate-200/90 bg-slate-50/60 hover:bg-slate-100/80 text-slate-700 hover:border-[#0F766E]/40';
+            let buttonStyles = 'border-slate-200/90 bg-slate-50/70 hover:bg-slate-100 text-slate-700 hover:border-[#0F766E]/50 shadow-2xs';
             if (isAnswered) {
               if (isCorrectOption) {
-                buttonStyles = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold ring-2 ring-emerald-500/20';
+                buttonStyles = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold ring-2 ring-emerald-500/20 shadow-xs';
               } else if (isSelected) {
-                buttonStyles = 'border-rose-400 bg-rose-50 text-rose-800 font-bold';
+                buttonStyles = 'border-rose-400 bg-rose-50 text-rose-900 font-bold ring-2 ring-rose-400/20 shadow-xs';
               } else {
                 buttonStyles = 'border-slate-200 bg-slate-50/40 text-slate-400 opacity-60';
               }
@@ -107,9 +107,9 @@ export function MythBusterView({
                 type="button"
                 disabled={isAnswered}
                 onClick={() => handleSelect(opt.id)}
-                className={`p-4 sm:p-5 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center justify-center space-y-1.5 cursor-pointer disabled:cursor-default ${buttonStyles}`}
+                className={`py-4 px-4 sm:py-5 rounded-2xl border text-center transition-all duration-150 flex flex-col items-center justify-center space-y-1.5 cursor-pointer disabled:cursor-default active:scale-[0.99] min-h-[68px] sm:min-h-[80px] ${buttonStyles}`}
               >
-                <div className="flex items-center space-x-1.5">
+                <div className="flex items-center space-x-2">
                   {isAnswered && isCorrectOption && (
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                   )}

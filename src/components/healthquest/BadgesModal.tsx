@@ -159,3 +159,4 @@ export function BadgesModal({
     </div>
   );
 }
+

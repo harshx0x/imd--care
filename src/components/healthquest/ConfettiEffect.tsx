@@ -100,3 +100,4 @@ export function ConfettiEffect({ active = true }: { active?: boolean }) {
     />
   );
 }
+

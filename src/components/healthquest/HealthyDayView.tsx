@@ -76,20 +76,29 @@ export function HealthyDayView({ onFinish, onExit, language }: HealthyDayViewPro
     }
   ];
 
-  // Calculate real-time balance score
+  // Calculate real-time balance score (supports multiple flexible, reasonable healthy routines)
   const { currentScore, coachingText } = useMemo(() => {
     let rawSum = 0;
-    const maxPositiveSum = 165; // Sum of all optimal habits
+    const slotsCovered = new Set<DayTimeSlot>();
 
     for (const act of HEALTHY_DAY_ACTIVITIES) {
       if (selectedIds.includes(act.id)) {
         rawSum += act.healthScoreDelta;
+        if (act.isOptimal) {
+          slotsCovered.add(act.timeSlot);
+        }
       }
     }
 
     let calculated = 0;
+    // A balanced routine has at least 1 healthy choice across key slots and avoids major traps
     if (rawSum > 0) {
-      calculated = Math.min(100, Math.round((rawSum / maxPositiveSum) * 100));
+      // Benchmark: ~90-110 raw points with 3+ slots covered gives 85-100%
+      const basePercent = (rawSum / 110) * 100;
+      const slotBonus = slotsCovered.size >= 4 ? 8 : slotsCovered.size >= 3 ? 4 : 0;
+      calculated = Math.min(100, Math.max(10, Math.round(basePercent + slotBonus)));
+    } else if (selectedIds.length === 0) {
+      calculated = 50; // Neutral starting baseline
     } else {
       calculated = Math.max(0, 50 + Math.round(rawSum / 2));
     }
@@ -292,7 +301,7 @@ export function HealthyDayView({ onFinish, onExit, language }: HealthyDayViewPro
               </div>
 
               {/* Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-4.5">
                 {slotActivities.map((act) => {
                   const isSelected = selectedIds.includes(act.id);
                   const title = act.title[language] || act.title.en;

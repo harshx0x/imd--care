@@ -70,10 +70,13 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
 
   // Hydrate client-only progress and date on mount
   React.useEffect(() => {
-    const saved = loadPlayerProgress();
-    setProgress(saved);
-    setCurrentStreak(saved.streakDays || 1);
-    setTodayStr(new Date().toISOString().split('T')[0]);
+    const frame = requestAnimationFrame(() => {
+      const saved = loadPlayerProgress();
+      setProgress(saved);
+      setCurrentStreak(saved.streakDays || 1);
+      setTodayStr(new Date().toISOString().split('T')[0]);
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   // Level info
@@ -101,7 +104,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
     if (mode === 'healthy_day') {
       setActiveQuestions([]);
     } else {
-      const questions = getQuestionsForMode(mode, true);
+      const questions = getQuestionsForMode(mode, true, 5);
       setActiveQuestions(questions);
     }
 
@@ -207,6 +210,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
       subtitle: t.categories.myth_buster.subtitle,
       desc: t.categories.myth_buster.desc,
       badge: t.categories.myth_buster.badge,
+      countInfo: '25 Scenarios • 5/Round',
       color: 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:border-emerald-300',
       tagColor: 'bg-emerald-100 text-emerald-800'
     },
@@ -217,6 +221,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
       subtitle: t.categories.knowledge_quiz.subtitle,
       desc: t.categories.knowledge_quiz.desc,
       badge: t.categories.knowledge_quiz.badge,
+      countInfo: '25 Questions • 5/Round',
       color: 'bg-teal-50 text-teal-800 border-teal-200 hover:border-teal-300',
       tagColor: 'bg-teal-100 text-teal-800'
     },
@@ -227,6 +232,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
       subtitle: t.categories.food_detective.subtitle,
       desc: t.categories.food_detective.desc,
       badge: t.categories.food_detective.badge,
+      countInfo: '15 Comparisons • 5/Round',
       color: 'bg-sky-50 text-sky-800 border-sky-200 hover:border-sky-300',
       tagColor: 'bg-sky-100 text-sky-800'
     },
@@ -237,6 +243,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
       subtitle: t.categories.emergency_quest.subtitle,
       desc: t.categories.emergency_quest.desc,
       badge: t.categories.emergency_quest.badge,
+      countInfo: '15 Scenarios • 5/Round',
       color: 'bg-rose-50 text-rose-800 border-rose-200 hover:border-rose-300',
       tagColor: 'bg-rose-100 text-rose-800'
     },
@@ -247,6 +254,7 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
       subtitle: t.categories.healthy_day.subtitle,
       desc: t.categories.healthy_day.desc,
       badge: t.categories.healthy_day.badge,
+      countInfo: '20 Challenges • 4 Slots',
       color: 'bg-amber-50 text-amber-800 border-amber-200 hover:border-amber-300',
       tagColor: 'bg-amber-100 text-amber-800'
     }
@@ -428,14 +436,14 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
               {categoriesList.map((cat) => (
                 <div
                   key={cat.mode}
                   onClick={() => handleStartMode(cat.mode)}
-                  className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs hover:shadow-md hover:border-[#35B8A6] transition-all duration-200 cursor-pointer flex flex-col justify-between group"
+                  className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-[#35B8A6] transition-all duration-200 cursor-pointer flex flex-col justify-between group"
                 >
-                  <div className="space-y-3">
+                  <div className="space-y-3.5">
                     <div className="flex items-center justify-between">
                       <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-transform duration-200">
                         {cat.icon}
@@ -447,16 +455,21 @@ export function HealthQuestHub({ language }: HealthQuestHubProps) {
                       </span>
                     </div>
 
-                    <div>
+                    <div className="space-y-1">
                       <h3 className="text-lg font-bold text-[#102A43] group-hover:text-[#0F766E] transition-colors">
                         {cat.title}
                       </h3>
-                      <p className="text-xs font-semibold text-slate-500 mt-0.5">
+                      <p className="text-xs font-semibold text-slate-500">
                         {cat.subtitle}
                       </p>
+                      <div className="pt-1">
+                        <span className="inline-block px-2.5 py-0.5 rounded-md bg-slate-100 text-[10px] font-bold text-slate-600 tracking-wide">
+                          {cat.countInfo}
+                        </span>
+                      </div>
                     </div>
 
-                    <p className="text-xs text-slate-600 leading-relaxed">
+                    <p className="text-xs text-slate-600 leading-relaxed pt-1">
                       {cat.desc}
                     </p>
                   </div>

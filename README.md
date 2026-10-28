@@ -282,9 +282,27 @@ Runs 7 comprehensive tests covering text chunking, SHA-256 deduplication, domain
 
 ---
 
+## 🎮 HealthQuest India Edition (Interactive Health Education Game)
+
+Route: `/healthquest`
+
+An interactive, gamified healthcare literacy engine designed to teach everyday health, preventive care, nutrition, myth debunking, and emergency first aid through play.
+
+- **100 Curated Questions & Interactive Challenges**:
+  - **Beat the Health Myth** (25 questions): Debunks widespread misconceptions with clinical rationale citing ICMR and WHO.
+  - **Health Knowledge Quiz** (25 questions): Multiple-choice questions on hygiene, preventive care, nutrition, and vital signs.
+  - **Food Label Detective** (15 interactive comparisons): Real-world comparisons of packaged foods, added sugar calculations, sodium levels, and FSSAI ingredient rules.
+  - **Emergency Action Quest** (15 scenarios): Critical first-aid triage scenarios prioritizing **112 / 108** response (heat stroke, acute chest pain, burn care, snakebite, choking, seizures).
+  - **Build Your Healthy Day** (20 activities): 24-hour circadian routine architect across morning, afternoon, evening, and night with real-time balance scoring.
+- **Trilingual Localization**: Complete native translations in English, हिन्दी (Hindi), and मराठी (Marathi).
+- **Gamification Mechanics**: XP points engine, consecutive streak bonus, level progression (Apprentice to Master), Trophy Case (6 unlockable badges), and synchronized Daily Missions.
+
+---
+
 ## 🏆 Hackathon Evaluation Summary
 
 - **Complete & Working**: All buttons, forms, language switchers, reminder trackers, and modal triggers are fully functional.
 - **Server-Side Security**: API keys stay securely on the server; zero browser bundle leakage.
 - **Real & Fallback Intelligence**: Seamless live OpenAI generation with a reliable, graceful synthetic demo fallback.
 - **Clinical Responsibility**: Conservative safety triage aligned with Indian healthcare infrastructure (112 / 108).
+

@@ -280,13 +280,18 @@ export function shuffleArray<T>(array: T[]): T[] {
 }
 
 /**
- * Returns filtered questions for a given mode, optionally shuffled.
+ * Returns filtered questions for a given mode, optionally shuffled and limited to a round size.
  */
-export function getQuestionsForMode(mode: GameMode, shouldShuffle: boolean = true): HealthQuestion[] {
+export function getQuestionsForMode(
+  mode: GameMode,
+  shouldShuffle: boolean = true,
+  limit?: number
+): HealthQuestion[] {
   const filtered = HEALTHQUEST_QUESTIONS.filter((q) => q.mode === mode);
-  if (!shouldShuffle) return filtered;
+  const pool = shouldShuffle ? shuffleArray(filtered) : filtered;
+  const sliced = limit && limit > 0 ? pool.slice(0, limit) : pool;
 
-  return shuffleArray(filtered).map((q) => {
+  return sliced.map((q) => {
     // For multiple choice questions (except myth buster which has fixed True/False/Depends)
     if (q.mode !== 'myth_buster' && q.options.length > 2) {
       return {
